@@ -11,6 +11,12 @@
         /// Physical Unit of Mass
         /// </summary>
         _MASS,
+        Milligram,
+        Gram,
+        Kilogram,
+        Ton,
+        Kiloton,
+        Ounce,
         /// <summary>
         /// Physical Unit of Space
         /// </summary>
@@ -20,11 +26,14 @@
         Meter,
         Kilometer,
         Inch,
+        Foot,
+        Mile,
         /// <summary>
         /// Physical Unit of Time
         /// </summary>
         _TIME,
         Second,
+        Hour,
         /// <summary>
         /// Physical Unit of Charge
         /// </summary>

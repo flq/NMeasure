@@ -42,8 +42,12 @@ namespace NMeasure
 
         public IUnitMetaConfig Unit(SingleUnit unit)
         {
-            var u = NMeasure.Unit.From(unit);
-            return getOrAdd(u);
+            return Unit(NMeasure.Unit.From(unit));
+        }
+
+        public IUnitMetaConfig Unit(Unit unit)
+        {
+            return getOrAdd(unit);
         }
 
         private UnitMeta getOrAdd(Unit unit)
@@ -119,7 +123,9 @@ namespace NMeasure
                 throw new InvalidOperationException("You must define physical unit of the left-hand side");
             var unitMeta = second.GetUnitData();
             if (unitMeta == null || unitMeta.PhysicalUnit == SingleUnit.Dimensionless)
-                throw new InvalidOperationException("You must define physical unit of the right-hand side");
+            {
+                unitMeta = (UnitMeta)config.Unit(second).IsPhysicalUnit(PhysicalUnit);
+            }
             if (unitMeta.PhysicalUnit != PhysicalUnit)
                 throw new InvalidOperationException("You can only define conversions between units that are compatible as physical units");
             var node = config.UnitGraph.AddUnit(second);

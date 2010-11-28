@@ -38,6 +38,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AdHocConfig.cs" />
+    <Compile Include="DoingComplexConversions.cs" />
     <Compile Include="MeasureTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SmallConfig.cs" />

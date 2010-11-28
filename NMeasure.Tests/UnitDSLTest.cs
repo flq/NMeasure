@@ -46,11 +46,13 @@ namespace NMeasure.Tests
         }
 
         [Test]
-        public void ConversionDefinitionMustMatchWithPhysicalUnit2()
+        public void YetUnknownUnitUsedInConversionAssumesPhysicalUnit()
         {
-            Assert.Throws<InvalidOperationException>(() =>
-              AdHocConfig.Use(c => c.Unit(SingleUnit.Centimeter).IsPhysicalUnit(SingleUnit._LENGTH).ConvertibleTo(SingleUnit.Inch, v => v * 0.393700787, v => v * 2.54))
-            );
+            AdHocConfig.Use(c => c.Unit(SingleUnit.Centimeter)
+                                     .IsPhysicalUnit(SingleUnit._LENGTH)
+                                     .ConvertibleTo(SingleUnit.Inch,v => v*0.393700787, v => v*2.54));
+            var data = SingleUnit.Inch.GetUnitData();
+            data.PhysicalUnit.IsEqualTo(SingleUnit._LENGTH);
         }
 
         [Test]

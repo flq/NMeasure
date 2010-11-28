@@ -38,6 +38,11 @@ namespace NMeasure
             return new Measure(x.Value, x.Unit * singleUnit);
         }
 
+        public static Measure operator *(Measure x, Unit unit)
+        {
+            return new Measure(x.Value, x.Unit * unit);
+        }
+
         public static Measure operator *(Measure x, Measure y)
         {
             return new Measure(x.Value * y.Value, x.Unit * y.Unit);
