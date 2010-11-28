@@ -1,0 +1,20 @@
+obj
+bin
+out
+NDependOut
+
+db data
+_ReSharper.*
+*.user
+*.resharper
+*.ReSharper
+*.suo
+*.cache
+*.~
+*.swp
+test.htm
+test2.htm
+test2_files
+WebRelease.config
+rf.ico
+Rf.Sites/files/images/*.*
