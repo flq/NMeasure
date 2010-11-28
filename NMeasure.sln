@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NMeasure", "NMeasure\NMeasure.csproj", "{10395B12-488E-41AF-AD69-DACF68D6966D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NMeasure.Tests", "NMeasure.Tests\NMeasure.Tests.csproj", "{9E6E8FC4-1570-4732-B178-B45EEE28879F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{10395B12-488E-41AF-AD69-DACF68D6966D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10395B12-488E-41AF-AD69-DACF68D6966D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10395B12-488E-41AF-AD69-DACF68D6966D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10395B12-488E-41AF-AD69-DACF68D6966D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E6E8FC4-1570-4732-B178-B45EEE28879F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E6E8FC4-1570-4732-B178-B45EEE28879F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E6E8FC4-1570-4732-B178-B45EEE28879F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E6E8FC4-1570-4732-B178-B45EEE28879F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
