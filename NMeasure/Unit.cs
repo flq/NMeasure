@@ -5,12 +5,12 @@ namespace NMeasure
 {
     public class Unit
     {
-        private readonly List<SingleUnit> numerators = new List<SingleUnit>();
-        private readonly List<SingleUnit> denominators = new List<SingleUnit>();
+        private readonly List<U> numerators = new List<U>();
+        private readonly List<U> denominators = new List<U>();
 
-        public Unit(SingleUnit singleUnit) : this()
+        public Unit(U singleUnit) : this()
         {
-            if (singleUnit == SingleUnit.Dimensionless)
+            if (singleUnit == U.Dimensionless)
                 return;
             numerators.Add(singleUnit);
         }
@@ -64,12 +64,12 @@ namespace NMeasure
             return string.Concat(string.Join("*", numerators), "/", string.Join("*", denominators));
         }
 
-        public static Unit From(SingleUnit singleUnit)
+        public static Unit From(U singleUnit)
         {
             return new Unit(singleUnit);
         }
 
-        public static Unit From(IEnumerable<SingleUnit> numerators = null, IEnumerable<SingleUnit> denominators = null)
+        public static Unit From(IEnumerable<U> numerators = null, IEnumerable<U> denominators = null)
         {
             var u = new Unit();
             if (numerators != null)
@@ -79,14 +79,14 @@ namespace NMeasure
             return u;
         }
 
-        public static Unit Inverse(SingleUnit singleUnit)
+        public static Unit Inverse(U singleUnit)
         {
             var u = new Unit();
             u.denominators.Add(singleUnit);
             return u;
         }
 
-        public static Unit operator *(Unit unit, SingleUnit singleUnit)
+        public static Unit operator *(Unit unit, U singleUnit)
         {
             var newUnit = unit.Clone();
             if (newUnit.denominators.Contains(singleUnit))
@@ -128,7 +128,7 @@ namespace NMeasure
             return unit1*newUnit;
         }
 
-        public static Unit operator /(Unit unit, SingleUnit singleUnit)
+        public static Unit operator /(Unit unit, U singleUnit)
         {
             var newUnit = unit.Clone();
             if (newUnit.numerators.Contains(singleUnit))

@@ -4,7 +4,7 @@
     /// <summary>
     /// Markers for all units known to the system
     /// </summary>
-    public enum SingleUnit
+    public enum U
     {
         Dimensionless,
         /// <summary>

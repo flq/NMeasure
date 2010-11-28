@@ -40,7 +40,7 @@ namespace NMeasure
 
         public UnitGraph UnitGraph { get { return unitGraph; } }
 
-        public IUnitMetaConfig Unit(SingleUnit unit)
+        public IUnitMetaConfig Unit(U unit)
         {
             return Unit(NMeasure.Unit.From(unit));
         }
@@ -66,15 +66,15 @@ namespace NMeasure
     public interface IUnitMetaConfig
     {
         IUnitMetaConfig BelongsToTypeSystem(params UnitSystem[] unitSystem);
-        IUnitMetaConfig IsPhysicalUnit(SingleUnit singleUnit);
-        IUnitMetaConfig ConvertibleTo(SingleUnit second, Func<double, double> firstToSecond, Func<double, double> secondToFirst);
+        IUnitMetaConfig IsPhysicalUnit(U singleUnit);
+        IUnitMetaConfig ConvertibleTo(U second, Func<double, double> firstToSecond, Func<double, double> secondToFirst);
         IUnitMetaConfig ConvertibleTo(Unit second, Func<double, double> firstToSecond, Func<double, double> secondToFirst);
         IUnitScale StartScale();
     }
 
     public interface IUnitScale
     {
-        IUnitScale To(SingleUnit singleUnit, int scale);
+        IUnitScale To(U singleUnit, int scale);
     }
 
     public class UnitMeta : IUnitMetaConfig
@@ -94,7 +94,7 @@ namespace NMeasure
             get { return unit; }
         }
 
-        public SingleUnit PhysicalUnit { get; private set; }
+        public U PhysicalUnit { get; private set; }
         public UnitSystem[] AssociatedUnitSystems { get; private set; }
         public UnitGraphNode ConversionInfo { get { return config.UnitGraph[unit]; } }
 
@@ -109,7 +109,7 @@ namespace NMeasure
             return this;
         }
 
-        IUnitMetaConfig IUnitMetaConfig.IsPhysicalUnit(SingleUnit singleUnit)
+        IUnitMetaConfig IUnitMetaConfig.IsPhysicalUnit(U singleUnit)
         {
             if (!singleUnit.ToString().StartsWith("_"))
                 throw new InvalidOperationException("Only physical units (marked with beginning underscore) are valid as input to this method");
@@ -119,10 +119,10 @@ namespace NMeasure
 
         IUnitMetaConfig IUnitMetaConfig.ConvertibleTo(Unit second, Func<double, double> firstToSecond, Func<double, double> secondToFirst)
         {
-            if (PhysicalUnit == SingleUnit.Dimensionless)
+            if (PhysicalUnit == NMeasure.U.Dimensionless)
                 throw new InvalidOperationException("You must define physical unit of the left-hand side");
             var unitMeta = second.GetUnitData();
-            if (unitMeta == null || unitMeta.PhysicalUnit == SingleUnit.Dimensionless)
+            if (unitMeta == null || unitMeta.PhysicalUnit == NMeasure.U.Dimensionless)
             {
                 unitMeta = (UnitMeta)config.Unit(second).IsPhysicalUnit(PhysicalUnit);
             }
@@ -134,7 +134,7 @@ namespace NMeasure
             return this;
         }
 
-        IUnitMetaConfig IUnitMetaConfig.ConvertibleTo(SingleUnit second, Func<double, double> firstToSecond, Func<double, double> secondToFirst)
+        IUnitMetaConfig IUnitMetaConfig.ConvertibleTo(U second, Func<double, double> firstToSecond, Func<double, double> secondToFirst)
         {
             return ((IUnitMetaConfig) this).ConvertibleTo(Unit.From(second), firstToSecond, secondToFirst);
         }
@@ -155,12 +155,12 @@ namespace NMeasure
         {
             this.config = config;
             precedingUnit = rootUnit;
-            if (rootUnit.PhysicalUnit == SingleUnit.Dimensionless)
+            if (rootUnit.PhysicalUnit == U.Dimensionless)
                 throw new InvalidOperationException("The unit you start with should be associated with a physical unit to start a scale.");
             
         }
 
-        IUnitScale IUnitScale.To(SingleUnit singleUnit, int scale)
+        IUnitScale IUnitScale.To(U singleUnit, int scale)
         {
             var newUnit = config.Unit(singleUnit)
                 .IsPhysicalUnit(precedingUnit.PhysicalUnit)

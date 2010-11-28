@@ -10,7 +10,7 @@ namespace NMeasure
             return UnitConfiguration.UnitSystem;
         }
 
-        public static UnitMeta GetUnitData(this SingleUnit unit)
+        public static UnitMeta GetUnitData(this U unit)
         {
             return getConfig()[Unit.From(unit)];
         }
@@ -37,7 +37,7 @@ namespace NMeasure
             return UnitConfiguration.UnitSystem.UnitGraph.Convert(measure, unit);
         }
 
-        public static Measure ConvertTo(this Measure measure, SingleUnit unit)
+        public static Measure ConvertTo(this Measure measure, U unit)
         {
             return measure.ConvertTo(Unit.From(unit));
         }

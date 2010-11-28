@@ -7,7 +7,7 @@ namespace NMeasure
     {
         private readonly Dictionary<Unit,UnitGraphNode> nodes = new Dictionary<Unit, UnitGraphNode>();
 
-        public UnitGraphNode this[SingleUnit singleUnit]
+        public UnitGraphNode this[U singleUnit]
         {
             get { return this[Unit.From(singleUnit)]; }
         }

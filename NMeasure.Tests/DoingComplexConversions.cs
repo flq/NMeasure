@@ -13,16 +13,16 @@ namespace NMeasure.Tests
         {
             AdHocConfig.Use(c=>
                                 {
-                                    c.Unit(SingleUnit.Meter)
-                                        .IsPhysicalUnit(SingleUnit._LENGTH)
-                                        .ConvertibleTo(SingleUnit.Kilometer, v => v*1000, v => v/1000);
-                                    c.Unit(SingleUnit.Second)
-                                        .IsPhysicalUnit(SingleUnit._TIME)
-                                        .ConvertibleTo(SingleUnit.Hour, v => v/3600, v => v*3600);
+                                    c.Unit(U.Meter)
+                                        .IsPhysicalUnit(U._LENGTH)
+                                        .ConvertibleTo(U.Kilometer, v => v*1000, v => v/1000);
+                                    c.Unit(U.Second)
+                                        .IsPhysicalUnit(U._TIME)
+                                        .ConvertibleTo(U.Hour, v => v/3600, v => v*3600);
                                 });
 
-            var kmPerH = SingleUnit.Kilometer.Per(SingleUnit.Hour);
-            var mPerSec = SingleUnit.Meter.Per(SingleUnit.Second);
+            var kmPerH = U.Kilometer.Per(U.Hour);
+            var mPerSec = U.Meter.Per(U.Second);
             
             var v1 = (Measure)100 * kmPerH;
             var v2 = v1.ConvertTo(mPerSec);

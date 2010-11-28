@@ -5,13 +5,13 @@ namespace NMeasure
 {
     public class ExpandedUnit
     {
-        public readonly ReadOnlyCollection<SingleUnit> Numerators;
-        public readonly ReadOnlyCollection<SingleUnit> Denominators;
+        public readonly ReadOnlyCollection<U> Numerators;
+        public readonly ReadOnlyCollection<U> Denominators;
 
-        public ExpandedUnit(IList<SingleUnit> numerators, IList<SingleUnit> denominators)
+        public ExpandedUnit(IList<U> numerators, IList<U> denominators)
         {
-            Numerators = new ReadOnlyCollection<SingleUnit>(numerators);
-            Denominators = new ReadOnlyCollection<SingleUnit>(denominators);
+            Numerators = new ReadOnlyCollection<U>(numerators);
+            Denominators = new ReadOnlyCollection<U>(denominators);
         }
     }
 }

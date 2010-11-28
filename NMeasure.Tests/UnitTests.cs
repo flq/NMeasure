@@ -10,7 +10,7 @@ namespace NMeasure.Tests
         {
             var u = new Unit();
             u.IsDimensionless.IsTrue();
-            u = u*SingleUnit.Meter;
+            u = u*U.Meter;
             u.IsDimensionless.IsFalse();
         }
 
@@ -19,25 +19,25 @@ namespace NMeasure.Tests
         {
             var u = new Unit();
             u.IsDimensionless.IsTrue();
-            u = u * SingleUnit.Meter;
+            u = u * U.Meter;
             u.IsDimensionless.IsFalse();
-            u = u / SingleUnit.Meter;
+            u = u / U.Meter;
             u.IsDimensionless.IsTrue();
         }
 
         [Test]
         public void UnitSupportsGettingTheInverse()
         {
-            var u = Unit.Inverse(SingleUnit.Meter);
-            var u2 = u*SingleUnit.Meter;
+            var u = Unit.Inverse(U.Meter);
+            var u2 = u*U.Meter;
             u2.IsDimensionless.IsTrue();
         }
 
         [Test]
         public void UnitscanBeMultiplied()
         {
-            var u = Unit.Inverse(SingleUnit.Meter);
-            var u2 = Unit.From(SingleUnit.Meter);
+            var u = Unit.Inverse(U.Meter);
+            var u2 = Unit.From(U.Meter);
             var u3 = u*u2;
             u3.IsDimensionless.IsTrue();
         }
@@ -45,8 +45,8 @@ namespace NMeasure.Tests
         [Test]
         public void UnitscanBeDivided()
         {
-            var u = Unit.From(SingleUnit.Meter);
-            var u2 = Unit.From(SingleUnit.Meter);
+            var u = Unit.From(U.Meter);
+            var u2 = Unit.From(U.Meter);
             var u3 = u / u2;
             u3.IsDimensionless.IsTrue();
         }

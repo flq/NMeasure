@@ -9,9 +9,9 @@
 
         public SmallConfig()
         {
-            Unit(SingleUnit.Meter)
+            Unit(U.Meter)
                 .BelongsToTypeSystem(NMeasure.UnitSystem.SI, NMeasure.UnitSystem.Metric)
-                .IsPhysicalUnit(SingleUnit._LENGTH);
+                .IsPhysicalUnit(U._LENGTH);
         }
     }
 }

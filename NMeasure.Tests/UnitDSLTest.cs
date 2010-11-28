@@ -11,15 +11,15 @@ namespace NMeasure.Tests
         public void MetadataToUnitIsSpecifiableAndRetrievable()
         {
             SmallConfig.Use();
-            var unitMeta = UnitInfo.GetUnitData(SingleUnit.Meter);
+            var unitMeta = UnitInfo.GetUnitData(U.Meter);
             unitMeta.IsMemberOfUnitSystem(UnitSystem.SI).IsTrue();
-            unitMeta.PhysicalUnit.IsEqualTo(SingleUnit._LENGTH);
+            unitMeta.PhysicalUnit.IsEqualTo(U._LENGTH);
         }
 
         [Test]
         public void OnlyUnderscoreUnitsArePhysicalUnits()
         {
-            Assert.Throws<InvalidOperationException>(() =>AdHocConfig.Use(c => c.Unit(SingleUnit.Second).IsPhysicalUnit(SingleUnit.Meter)));
+            Assert.Throws<InvalidOperationException>(() =>AdHocConfig.Use(c => c.Unit(U.Second).IsPhysicalUnit(U.Meter)));
         }
 
         [Test]
@@ -27,32 +27,32 @@ namespace NMeasure.Tests
         {
             AdHocConfig.Use(c =>
                                 {
-                                    c.Unit(SingleUnit.Meter).IsPhysicalUnit(SingleUnit._LENGTH);
-                                    c.Unit(SingleUnit.Second).IsPhysicalUnit(SingleUnit._TIME);
+                                    c.Unit(U.Meter).IsPhysicalUnit(U._LENGTH);
+                                    c.Unit(U.Second).IsPhysicalUnit(U._TIME);
                                 });
 
-            var velocity = Unit.From(SingleUnit.Meter)/SingleUnit.Second;
+            var velocity = Unit.From(U.Meter)/U.Second;
             var physicalVelocity = UnitInfo.ToPhysicalUnit(velocity);
 
-            physicalVelocity.IsEqualTo(Unit.From(SingleUnit._LENGTH) / SingleUnit._TIME);
+            physicalVelocity.IsEqualTo(Unit.From(U._LENGTH) / U._TIME);
         }
 
         [Test]
         public void ConversionDefinitionMustMatchWithPhysicalUnit1()
         {
             Assert.Throws<InvalidOperationException>(() =>
-              AdHocConfig.Use(c => c.Unit(SingleUnit.Centimeter).ConvertibleTo(SingleUnit.Inch, v => v * 0.393700787, v => v * 2.54))
+              AdHocConfig.Use(c => c.Unit(U.Centimeter).ConvertibleTo(U.Inch, v => v * 0.393700787, v => v * 2.54))
             );
         }
 
         [Test]
         public void YetUnknownUnitUsedInConversionAssumesPhysicalUnit()
         {
-            AdHocConfig.Use(c => c.Unit(SingleUnit.Centimeter)
-                                     .IsPhysicalUnit(SingleUnit._LENGTH)
-                                     .ConvertibleTo(SingleUnit.Inch,v => v*0.393700787, v => v*2.54));
-            var data = SingleUnit.Inch.GetUnitData();
-            data.PhysicalUnit.IsEqualTo(SingleUnit._LENGTH);
+            AdHocConfig.Use(c => c.Unit(U.Centimeter)
+                                     .IsPhysicalUnit(U._LENGTH)
+                                     .ConvertibleTo(U.Inch,v => v*0.393700787, v => v*2.54));
+            var data = U.Inch.GetUnitData();
+            data.PhysicalUnit.IsEqualTo(U._LENGTH);
         }
 
         [Test]
@@ -61,9 +61,9 @@ namespace NMeasure.Tests
             Assert.Throws<InvalidOperationException>(() =>
               AdHocConfig.Use(c =>
                                   {
-                                      c.Unit(SingleUnit.Inch).IsPhysicalUnit(SingleUnit._TIME);
-                                      c.Unit(SingleUnit.Centimeter).IsPhysicalUnit(SingleUnit._LENGTH)
-                                          .ConvertibleTo(SingleUnit.Inch, v => v*0.393700787, v => v*2.54);
+                                      c.Unit(U.Inch).IsPhysicalUnit(U._TIME);
+                                      c.Unit(U.Centimeter).IsPhysicalUnit(U._LENGTH)
+                                          .ConvertibleTo(U.Inch, v => v*0.393700787, v => v*2.54);
                                   })
             );
         }
@@ -73,25 +73,25 @@ namespace NMeasure.Tests
         {
             AdHocConfig.Use(c =>
                                 {
-                                    c.Unit(SingleUnit.Inch).IsPhysicalUnit(SingleUnit._LENGTH);
-                                    c.Unit(SingleUnit.Centimeter).IsPhysicalUnit(SingleUnit._LENGTH)
-                                        .ConvertibleTo(SingleUnit.Inch, v => v*0.393700787, v => v*2.54);
+                                    c.Unit(U.Inch).IsPhysicalUnit(U._LENGTH);
+                                    c.Unit(U.Centimeter).IsPhysicalUnit(U._LENGTH)
+                                        .ConvertibleTo(U.Inch, v => v*0.393700787, v => v*2.54);
                                 });
-            var m = new Measure(1.0, SingleUnit.Inch);
-            m.ConvertTo(SingleUnit.Centimeter).Value.IsEqualTo(2.54);
+            var m = new Measure(1.0, U.Inch);
+            m.ConvertTo(U.Centimeter).Value.IsEqualTo(2.54);
         }
 
         [Test]
         public void UseOfScaleSystemCreatesConversions()
         {
-            AdHocConfig.Use(c => c.Unit(SingleUnit.Millimeter)
-                .IsPhysicalUnit(SingleUnit._LENGTH)
+            AdHocConfig.Use(c => c.Unit(U.Millimeter)
+                .IsPhysicalUnit(U._LENGTH)
                 .StartScale()
-                .To(SingleUnit.Centimeter, 10)
-                .To(SingleUnit.Meter, 100)
-                .To(SingleUnit.Kilometer, 1000));
-            var m = new Measure(1.0, SingleUnit.Kilometer);
-            var m2 = m.ConvertTo(SingleUnit.Millimeter);
+                .To(U.Centimeter, 10)
+                .To(U.Meter, 100)
+                .To(U.Kilometer, 1000));
+            var m = new Measure(1.0, U.Kilometer);
+            var m2 = m.ConvertTo(U.Millimeter);
             m2.Value.IsEqualTo(1000000);
         }
 
@@ -99,7 +99,7 @@ namespace NMeasure.Tests
         public void DefaultRoundingIsApplied()
         {
             AdHocConfig.Use(c => c.SetMeasurePrecision(1));
-            var m = new Measure(1.15, SingleUnit.Inch);
+            var m = new Measure(1.15, U.Inch);
             m.Value.IsEqualTo(1.2);
         }
         
