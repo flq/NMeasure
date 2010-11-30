@@ -11,5 +11,15 @@ namespace NMeasure
         {
             return new Unit(unit1) / unit;
         }
+
+        public static Unit Unit(this U unit)
+        {
+            return new Unit(unit);
+        }
+
+        public static Unit ToPhysicalUnit(this U unit)
+        {
+            return new Unit(unit).ToPhysicalUnit();
+        }
     }
 }

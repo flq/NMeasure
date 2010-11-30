@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace NMeasure
 {
-    public class UnitGraphNode
+    internal class UnitGraphNode
     {
         private readonly Unit unit;
         private readonly Dictionary<UnitGraphNode, UnitGraphEdge> targets = new Dictionary<UnitGraphNode, UnitGraphEdge>();

@@ -1,3 +1,4 @@
+using System;
 using NUnit.Framework;
 
 namespace NMeasure.Tests
@@ -10,13 +11,22 @@ namespace NMeasure.Tests
         [TestFixtureSetUp]
         public void Given()
         {
+            AdHocConfig.Use(uc =>
+                                {
+                                    uc.SetMeasurePrecision(4);
+                                    uc.Unit(U.Meter).IsPhysicalUnit(U._LENGTH);
+                                    uc.Unit(U.Centimeter).IsPhysicalUnit(U._LENGTH);
+                                    uc.Unit(U.Inch).IsPhysicalUnit(U._LENGTH);
+                                    uc.Unit(U.Second).IsPhysicalUnit(U._TIME);
+                                });
+
             ug = new UnitGraph();
             var n1 = ug.AddUnit(Unit.From(U.Inch));
             var n2 = ug.AddUnit(Unit.From(U.Centimeter));
             var n3 = ug.AddUnit(Unit.From(U.Meter));
             ug.AddConversion(n1, n2, v => v * 2.54, v => v * 0.393700787);
             ug.AddConversion(n2, n3, v => v * 0.01, v => v * 100);
-            UnitConfiguration.UnitSystem.SetMeasurePrecision(4);
+            
         }
 
         [Test]
@@ -51,6 +61,13 @@ namespace NMeasure.Tests
 
             m2.Value.IsEqualTo(0.0254);
             m2.Unit.Equals(Unit.From(U.Meter));
+        }
+
+        [Test]
+        public void IncompatibleConversionsWillBeRejected()
+        {
+            var m = (Measure) 1.0*U.Second;
+            Assert.Throws<InvalidOperationException>(() => { var m2 = ug.Convert(m, U.Inch.Unit()); });
         }
     }
 }

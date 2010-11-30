@@ -38,7 +38,7 @@ namespace NMeasure
         /// </summary>
         public int Precision { get; private set; }
 
-        public UnitGraph UnitGraph { get { return unitGraph; } }
+        internal UnitGraph UnitGraph { get { return unitGraph; } }
 
         public IUnitMetaConfig Unit(U unit)
         {
@@ -96,7 +96,7 @@ namespace NMeasure
 
         public U PhysicalUnit { get; private set; }
         public UnitSystem[] AssociatedUnitSystems { get; private set; }
-        public UnitGraphNode ConversionInfo { get { return config.UnitGraph[unit]; } }
+        internal UnitGraphNode ConversionInfo { get { return config.UnitGraph[unit]; } }
 
         public bool IsMemberOfUnitSystem(UnitSystem unitSystem)
         {

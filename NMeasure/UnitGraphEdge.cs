@@ -5,7 +5,7 @@ namespace NMeasure
     /// <summary>
     /// A unit graph edge links two unnits and is hence a principal information about a conversion
     /// </summary>
-    public class UnitGraphEdge
+    internal class UnitGraphEdge
     {
         private readonly Func<double, double> fromToTo;
         private readonly Unit to;
@@ -32,8 +32,6 @@ namespace NMeasure
 
         public Measure ApplyConversion(Measure m)
         {
-            if (!m.Unit.Equals(from))
-                throw new InvalidOperationException("This edge cannot convert from the unit of the measure provided.");
             return new Measure(fromToTo(m.Value), m.Unit * unitOperator);
         }
 

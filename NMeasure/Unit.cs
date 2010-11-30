@@ -53,6 +53,16 @@ namespace NMeasure
             return u;
         }
 
+        public ExpandedUnit Expand()
+        {
+            return new ExpandedUnit(numerators, denominators);
+        }
+
+        public override string ToString()
+        {
+            return stringRepresentation();
+        }
+
         private string stringRepresentation()
         {
             numerators.Sort();
@@ -138,14 +148,18 @@ namespace NMeasure
             return newUnit;
         }
 
-        public ExpandedUnit Expand()
+        public static bool operator ==(Unit x, Unit y)
         {
-            return new ExpandedUnit(numerators, denominators);
+            if (!ReferenceEquals(x, null))
+                return x.Equals(y);
+            if (!ReferenceEquals(y, null))
+                return y.Equals(x);
+            return true;
         }
 
-        public override string ToString()
+        public static bool operator !=(Unit x, Unit y)
         {
-            return stringRepresentation();
+            return !(x == y);
         }
     }
 }

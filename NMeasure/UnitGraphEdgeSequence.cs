@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace NMeasure
 {
-    public class UnitGraphEdgeSequence : IEnumerable<UnitGraphEdge>
+    internal class UnitGraphEdgeSequence : IEnumerable<UnitGraphEdge>, IConversion
     {
         private readonly List<UnitGraphEdge> edges = new List<UnitGraphEdge>();
 

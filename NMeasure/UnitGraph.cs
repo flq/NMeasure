@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace NMeasure
 {
-    public class UnitGraph
+    internal class UnitGraph
     {
         private readonly Dictionary<Unit,UnitGraphNode> nodes = new Dictionary<Unit, UnitGraphNode>();
 
@@ -39,6 +39,8 @@ namespace NMeasure
 
         public Measure Convert(Measure measure, Unit target)
         {
+            if (measure.Unit.ToPhysicalUnit() != target.ToPhysicalUnit())
+                throw new InvalidOperationException("Physical Units are incompatible");
             var seq = new ConversionTracker(this);
             var conversionSequence = seq.FindConversionSequence(measure.Unit, target);
             if (conversionSequence == null)
