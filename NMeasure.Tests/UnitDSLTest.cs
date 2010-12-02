@@ -11,9 +11,9 @@ namespace NMeasure.Tests
         public void MetadataToUnitIsSpecifiableAndRetrievable()
         {
             SmallConfig.Use();
-            var unitMeta = UnitInfo.GetUnitData(U.Meter);
+            var unitMeta = U.Meter.GetUnitData();
             unitMeta.IsMemberOfUnitSystem(UnitSystem.SI).IsTrue();
-            unitMeta.PhysicalUnit.IsEqualTo(U._LENGTH);
+            unitMeta.PhysicalUnit.IsEqualTo(U._LENGTH.Unit());
         }
 
         [Test]
@@ -52,7 +52,7 @@ namespace NMeasure.Tests
                                      .IsPhysicalUnit(U._LENGTH)
                                      .ConvertibleTo(U.Inch,v => v*0.393700787, v => v*2.54));
             var data = U.Inch.GetUnitData();
-            data.PhysicalUnit.IsEqualTo(U._LENGTH);
+            data.PhysicalUnit.IsEqualTo(U._LENGTH.Unit());
         }
 
         [Test]

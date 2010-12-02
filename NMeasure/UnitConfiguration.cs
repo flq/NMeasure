@@ -66,7 +66,8 @@ namespace NMeasure
     public interface IUnitMetaConfig
     {
         IUnitMetaConfig BelongsToTypeSystem(params UnitSystem[] unitSystem);
-        IUnitMetaConfig IsPhysicalUnit(U singleUnit);
+        IUnitMetaConfig IsPhysicalUnit(Unit unit);
+        IUnitMetaConfig IsPhysicalUnit(U unit);
         IUnitMetaConfig ConvertibleTo(U second, Func<double, double> firstToSecond, Func<double, double> secondToFirst);
         IUnitMetaConfig ConvertibleTo(Unit second, Func<double, double> firstToSecond, Func<double, double> secondToFirst);
         IUnitScale StartScale();
@@ -94,7 +95,7 @@ namespace NMeasure
             get { return unit; }
         }
 
-        public U PhysicalUnit { get; private set; }
+        public Unit PhysicalUnit { get; private set; }
         public UnitSystem[] AssociatedUnitSystems { get; private set; }
         internal UnitGraphNode ConversionInfo { get { return config.UnitGraph[unit]; } }
 
@@ -109,20 +110,25 @@ namespace NMeasure
             return this;
         }
 
-        IUnitMetaConfig IUnitMetaConfig.IsPhysicalUnit(U singleUnit)
+        IUnitMetaConfig IUnitMetaConfig.IsPhysicalUnit(Unit unit)
         {
-            if (!singleUnit.ToString().StartsWith("_"))
-                throw new InvalidOperationException("Only physical units (marked with beginning underscore) are valid as input to this method");
-            PhysicalUnit = singleUnit;
+            if (!unit.IsFundamental)
+                throw new InvalidOperationException("Only a combination of fundamental units (marked with underscore) are valid as Physical unit");
+            PhysicalUnit = unit;
             return this;
+        }
+
+        IUnitMetaConfig IUnitMetaConfig.IsPhysicalUnit(U unit)
+        {
+            return ((IUnitMetaConfig) this).IsPhysicalUnit(unit.Unit());
         }
 
         IUnitMetaConfig IUnitMetaConfig.ConvertibleTo(Unit second, Func<double, double> firstToSecond, Func<double, double> secondToFirst)
         {
-            if (PhysicalUnit == NMeasure.U.Dimensionless)
+            if (PhysicalUnit.IsDimensionless)
                 throw new InvalidOperationException("You must define physical unit of the left-hand side");
             var unitMeta = second.GetUnitData();
-            if (unitMeta == null || unitMeta.PhysicalUnit == NMeasure.U.Dimensionless)
+            if (unitMeta == null || unitMeta.PhysicalUnit.IsDimensionless)
             {
                 unitMeta = (UnitMeta)config.Unit(second).IsPhysicalUnit(PhysicalUnit);
             }
@@ -155,7 +161,7 @@ namespace NMeasure
         {
             this.config = config;
             precedingUnit = rootUnit;
-            if (rootUnit.PhysicalUnit == U.Dimensionless)
+            if (rootUnit.PhysicalUnit.IsDimensionless)
                 throw new InvalidOperationException("The unit you start with should be associated with a physical unit to start a scale.");
             
         }

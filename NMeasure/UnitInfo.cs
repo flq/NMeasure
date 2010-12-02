@@ -27,11 +27,13 @@ namespace NMeasure
 
             try
             {
-                var numerators = from u in expandedUnit.Numerators
-                                 select GetUnitData(u).PhysicalUnit;
+                var numerators = (from u in expandedUnit.Numerators
+                                 let physUnit = GetUnitData(u).PhysicalUnit
+                                 select physUnit);
                 var denominators = from u in expandedUnit.Denominators
                                    select GetUnitData(u).PhysicalUnit;
-                return Unit.From(numerators, denominators);
+                throw new NotImplementedException();
+                return null; //Unit.From(numerators, denominators);
             }
             catch (NullReferenceException x)
             {

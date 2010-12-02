@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace NMeasure
@@ -23,6 +24,11 @@ namespace NMeasure
         public bool IsDimensionless
         {
             get { return numerators.Count == 0 && denominators.Count == 0; }
+        }
+
+        public bool IsFundamental
+        {
+            get { return numerators.All(u => u.ToString().StartsWith("_")) && denominators.All(u => u.ToString().StartsWith("_")); }
         }
 
         public override bool Equals(object obj)

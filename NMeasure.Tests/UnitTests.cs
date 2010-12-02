@@ -50,5 +50,17 @@ namespace NMeasure.Tests
             var u3 = u / u2;
             u3.IsDimensionless.IsTrue();
         }
+
+        [Test]
+        public void AUnitConstructedOfFundamentalsIsFundamentalUnit()
+        {
+            var u = U._LENGTH.Per(U._TIME);
+            u.IsFundamental.IsTrue();
+        }
+
+        public void UnitArithmeticsCorrectlyTracksPhysicalUnits()
+        {
+            
+        }
     }
 }
