@@ -69,5 +69,12 @@ namespace NMeasure.Tests
             var m = (Measure) 1.0*U.Second;
             Assert.Throws<InvalidOperationException>(() => { var m2 = ug.Convert(m, U.Inch.Unit()); });
         }
+
+        [Test]
+        public void ConversionFromUnitToSameUnitGivesInvariantConversion()
+        {
+            var c = ug.GetConverter(U.Meter.Unit(), U.Meter.Unit());
+            c.IsOfType<InvariantConversion>();
+        }
     }
 }

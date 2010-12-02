@@ -30,5 +30,10 @@ namespace NMeasure.Tests
         {
             Assert.IsTrue(value);
         }
+
+        public static void IsOfType<T>(this object o)
+        {
+            Assert.IsAssignableFrom<T>(o);
+        }
     }
 }

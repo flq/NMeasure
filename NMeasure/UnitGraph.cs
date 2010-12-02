@@ -39,13 +39,19 @@ namespace NMeasure
 
         public Measure Convert(Measure measure, Unit target)
         {
-            if (measure.Unit.ToPhysicalUnit() != target.ToPhysicalUnit())
+            var conversionSequence = GetConverter(measure.Unit, target);
+            return conversionSequence.Convert(measure);
+        }
+
+        public IConversion GetConverter(Unit from, Unit to)
+        {
+            if (from.ToPhysicalUnit() != to.ToPhysicalUnit())
                 throw new InvalidOperationException("Physical Units are incompatible");
             var seq = new ConversionTracker(this);
-            var conversionSequence = seq.FindConversionSequence(measure.Unit, target);
+            var conversionSequence = seq.FindConversionSequence(from, to);
             if (conversionSequence == null)
                 throw new InvalidOperationException("No conversion could be found between the provided units.");
-            return conversionSequence.Convert(measure);
+            return conversionSequence;
         }
     }
 }

@@ -49,9 +49,26 @@ namespace NMeasure.Tests
         [Test]
         public void CannotAddApplesToOranges()
         {
+            AdHocConfig.Use(c =>
+                                {
+                                    c.Unit(U.Foot).IsPhysicalUnit(U._LENGTH);
+                                    c.Unit(U.Gram).IsPhysicalUnit(U._MASS);
+                                });
             var m1 = new Measure(1, U.Foot);
             var m2 = new Measure(1, U.Gram);
             Assert.Throws<InvalidOperationException>(() => { var m3 = m1 + m2; });
+        }
+
+        [Test]
+        public void CanAddGrannySmithToGoldenDelicious()
+        {
+            AdHocConfig.Use(c=>c.Unit(U.Gram).IsPhysicalUnit(U._MASS).StartScale().To(U.Kilogram, 1000));
+
+            var m1 = new Measure(1, U.Kilogram);
+            var m2 = new Measure(1, U.Gram);
+            var m3 = m1 + m2;
+            m3.Unit.IsEqualTo(U.Kilogram.Unit());
+            m3.Value.IsEqualTo(1.001);
         }
 
         [Test]
@@ -62,6 +79,12 @@ namespace NMeasure.Tests
             var m3 = m1 + m2;
             m3.Unit.IsEqualTo(Unit.From(U.Foot));
             m3.Value.IsEqualTo(2);
+        }
+
+        [Test]
+        public void AttemptToConvertWithoutinfoGivesInvalidOpException()
+        {
+            Assert.Throws<InvalidOperationException>(() => { var m1 = new Measure(1, U.Kilogram).ConvertTo(U.Gram); });
         }
 
     }

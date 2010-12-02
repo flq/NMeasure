@@ -18,7 +18,9 @@ namespace NMeasure
         public Measure Convert(Measure measure)
         {
             //Actual conversions are relaxed about the units. At the end we should come out fine.
-            return numeratorconverters.Concat(denominatorConverters).Aggregate(measure, (m, edge) => edge.Convert(m));
+            return numeratorconverters
+                .Concat(denominatorConverters)
+                .Aggregate(measure, (m, edge) => edge.Convert(m));
         }
     }
 }

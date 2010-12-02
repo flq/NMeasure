@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 namespace NMeasure
 {
@@ -24,12 +25,18 @@ namespace NMeasure
         {
             var expandedUnit = unit.Expand();
 
-            var numerators = from u in expandedUnit.Numerators
-                             select GetUnitData(u).PhysicalUnit;
-            var denominators = from u in expandedUnit.Denominators
-                               select GetUnitData(u).PhysicalUnit;
-
-            return Unit.From(numerators, denominators);
+            try
+            {
+                var numerators = from u in expandedUnit.Numerators
+                                 select GetUnitData(u).PhysicalUnit;
+                var denominators = from u in expandedUnit.Denominators
+                                   select GetUnitData(u).PhysicalUnit;
+                return Unit.From(numerators, denominators);
+            }
+            catch (NullReferenceException x)
+            {
+                throw new InvalidOperationException("No metadata could be derived for unit " + unit + ". Have you forgotten to run a configuration?", x);
+            }
         }
 
         public static Measure ConvertTo(this Measure measure, Unit unit)

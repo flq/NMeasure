@@ -50,16 +50,22 @@ namespace NMeasure
 
         public static Measure operator +(Measure x, Measure y)
         {
-            if (!x.Unit.Equals(y.Unit))
-                throw new InvalidOperationException("These measures cannot be sensibly added to a single new measure");
-            return new Measure(x.Value + y.Value, x.Unit);
+            if (x.Unit.Equals(y.Unit))
+                return new Measure(x.Value + y.Value, x.Unit);
+
+            if (x.Unit.ToPhysicalUnit().Equals(y.Unit.ToPhysicalUnit()))
+                return x + y.ConvertTo(x.Unit);
+            throw new InvalidOperationException("These measures cannot be sensibly added to a single new measure");
         }
 
         public static Measure operator -(Measure x, Measure y)
         {
-            if (!x.Unit.Equals(y.Unit))
-                throw new InvalidOperationException("These measures cannot be sensibly added to a single new measure");
-            return new Measure(x.Value - y.Value, x.Unit);
+            if (x.Unit.Equals(y.Unit))
+                return new Measure(x.Value + y.Value, x.Unit);
+
+            if (x.Unit.ToPhysicalUnit().Equals(y.Unit.ToPhysicalUnit()))
+                return x - y.ConvertTo(x.Unit);
+            throw new InvalidOperationException("These measures cannot be sensibly added to a single new measure");
         }
 
         public static Measure operator /(Measure x, Measure y)

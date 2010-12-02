@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace NMeasure
 {
-    internal class UnitGraphEdgeSequence : IEnumerable<UnitGraphEdge>, IConversion
+    internal class UnitGraphEdgeSequence : IEnumerable<UnitGraphEdge>, IConversion, IComparable<UnitGraphEdgeSequence>
     {
         private readonly List<UnitGraphEdge> edges = new List<UnitGraphEdge>();
 
@@ -46,6 +46,11 @@ namespace NMeasure
         public UnitGraphEdgeSequence Clone()
         {
             return new UnitGraphEdgeSequence(this);
+        }
+
+        public int CompareTo(UnitGraphEdgeSequence other)
+        {
+            return edges.Count - other.edges.Count;
         }
 
         public override string ToString()

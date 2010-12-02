@@ -12,33 +12,44 @@
         /// </summary>
         _MASS,
         Milligram,
+        Carat,
         Gram,
         Kilogram,
         Ton,
-        Kiloton,
         Ounce,
+        Pound,
         /// <summary>
         /// Physical Unit of Space
         /// </summary>
         _LENGTH,
+        Nanometer,
+        Micrometer,
         Millimeter,
         Centimeter,
         Meter,
         Kilometer,
+        Microinch,
         Inch,
         Foot,
+        Yard,
         Mile,
         /// <summary>
         /// Physical Unit of Time
         /// </summary>
         _TIME,
+        Nanosecond,
+        Microsecond,
+        Millisecond,
         Second,
+        Minute,
         Hour,
+        Day,
         /// <summary>
         /// Physical Unit of Charge
         /// </summary>
         _CHARGE,
-        _TEMPERATURE
+        _TEMPERATURE,
+        Joule
     }
     // ReSharper restore InconsistentNaming
 

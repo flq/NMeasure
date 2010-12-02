@@ -15,9 +15,13 @@ namespace NMeasure
 
         public IConversion FindConversionSequence(Unit unit, Unit target)
         {
+            // It can happen that the system requests unit conversion between the same unit. In this case we can have the cake easily:
+            if (unit == target)
+                return new InvariantConversion();
             if (unitGraph[unit] == null)
                 return decomposeAndSearch(unit, target);
-            return unitGraph[unit].Conversions.SelectMany(e=> findConversionSequence(new UnitGraphEdgeSequence { e }, target)).FirstOrDefault();
+            // sequences are comparable by count of edges. The smallest count should lead to smaller calc errors.
+            return unitGraph[unit].Conversions.SelectMany(e=> findConversionSequence(new UnitGraphEdgeSequence { e }, target)).Min();
         }
 
         private IConversion decomposeAndSearch(Unit unit, Unit target)
@@ -29,6 +33,8 @@ namespace NMeasure
 
             var numeratorconverters = matches.NumeratorPairs.Select(pair => FindConversionSequence(pair.Item1.Unit(), pair.Item2.Unit()));
             // For denominators we search in the opposite way to give the inverse conversion, as they are divisors
+            // This may lead to issues where a conversion doesn't run purely by multiplication (off hand I only remember conversion from celsius to fahrenheit)
+            // But let's live with it for now.
             var denominatorConverters = matches.DenominatorPairs.Select(pair => FindConversionSequence(pair.Item2.Unit(), pair.Item1.Unit()));
             return new ComplexConversion(numeratorconverters, denominatorConverters);
         }
