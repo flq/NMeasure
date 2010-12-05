@@ -58,9 +58,21 @@ namespace NMeasure.Tests
             u.IsFundamental.IsTrue();
         }
 
-        public void UnitArithmeticsCorrectlyTracksPhysicalUnits()
+        [Test]
+        public void PhysicalUnitsCanBeObtainedFromComplexUnit()
         {
-            
+            AdHocConfig.Use(c =>
+                                {
+                                    c.Unit(U.Joule).IsPhysicalUnit((U._MASS * U._LENGTH.Squared()) / U._TIME.Squared());
+                                    c.Unit(U.Meter).IsPhysicalUnit(U._LENGTH);
+                                    c.Unit(U.Second).IsPhysicalUnit(U._TIME);
+                                });
+
+            U.Joule.Unit().ToPhysicalUnit().IsEqualTo((U._MASS * U._LENGTH.Squared()) / U._TIME.Squared());
+
+            var u = U.Meter.Per(U.Second);
+            u.ToPhysicalUnit().IsEqualTo(U._LENGTH.Per(U._TIME));
+
         }
     }
 }

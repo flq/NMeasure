@@ -112,6 +112,11 @@ namespace NMeasure
             return newUnit;
         }
 
+        public static Unit operator *(U singleUnit, Unit unit)
+        {
+            return unit*singleUnit;
+        }
+
         public static Unit operator *(Unit unit1, Unit unit2)
         {
             var newUnit = unit1.Clone();

@@ -7,6 +7,11 @@ namespace NMeasure
             return new Unit(unit1) * unit;
         }
 
+        public static Unit Squared(this U unit)
+        {
+            return new Unit(unit) * unit;
+        }
+
         public static Unit Per(this U unit1, U unit)
         {
             return new Unit(unit1) / unit;

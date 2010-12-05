@@ -23,6 +23,12 @@ namespace NMeasure
 
         public static Unit ToPhysicalUnit(this Unit unit)
         {
+            var unitMeta = GetUnitData(unit);
+            if (unitMeta != null)
+                return unitMeta.PhysicalUnit;
+
+            // Else derive from consituent parts.
+
             var expandedUnit = unit.Expand();
 
             try
@@ -32,8 +38,7 @@ namespace NMeasure
                                  select physUnit);
                 var denominators = from u in expandedUnit.Denominators
                                    select GetUnitData(u).PhysicalUnit;
-                throw new NotImplementedException();
-                return null; //Unit.From(numerators, denominators);
+                return numerators.Aggregate((u1,u2) => u1 * u2) / denominators.Aggregate((u1,u2) => u1*u2);
             }
             catch (NullReferenceException x)
             {

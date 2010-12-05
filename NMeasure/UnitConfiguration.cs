@@ -125,7 +125,7 @@ namespace NMeasure
 
         IUnitMetaConfig IUnitMetaConfig.ConvertibleTo(Unit second, Func<double, double> firstToSecond, Func<double, double> secondToFirst)
         {
-            if (PhysicalUnit.IsDimensionless)
+            if (PhysicalUnit == null || PhysicalUnit.IsDimensionless)
                 throw new InvalidOperationException("You must define physical unit of the left-hand side");
             var unitMeta = second.GetUnitData();
             if (unitMeta == null || unitMeta.PhysicalUnit.IsDimensionless)

@@ -32,16 +32,16 @@ namespace NMeasure.Tests
                                 });
 
             var velocity = Unit.From(U.Meter)/U.Second;
-            var physicalVelocity = UnitInfo.ToPhysicalUnit(velocity);
+            var physicalVelocity = velocity.ToPhysicalUnit();
 
             physicalVelocity.IsEqualTo(Unit.From(U._LENGTH) / U._TIME);
         }
 
         [Test]
-        public void ConversionDefinitionMustMatchWithPhysicalUnit1()
+        public void PhysicalUnitMustBeAvailableToDefineConversion()
         {
             Assert.Throws<InvalidOperationException>(() =>
-              AdHocConfig.Use(c => c.Unit(U.Centimeter).ConvertibleTo(U.Inch, v => v * 0.393700787, v => v * 2.54))
+              AdHocConfig.Use(c => c.Unit(U.Centimeter).ConvertibleTo(U.Inch, v => v*0.393700787, v => v*2.54))
             );
         }
 
