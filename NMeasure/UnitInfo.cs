@@ -55,5 +55,10 @@ namespace NMeasure
         {
             return measure.ConvertTo(Unit.From(unit));
         }
+
+        public static Unit TryCompaction(this Unit unit)
+        {
+            return UnitConfiguration.UnitSystem.GetCompaction(unit) ?? unit;
+        }
     }
 }

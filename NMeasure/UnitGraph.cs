@@ -37,6 +37,12 @@ namespace NMeasure
             to.AddConversion(from, toFrom);
         }
 
+        public void AddConversion(UnitGraphNode from, UnitGraphNode to, Func<Measure, Measure> toTo, Func<Measure, Measure> toFrom)
+        {
+            from.AddConversion(to, toTo);
+            to.AddConversion(from, toFrom);
+        }
+
         public Measure Convert(Measure measure, Unit target)
         {
             var conversionSequence = GetConverter(measure.Unit, target);
@@ -45,13 +51,12 @@ namespace NMeasure
 
         public IConversion GetConverter(Unit from, Unit to)
         {
-            if (from.ToPhysicalUnit() != to.ToPhysicalUnit())
-                throw new InvalidOperationException("Physical Units are incompatible");
             var seq = new ConversionTracker(this);
             var conversionSequence = seq.FindConversionSequence(from, to);
             if (conversionSequence == null)
                 throw new InvalidOperationException("No conversion could be found between the provided units.");
             return conversionSequence;
         }
+
     }
 }

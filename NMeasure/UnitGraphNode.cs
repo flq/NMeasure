@@ -31,7 +31,15 @@ namespace NMeasure
             if (!success)
                 targets.Add(to, unitGraphEdge = new UnitGraphEdge(unit, edgeToTarget, to.Unit));
             return unitGraphEdge;
+        }
 
+        public UnitGraphEdge AddConversion(UnitGraphNode to, Func<Measure, Measure> edgeToTarget)
+        {
+            UnitGraphEdge unitGraphEdge;
+            var success = targets.TryGetValue(to, out unitGraphEdge);
+            if (!success)
+                targets.Add(to, unitGraphEdge = new UnitGraphEdge(unit, edgeToTarget, to.Unit));
+            return unitGraphEdge;
         }
     }
 }

@@ -25,7 +25,7 @@ namespace NMeasure
 
         public bool IsDimensionless
         {
-            get { return Unit.IsDimensionless; }
+            get { return Unit == null || Unit.IsDimensionless; }
         }
 
         public static explicit operator Measure(double value)

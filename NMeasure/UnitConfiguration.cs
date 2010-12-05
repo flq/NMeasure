@@ -15,6 +15,7 @@ namespace NMeasure
         }
 
         private readonly Dictionary<Unit,UnitMeta> metadata = new Dictionary<Unit, UnitMeta>();
+        private readonly Dictionary<Unit,Unit> compactions = new Dictionary<Unit, Unit>();
         private readonly UnitGraph unitGraph = new UnitGraph();
 
         public UnitConfiguration()
@@ -61,6 +62,18 @@ namespace NMeasure
         {
             Precision = precision;
         }
+
+        public void AddCompaction(Unit unit, Unit compactionOfUnit)
+        {
+            compactions[unit] = compactionOfUnit;
+        }
+
+        public Unit GetCompaction(Unit unit)
+        {
+            NMeasure.Unit compaction;
+            compactions.TryGetValue(unit, out compaction);
+            return compaction;
+        }
     }
 
     public interface IUnitMetaConfig
@@ -68,8 +81,10 @@ namespace NMeasure
         IUnitMetaConfig BelongsToTypeSystem(params UnitSystem[] unitSystem);
         IUnitMetaConfig IsPhysicalUnit(Unit unit);
         IUnitMetaConfig IsPhysicalUnit(U unit);
+        IUnitMetaConfig CompactionOf(Unit unit);
         IUnitMetaConfig ConvertibleTo(U second, Func<double, double> firstToSecond, Func<double, double> secondToFirst);
         IUnitMetaConfig ConvertibleTo(Unit second, Func<double, double> firstToSecond, Func<double, double> secondToFirst);
+        IUnitMetaConfig ConvertibleTo(Unit second, Func<Measure, Measure> firstToSecond, Func<Measure, Measure> secondToFirst);
         IUnitScale StartScale();
     }
 
@@ -123,17 +138,26 @@ namespace NMeasure
             return ((IUnitMetaConfig) this).IsPhysicalUnit(unit.Unit());
         }
 
-        IUnitMetaConfig IUnitMetaConfig.ConvertibleTo(Unit second, Func<double, double> firstToSecond, Func<double, double> secondToFirst)
+        IUnitMetaConfig IUnitMetaConfig.CompactionOf(Unit unit)
+        {
+            config.AddCompaction(unit, this.unit);
+            return this;
+        }
+
+        public IUnitMetaConfig ConvertibleTo(Unit second, Func<double, double> firstToSecond, Func<double, double> secondToFirst)
         {
             if (PhysicalUnit == null || PhysicalUnit.IsDimensionless)
                 throw new InvalidOperationException("You must define physical unit of the left-hand side");
+            
             var unitMeta = second.GetUnitData();
+            
             if (unitMeta == null || unitMeta.PhysicalUnit.IsDimensionless)
-            {
-                unitMeta = (UnitMeta)config.Unit(second).IsPhysicalUnit(PhysicalUnit);
-            }
+                // If right-hand side of conversion has no physical unit, we'll assume that it has the same ohysical unit as left-hand.
+                unitMeta = (UnitMeta) config.Unit(second).IsPhysicalUnit(PhysicalUnit);
+
             if (unitMeta.PhysicalUnit != PhysicalUnit)
                 throw new InvalidOperationException("You can only define conversions between units that are compatible as physical units");
+            
             var node = config.UnitGraph.AddUnit(second);
             ConversionInfo.AddConversion(node, firstToSecond);
             node.AddConversion(ConversionInfo, secondToFirst);
@@ -143,6 +167,11 @@ namespace NMeasure
         IUnitMetaConfig IUnitMetaConfig.ConvertibleTo(U second, Func<double, double> firstToSecond, Func<double, double> secondToFirst)
         {
             return ((IUnitMetaConfig) this).ConvertibleTo(Unit.From(second), firstToSecond, secondToFirst);
+        }
+
+        IUnitMetaConfig IUnitMetaConfig.ConvertibleTo(Unit second, Func<Measure, Measure> firstToSecond, Func<Measure, Measure> secondToFirst)
+        {
+            throw new NotImplementedException();
         }
 
         IUnitScale IUnitMetaConfig.StartScale()

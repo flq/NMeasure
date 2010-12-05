@@ -8,9 +8,11 @@ namespace NMeasure
     internal class UnitGraphEdge
     {
         private readonly Func<double, double> fromToTo;
+        private readonly Func<Measure, Measure> fromToToMeasures;
         private readonly Unit to;
         private readonly Unit from;
         private readonly Unit unitOperator;
+        private readonly bool measureBasedConversion;
 
         public UnitGraphEdge(Unit from, Func<double, double> fromToTo, Unit to)
         {
@@ -18,6 +20,15 @@ namespace NMeasure
             this.to = to;
             this.from = from;
             unitOperator = to/from;
+            measureBasedConversion = false;
+        }
+
+        public UnitGraphEdge(Unit from, Func<Measure, Measure> fromToTo, Unit to)
+        {
+            fromToToMeasures = fromToTo;
+            this.to = to;
+            this.from = from;
+            measureBasedConversion = true;
         }
 
         public Unit From
@@ -32,6 +43,11 @@ namespace NMeasure
 
         public Measure ApplyConversion(Measure m)
         {
+            if (measureBasedConversion)
+            {
+                var result = fromToToMeasures(m);
+                return new Measure(result.Value, result.Unit.TryCompaction());
+            }
             return new Measure(fromToTo(m.Value), m.Unit * unitOperator);
         }
 
