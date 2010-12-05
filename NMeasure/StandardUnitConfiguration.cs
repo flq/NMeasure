@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace NMeasure
+﻿namespace NMeasure
 {
     public class StandardUnitConfiguration : UnitConfiguration
     {
@@ -12,11 +10,29 @@ namespace NMeasure
         public StandardUnitConfiguration()
         {
             SetMeasurePrecision(4);
+            
             lengths();
             times();
             masses();
+            temperatures();
 
-            //Unit(U.Joule).IsPhysicalUnit()
+            Unit(U.Joule)
+                .IsPhysicalUnit((U._MASS*U._LENGTH.Squared())/U._TIME.Squared())
+                .CompactionOf(U.Kilogram*U.Meter.Squared()/U.Second.Squared())
+                .ConvertibleTo(U.Kilogram.Unit(), 
+                  m => m/PhysicalConstants.EnergyMassFactor,
+                  m => m*PhysicalConstants.EnergyMassFactor);
+        }
+
+        private void temperatures()
+        {
+            Unit(U.Celsius)
+                .IsPhysicalUnit(U._TEMPERATURE)
+                .ConvertibleTo(U.Kelvin, v => v + 273.15, v => v - 273.15);
+
+            Unit(U.Fahrenheit)
+                .IsPhysicalUnit(U._TEMPERATURE)
+                .ConvertibleTo(U.Celsius, v => (v - 32)*(5d/9d), v => v*(9d/5d) + 32);
         }
 
         private void masses()
@@ -36,6 +52,8 @@ namespace NMeasure
 
             Unit(U.Gram).ConvertibleTo(U.Ounce, v => v*0.0352739619, v => v*28.3495231);
             Unit(U.Pound).ConvertibleTo(U.Kilogram, v => v * 0.45359237, v => v * 2.20462262);
+
+            Unit(U.Kilogram).CompactionOf(U.Joule*U.Second.Squared()/U.Meter.Squared());
         }
 
         private void times()

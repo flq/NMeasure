@@ -45,10 +45,13 @@
         Hour,
         Day,
         /// <summary>
-        /// Physical Unit of Charge
+        /// Physical Unit of Temperature
         /// </summary>
-        _CHARGE,
         _TEMPERATURE,
+        Kelvin,
+        Celsius,
+        Fahrenheit,
+        // Others
         Joule
     }
     // ReSharper restore InconsistentNaming

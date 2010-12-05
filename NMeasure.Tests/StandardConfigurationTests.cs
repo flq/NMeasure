@@ -16,6 +16,8 @@ namespace NMeasure.Tests
         [TestCase(U.Mile, U.Inch, 1, 63360)]
         [TestCase(U.Day, U.Second, 1, 86400)]
         [TestCase(U.Kilogram, U.Ounce, 1, 35.2740)]
+        [TestCase(U.Fahrenheit, U.Celsius, 100, 37.7778)]
+        [TestCase(U.Fahrenheit, U.Kelvin, 100, 310.9278)]
         public void BasicconversionChecks(U from, U to, double input, double expectedOutput)
         {
             var m = (Measure) input*from.Unit();
@@ -27,7 +29,8 @@ namespace NMeasure.Tests
         // Used as value factory for the "ComplexxConversionChecks" Test
         private static object[] complexCases = {
 
-                                                   new object[] { U.Kilometer.Per(U.Hour), U.Mile.Per(U.Hour), 100, 62.1371 }
+                                                   new object[] { U.Kilometer.Per(U.Hour), U.Mile.Per(U.Hour), 100, 62.1371 },
+                                                   new object[] { U.Joule.Unit(), U.Kilogram.Unit(), 89875517873681764, 1 }
                                                };
         #pragma warning restore 169
 

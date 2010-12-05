@@ -171,7 +171,10 @@ namespace NMeasure
 
         IUnitMetaConfig IUnitMetaConfig.ConvertibleTo(Unit second, Func<Measure, Measure> firstToSecond, Func<Measure, Measure> secondToFirst)
         {
-            throw new NotImplementedException();
+            var node = config.UnitGraph.AddUnit(second);
+            ConversionInfo.AddConversion(node, firstToSecond);
+            node.AddConversion(ConversionInfo, secondToFirst);
+            return this;
         }
 
         IUnitScale IUnitMetaConfig.StartScale()
