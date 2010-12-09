@@ -40,12 +40,12 @@ namespace NMeasure
 
         public static Measure operator *(Measure x, Unit unit)
         {
-            return new Measure(x.Value, x.Unit * unit);
+            return new Measure(x.Value, (x.Unit * unit).TryCompaction());
         }
 
         public static Measure operator *(Measure x, Measure y)
         {
-            return new Measure(x.Value * y.Value, x.Unit * y.Unit);
+            return new Measure(x.Value * y.Value, (x.Unit * y.Unit).TryCompaction());
         }
 
         public static Measure operator +(Measure x, Measure y)
@@ -58,6 +58,11 @@ namespace NMeasure
             throw new InvalidOperationException("These measures cannot be sensibly added to a single new measure");
         }
 
+        public static Measure operator /(Measure x, Measure y)
+        {
+            return new Measure(x.Value / y.Value, (x.Unit / y.Unit).TryCompaction());
+        }
+
         public static Measure operator -(Measure x, Measure y)
         {
             if (x.Unit.Equals(y.Unit))
@@ -68,11 +73,9 @@ namespace NMeasure
             throw new InvalidOperationException("These measures cannot be sensibly added to a single new measure");
         }
 
-        public static Measure operator /(Measure x, Measure y)
+        public override string ToString()
         {
-            return new Measure(x.Value / y.Value, x.Unit / y.Unit);
+            return Value.ToString() + Unit;
         }
-
-        
     }
 }

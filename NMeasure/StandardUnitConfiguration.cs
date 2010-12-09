@@ -22,6 +22,10 @@
                 .ConvertibleTo(U.Kilogram.Unit(), 
                   m => m/PhysicalConstants.EnergyMassFactor,
                   m => m*PhysicalConstants.EnergyMassFactor);
+
+            Unit(U.Newton)
+                .IsPhysicalUnit(U._MASS*U._LENGTH.Unit()/U._TIME.Squared())
+                .CompactionOf(U.Kilogram*U.Meter.Unit()/U.Second.Squared());
         }
 
         private void temperatures()

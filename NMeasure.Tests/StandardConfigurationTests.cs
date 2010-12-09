@@ -41,5 +41,20 @@ namespace NMeasure.Tests
             var m2 = m.ConvertTo(to);
             m2.Value.IsEqualTo(expectedOutput);
         }
+
+        #pragma warning disable 169
+        // Used as value factory for the "ComplexxConversionChecks" Test
+        private static object[] measureMultiplicationTests = {
+
+                                                   new object[] { new Measure(1, U.Meter.Unit() /U.Second.Squared()), new Measure(1, U.Kilogram), new Measure(1, U.Newton)},
+                                               };
+        #pragma warning restore 169
+
+        [Test, TestCaseSource("measureMultiplicationTests")]
+        public void MeasureMultiplicationTests(Measure m1, Measure m2, Measure expected)
+        {
+            var result = m1*m2;
+            result.IsEqualTo(expected);
+        }
     }
 }

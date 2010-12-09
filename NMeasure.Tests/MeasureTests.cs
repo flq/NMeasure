@@ -87,5 +87,13 @@ namespace NMeasure.Tests
             Assert.Throws<InvalidOperationException>(() => { var m1 = new Measure(1, U.Kilogram).ConvertTo(U.Gram); });
         }
 
+        [Test]
+        public void MeasuresSupportEquality()
+        {
+            var m1 = new Measure(1, U.Milligram);
+            var m2 = new Measure(1, U.Milligram);
+            m1.Equals(m2);
+        }
+
     }
 }

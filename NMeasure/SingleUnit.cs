@@ -52,7 +52,8 @@
         Celsius,
         Fahrenheit,
         // Others
-        Joule
+        Joule,
+        Newton
     }
     // ReSharper restore InconsistentNaming
 
