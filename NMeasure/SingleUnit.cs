@@ -53,7 +53,12 @@
         Fahrenheit,
         // Others
         Joule,
-        Newton
+        Newton,
+        SquareMeter,
+        Hectare,
+        Pascal,
+        Bar,
+        Psi
     }
     // ReSharper restore InconsistentNaming
 

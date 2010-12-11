@@ -1,4 +1,6 @@
-﻿namespace NMeasure
+﻿using System;
+
+namespace NMeasure
 {
     public class StandardUnitConfiguration : UnitConfiguration
     {
@@ -15,6 +17,8 @@
             times();
             masses();
             temperatures();
+            areas();
+            pressures();
 
             Unit(U.Joule)
                 .IsPhysicalUnit((U._MASS*U._LENGTH.Squared())/U._TIME.Squared())
@@ -26,6 +30,23 @@
             Unit(U.Newton)
                 .IsPhysicalUnit(U._MASS*U._LENGTH.Unit()/U._TIME.Squared())
                 .CompactionOf(U.Kilogram*U.Meter.Unit()/U.Second.Squared());
+        }
+
+        private void pressures()
+        {
+            Unit(U.Pascal)
+                .IsPhysicalUnit(U._MASS.Unit()/(U._TIME.Squared()*U._LENGTH))
+                .CompactionOf(U.Newton.Unit()/U.Meter.Squared())
+                .ConvertibleTo(U.Bar, v => v*1E-5, v => v*100000)
+                .ConvertibleTo(U.Psi, v => 6.894E+3, v => v*145.04E-6);
+        }
+
+        private void areas()
+        {
+            Unit(U.SquareMeter)
+                .IsPhysicalUnit(U._LENGTH.Squared())
+                .CompactionOf(U.Meter.Squared())
+                .ConvertibleTo(U.Hectare, v => v*0.0001, v => v*10000);
         }
 
         private void temperatures()
