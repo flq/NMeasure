@@ -17,10 +17,10 @@ namespace NMeasure.Tests
                 uc.Unit(U.Second).IsPhysicalUnit(U._TIME);
                 uc.Unit(U.Kilogram)
                     .IsPhysicalUnit(U._MASS)
-                    .CompactionOf(U.Joule*U.Second.Squared()/U.Meter.Squared());
+                    .EquivalentTo(U.Joule*U.Second.Squared()/U.Meter.Squared());
                 uc.Unit(U.Joule)
                     .IsPhysicalUnit((U._MASS*U._LENGTH.Squared())/U._TIME.Squared())
-                    .CompactionOf(U.Kilogram*U.Meter.Squared()/U.Second.Squared());
+                    .EquivalentTo(U.Kilogram*U.Meter.Squared()/U.Second.Squared());
 
             });
 
@@ -33,7 +33,6 @@ namespace NMeasure.Tests
         [Test]
         public void AConversionFromEnergyToMass()
         {
-            
             var m = new Measure(1, U.Kilogram);
             var m2 = ug.Convert(m, U.Joule.Unit());
             m2.Value.IsEqualTo(89875517873681764);

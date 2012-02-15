@@ -1,34 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace NMeasure
 {
     public class Unit
     {
-        private readonly List<U> numerators = new List<U>();
-        private readonly List<U> denominators = new List<U>();
+        private readonly List<Unit> numerators = new List<Unit>();
+        private readonly List<Unit> denominators = new List<Unit>();
 
-        public Unit(U singleUnit) : this()
+        protected Unit() {}
+        
+        protected Unit(IEnumerable<Unit> numerators, IEnumerable<Unit> denominators)
         {
-            if (singleUnit == U.Dimensionless)
-                return;
-            numerators.Add(singleUnit);
+            this.numerators.AddRange(numerators);
+            this.denominators.AddRange(denominators);
         }
 
-        public Unit()
-        {
-            
-        }
-
-        public bool IsDimensionless
+        public virtual bool IsDimensionless
         {
             get { return numerators.Count == 0 && denominators.Count == 0; }
         }
 
-        public bool IsFundamental
+        public virtual bool IsFundamental
         {
-            get { return numerators.All(u => u.ToString().StartsWith("_")) && denominators.All(u => u.ToString().StartsWith("_")); }
+            get { return numerators.All(u => u.IsFundamental) && denominators.All(u => u.IsFundamental); }
         }
 
         public override bool Equals(object obj)
@@ -39,7 +34,7 @@ namespace NMeasure
             return Equals((Unit) obj);
         }
 
-        public bool Equals(Unit other)
+        public virtual bool Equals(Unit other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
@@ -80,41 +75,10 @@ namespace NMeasure
             return string.Concat(string.Join("*", numerators), "/", string.Join("*", denominators));
         }
 
-        public static Unit From(U singleUnit)
+        public Unit Inverse()
         {
-            return new Unit(singleUnit);
-        }
-
-        public static Unit From(IEnumerable<U> numerators = null, IEnumerable<U> denominators = null)
-        {
-            var u = new Unit();
-            if (numerators != null)
-                u.numerators.AddRange(numerators);
-            if (denominators != null)
-                u.denominators.AddRange(denominators);
-            return u;
-        }
-
-        public static Unit Inverse(U singleUnit)
-        {
-            var u = new Unit();
-            u.denominators.Add(singleUnit);
-            return u;
-        }
-
-        public static Unit operator *(Unit unit, U singleUnit)
-        {
-            var newUnit = unit.Clone();
-            if (newUnit.denominators.Contains(singleUnit))
-                newUnit.denominators.Remove(singleUnit);
-            else
-                newUnit.numerators.Add(singleUnit);
-            return newUnit;
-        }
-
-        public static Unit operator *(U singleUnit, Unit unit)
-        {
-            return unit*singleUnit;
+            var expanded = Expand();
+            return new Unit(expanded.Denominators, expanded.Numerators);
         }
 
         public static Unit operator *(Unit unit1, Unit unit2)
@@ -147,16 +111,6 @@ namespace NMeasure
             newUnit.denominators.AddRange(unit2.numerators);
 
             return unit1*newUnit;
-        }
-
-        public static Unit operator /(Unit unit, U singleUnit)
-        {
-            var newUnit = unit.Clone();
-            if (newUnit.numerators.Contains(singleUnit))
-                newUnit.numerators.Remove(singleUnit);
-            else
-              newUnit.denominators.Add(singleUnit);
-            return newUnit;
         }
 
         public static bool operator ==(Unit x, Unit y)

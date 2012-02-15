@@ -8,7 +8,7 @@ namespace NMeasure.Tests
         [Test]
         public void SingleUnitsCanBeMultiplied()
         {
-            var u = new Unit();
+            var u = U.Dimensionless;
             u.IsDimensionless.IsTrue();
             u = u*U.Meter;
             u.IsDimensionless.IsFalse();
@@ -17,9 +17,7 @@ namespace NMeasure.Tests
         [Test]
         public void MultiplicationAndDivisionCancelOut()
         {
-            var u = new Unit();
-            u.IsDimensionless.IsTrue();
-            u = u * U.Meter;
+            var u = U.Meter;
             u.IsDimensionless.IsFalse();
             u = u / U.Meter;
             u.IsDimensionless.IsTrue();
@@ -28,26 +26,15 @@ namespace NMeasure.Tests
         [Test]
         public void UnitSupportsGettingTheInverse()
         {
-            var u = Unit.Inverse(U.Meter);
-            var u2 = u*U.Meter;
+            var u = U.Meter.Inverse();
+            var u2 = u * U.Meter;
             u2.IsDimensionless.IsTrue();
-        }
-
-        [Test]
-        public void UnitscanBeMultiplied()
-        {
-            var u = Unit.Inverse(U.Meter);
-            var u2 = Unit.From(U.Meter);
-            var u3 = u*u2;
-            u3.IsDimensionless.IsTrue();
         }
 
         [Test]
         public void UnitscanBeDivided()
         {
-            var u = Unit.From(U.Meter);
-            var u2 = Unit.From(U.Meter);
-            var u3 = u / u2;
+            var u3 = U.Meter / U.Meter;
             u3.IsDimensionless.IsTrue();
         }
 
@@ -58,21 +45,21 @@ namespace NMeasure.Tests
             u.IsFundamental.IsTrue();
         }
 
-        [Test]
-        public void PhysicalUnitsCanBeObtainedFromComplexUnit()
-        {
-            AdHocConfig.Use(c =>
-                                {
-                                    c.Unit(U.Joule).IsPhysicalUnit((U._MASS * U._LENGTH.Squared()) / U._TIME.Squared());
-                                    c.Unit(U.Meter).IsPhysicalUnit(U._LENGTH);
-                                    c.Unit(U.Second).IsPhysicalUnit(U._TIME);
-                                });
+        //[Test]
+        //public void PhysicalUnitsCanBeObtainedFromComplexUnit()
+        //{
+        //    AdHocConfig.Use(c =>
+        //                        {
+        //                            c.Unit(U.Joule).IsPhysicalUnit((U._MASS * U._LENGTH.Squared()) / U._TIME.Squared());
+        //                            c.Unit(U.Meter).IsPhysicalUnit(U._LENGTH);
+        //                            c.Unit(U.Second).IsPhysicalUnit(U._TIME);
+        //                        });
 
-            U.Joule.Unit().ToPhysicalUnit().IsEqualTo((U._MASS * U._LENGTH.Squared()) / U._TIME.Squared());
+        //    U.Joule.Unit().ToPhysicalUnit().IsEqualTo((U._MASS * U._LENGTH.Squared()) / U._TIME.Squared());
 
-            var u = U.Meter.Per(U.Second);
-            u.ToPhysicalUnit().IsEqualTo(U._LENGTH.Per(U._TIME));
+        //    var u = U.Meter.Per(U.Second);
+        //    u.ToPhysicalUnit().IsEqualTo(U._LENGTH.Per(U._TIME));
 
-        }
+        //}
     }
 }

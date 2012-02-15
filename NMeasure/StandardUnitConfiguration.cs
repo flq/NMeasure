@@ -22,21 +22,21 @@ namespace NMeasure
 
             Unit(U.Joule)
                 .IsPhysicalUnit((U._MASS*U._LENGTH.Squared())/U._TIME.Squared())
-                .CompactionOf(U.Kilogram*U.Meter.Squared()/U.Second.Squared())
+                .EquivalentTo(U.Kilogram*U.Meter.Squared()/U.Second.Squared())
                 .ConvertibleTo(U.Kilogram.Unit(), 
                   m => m/PhysicalConstants.EnergyMassFactor,
                   m => m*PhysicalConstants.EnergyMassFactor);
 
             Unit(U.Newton)
                 .IsPhysicalUnit(U._MASS*U._LENGTH.Unit()/U._TIME.Squared())
-                .CompactionOf(U.Kilogram*U.Meter.Unit()/U.Second.Squared());
+                .EquivalentTo(U.Kilogram*U.Meter.Unit()/U.Second.Squared());
         }
 
         private void pressures()
         {
             Unit(U.Pascal)
                 .IsPhysicalUnit(U._MASS.Unit()/(U._TIME.Squared()*U._LENGTH))
-                .CompactionOf(U.Newton.Unit()/U.Meter.Squared())
+                .EquivalentTo(U.Newton.Unit()/U.Meter.Squared())
                 .ConvertibleTo(U.Bar, v => v*1E-5, v => v*100000)
                 .ConvertibleTo(U.Psi, v => 6.894E+3, v => v*145.04E-6);
         }
@@ -45,7 +45,7 @@ namespace NMeasure
         {
             Unit(U.SquareMeter)
                 .IsPhysicalUnit(U._LENGTH.Squared())
-                .CompactionOf(U.Meter.Squared())
+                .EquivalentTo(U.Meter.Squared())
                 .ConvertibleTo(U.Hectare, v => v*0.0001, v => v*10000);
         }
 
@@ -78,7 +78,7 @@ namespace NMeasure
             Unit(U.Gram).ConvertibleTo(U.Ounce, v => v*0.0352739619, v => v*28.3495231);
             Unit(U.Pound).ConvertibleTo(U.Kilogram, v => v * 0.45359237, v => v * 2.20462262);
 
-            Unit(U.Kilogram).CompactionOf(U.Joule*U.Second.Squared()/U.Meter.Squared());
+            Unit(U.Kilogram).EquivalentTo(U.Joule*U.Second.Squared()/U.Meter.Squared());
         }
 
         private void times()

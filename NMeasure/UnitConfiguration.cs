@@ -81,7 +81,7 @@ namespace NMeasure
         IUnitMetaConfig BelongsToTypeSystem(params UnitSystem[] unitSystem);
         IUnitMetaConfig IsPhysicalUnit(Unit unit);
         IUnitMetaConfig IsPhysicalUnit(U unit);
-        IUnitMetaConfig CompactionOf(Unit unit);
+        IUnitMetaConfig EquivalentTo(Unit unit);
         IUnitMetaConfig ConvertibleTo(U second, Func<double, double> firstToSecond, Func<double, double> secondToFirst);
         IUnitMetaConfig ConvertibleTo(Unit second, Func<double, double> firstToSecond, Func<double, double> secondToFirst);
         IUnitMetaConfig ConvertibleTo(Unit second, Func<Measure, Measure> firstToSecond, Func<Measure, Measure> secondToFirst);
@@ -138,7 +138,7 @@ namespace NMeasure
             return ((IUnitMetaConfig) this).IsPhysicalUnit(unit.Unit());
         }
 
-        IUnitMetaConfig IUnitMetaConfig.CompactionOf(Unit unit)
+        IUnitMetaConfig IUnitMetaConfig.EquivalentTo(Unit unit)
         {
             config.AddCompaction(unit, this.unit);
             return this;
