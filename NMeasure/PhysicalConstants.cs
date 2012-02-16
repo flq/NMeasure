@@ -11,13 +11,13 @@ namespace NMeasure
         private static Measure speedOfLight;
         public static Measure SpeedOfLight
         {
-            get { return speedOfLight.IsDimensionless ? speedOfLight = new Measure(299792458, U.Meter.Per(U.Second)) : speedOfLight; }
+            get { return speedOfLight.IsDimensionless ? speedOfLight = new Measure(299792458, U.Meter / U.Second) : speedOfLight; }
         }
 
         private static Measure boltzmannConstant;
         public static Measure BoltzmannConstant
         {
-            get { return boltzmannConstant.IsDimensionless ? boltzmannConstant = new Measure(1.3806503E-23, U.Joule.Per(U.Kelvin)) : boltzmannConstant; }
+            get { return boltzmannConstant.IsDimensionless ? boltzmannConstant = new Measure(1.3806503E-23, U.Joule / U.Kelvin) : boltzmannConstant; }
         }
 
         private static Measure electronMass;
@@ -29,7 +29,7 @@ namespace NMeasure
         private static Measure planckConstant;
         public static Measure PlanckConstant
         {
-            get { return planckConstant.IsDimensionless ? planckConstant = new Measure(6.626068E-34, U.Joule.Per(U.Second)) : planckConstant; }
+            get { return planckConstant.IsDimensionless ? planckConstant = new Measure(6.626068E-34, U.Joule * U.Second) : planckConstant; }
         }
 
         private static Measure gravitationalConstant;

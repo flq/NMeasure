@@ -11,10 +11,5 @@ namespace NMeasure
         {
             return unit.Squared() * unit;
         }
-
-        public static Unit Per(this Unit unit1, Unit unit)
-        {
-            return unit1 / unit;
-        }
     }
 }

@@ -3,7 +3,7 @@
 namespace NMeasure
 {
     /// <summary>
-    /// A unit graph edge links two unnits and is hence a principal information about a conversion
+    /// A unit graph edge links two units in terms of converting from one unit to another
     /// </summary>
     internal class UnitGraphEdge
     {
@@ -46,7 +46,7 @@ namespace NMeasure
             if (measureBasedConversion)
             {
                 var result = fromToToMeasures(m);
-                return new Measure(result.Value, result.Unit.TryCompaction());
+                return new Measure(result.Value, result.Unit);
             }
             return new Measure(fromToTo(m.Value), m.Unit * unitOperator);
         }

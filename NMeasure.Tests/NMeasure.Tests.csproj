@@ -37,9 +37,11 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdHocConfig.cs" />
     <Compile Include="MeasureTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ObtainingPhysicalUnits.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestExtensions.cs">
       <SubType>Code</SubType>

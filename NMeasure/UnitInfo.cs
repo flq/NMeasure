@@ -11,11 +11,6 @@ namespace NMeasure
             return UnitConfiguration.UnitSystem;
         }
 
-        public static UnitMeta GetUnitData(this U unit)
-        {
-            return getConfig()[Unit.From(unit)];
-        }
-
         public static UnitMeta GetUnitData(this Unit unit)
         {
             return getConfig()[unit];
@@ -27,15 +22,18 @@ namespace NMeasure
             if (unitMeta != null)
                 return unitMeta.PhysicalUnit;
 
-            // Else derive from consituent parts.
+            return DeriveFromConstituentParts(unit);
+        }
 
+        private static Unit DeriveFromConstituentParts(Unit unit)
+        {
             var expandedUnit = unit.Expand();
 
             try
             {
                 var numerators = (from u in expandedUnit.Numerators
-                                 let physUnit = GetUnitData(u).PhysicalUnit
-                                 select physUnit);
+                                  let physUnit = GetUnitData(u).PhysicalUnit
+                                  select physUnit);
                 var denominators = from u in expandedUnit.Denominators
                                    select GetUnitData(u).PhysicalUnit;
                 return numerators.Aggregate((u1,u2) => u1 * u2) / denominators.Aggregate((u1,u2) => u1*u2);
@@ -46,19 +44,19 @@ namespace NMeasure
             }
         }
 
-        public static Measure ConvertTo(this Measure measure, Unit unit)
-        {
-            return UnitConfiguration.UnitSystem.UnitGraph.Convert(measure, unit);
-        }
+        //public static Measure ConvertTo(this Measure measure, Unit unit)
+        //{
+        //    return UnitConfiguration.UnitSystem.UnitGraph.Convert(measure, unit);
+        //}
 
-        public static Measure ConvertTo(this Measure measure, U unit)
-        {
-            return measure.ConvertTo(Unit.From(unit));
-        }
+        //public static Measure ConvertTo(this Measure measure, U unit)
+        //{
+        //    return measure.ConvertTo(Unit.From(unit));
+        //}
 
         public static Unit TryCompaction(this Unit unit)
         {
-            return UnitConfiguration.UnitSystem.GetCompaction(unit) ?? unit;
+            return UnitConfiguration.UnitSystem.GetEquivalent(unit) ?? unit;
         }
     }
 }

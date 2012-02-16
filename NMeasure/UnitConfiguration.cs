@@ -14,8 +14,8 @@ namespace NMeasure
             private set { unitSystem = value; }
         }
 
-        private readonly Dictionary<Unit,UnitMeta> metadata = new Dictionary<Unit, UnitMeta>();
-        private readonly Dictionary<Unit,Unit> compactions = new Dictionary<Unit, Unit>();
+        private readonly Dictionary<Unit,UnitMeta> metadata = new Dictionary<Unit, UnitMeta>(new UnitEqualityComparer());
+        private readonly Dictionary<Unit, Unit> compactions = new Dictionary<Unit, Unit>(new UnitEqualityComparer());
         private readonly UnitGraph unitGraph = new UnitGraph();
 
         public UnitConfiguration()
@@ -41,11 +41,6 @@ namespace NMeasure
 
         internal UnitGraph UnitGraph { get { return unitGraph; } }
 
-        public IUnitMetaConfig Unit(U unit)
-        {
-            return Unit(NMeasure.Unit.From(unit));
-        }
-
         public IUnitMetaConfig Unit(Unit unit)
         {
             return getOrAdd(unit);
@@ -68,9 +63,9 @@ namespace NMeasure
             compactions[unit] = compactionOfUnit;
         }
 
-        public Unit GetCompaction(Unit unit)
+        public Unit GetEquivalent(Unit unit)
         {
-            NMeasure.Unit compaction;
+            Unit compaction;
             compactions.TryGetValue(unit, out compaction);
             return compaction;
         }
@@ -80,9 +75,7 @@ namespace NMeasure
     {
         IUnitMetaConfig BelongsToTypeSystem(params UnitSystem[] unitSystem);
         IUnitMetaConfig IsPhysicalUnit(Unit unit);
-        IUnitMetaConfig IsPhysicalUnit(U unit);
         IUnitMetaConfig EquivalentTo(Unit unit);
-        IUnitMetaConfig ConvertibleTo(U second, Func<double, double> firstToSecond, Func<double, double> secondToFirst);
         IUnitMetaConfig ConvertibleTo(Unit second, Func<double, double> firstToSecond, Func<double, double> secondToFirst);
         IUnitMetaConfig ConvertibleTo(Unit second, Func<Measure, Measure> firstToSecond, Func<Measure, Measure> secondToFirst);
         IUnitScale StartScale();
@@ -90,7 +83,7 @@ namespace NMeasure
 
     public interface IUnitScale
     {
-        IUnitScale To(U singleUnit, int scale);
+        IUnitScale To(Unit singleUnit, int scale);
     }
 
     public class UnitMeta : IUnitMetaConfig
@@ -133,11 +126,6 @@ namespace NMeasure
             return this;
         }
 
-        IUnitMetaConfig IUnitMetaConfig.IsPhysicalUnit(U unit)
-        {
-            return ((IUnitMetaConfig) this).IsPhysicalUnit(unit.Unit());
-        }
-
         IUnitMetaConfig IUnitMetaConfig.EquivalentTo(Unit unit)
         {
             config.AddCompaction(unit, this.unit);
@@ -152,7 +140,7 @@ namespace NMeasure
             var unitMeta = second.GetUnitData();
             
             if (unitMeta == null || unitMeta.PhysicalUnit.IsDimensionless)
-                // If right-hand side of conversion has no physical unit, we'll assume that it has the same ohysical unit as left-hand.
+                // If right-hand side of conversion has no physical unit, we'll assume that it has the same physical unit as left-hand.
                 unitMeta = (UnitMeta) config.Unit(second).IsPhysicalUnit(PhysicalUnit);
 
             if (unitMeta.PhysicalUnit != PhysicalUnit)
@@ -162,11 +150,6 @@ namespace NMeasure
             ConversionInfo.AddConversion(node, firstToSecond);
             node.AddConversion(ConversionInfo, secondToFirst);
             return this;
-        }
-
-        IUnitMetaConfig IUnitMetaConfig.ConvertibleTo(U second, Func<double, double> firstToSecond, Func<double, double> secondToFirst)
-        {
-            return ((IUnitMetaConfig) this).ConvertibleTo(Unit.From(second), firstToSecond, secondToFirst);
         }
 
         IUnitMetaConfig IUnitMetaConfig.ConvertibleTo(Unit second, Func<Measure, Measure> firstToSecond, Func<Measure, Measure> secondToFirst)
@@ -198,7 +181,7 @@ namespace NMeasure
             
         }
 
-        IUnitScale IUnitScale.To(U singleUnit, int scale)
+        IUnitScale IUnitScale.To(Unit singleUnit, int scale)
         {
             var newUnit = config.Unit(singleUnit)
                 .IsPhysicalUnit(precedingUnit.PhysicalUnit)

@@ -1,19 +1,31 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace NMeasure
 {
     public class Unit
     {
-        private readonly List<Unit> numerators = new List<Unit>();
-        private readonly List<Unit> denominators = new List<Unit>();
+        private readonly ReadOnlyCollection<Unit> numerators;
+        private readonly ReadOnlyCollection<Unit> denominators;
+        private readonly string stringRepresentation;
 
-        protected Unit() {}
+        protected Unit() : this(Enumerable.Empty<Unit>(), Enumerable.Empty<Unit>()) {}
         
         protected Unit(IEnumerable<Unit> numerators, IEnumerable<Unit> denominators)
         {
-            this.numerators.AddRange(numerators);
-            this.denominators.AddRange(denominators);
+            this.numerators = new ReadOnlyCollection<Unit>(numerators.OrderBy(u => u).ToList());
+            this.denominators = new ReadOnlyCollection<Unit>(denominators.OrderBy(u => u).ToList());
+            stringRepresentation = CreateRepresentation();
+        }
+
+        private string CreateRepresentation()
+        {
+            if (IsDimensionless)
+                return "Dimensionless";
+            if (this.denominators.Count == 0)
+                return string.Join("*", numerators);
+            return string.Concat(string.Join("*", numerators), "/", string.Join("*", denominators));
         }
 
         public virtual bool IsDimensionless
@@ -43,15 +55,7 @@ namespace NMeasure
 
         public override int GetHashCode()
         {
-            return stringRepresentation().GetHashCode();
-        }
-
-        private Unit Clone()
-        {
-            var u = new Unit();
-            u.numerators.AddRange(numerators);
-            u.denominators.AddRange(denominators);
-            return u;
+            return stringRepresentation.GetHashCode();
         }
 
         public ExpandedUnit Expand()
@@ -61,18 +65,7 @@ namespace NMeasure
 
         public override string ToString()
         {
-            return stringRepresentation();
-        }
-
-        private string stringRepresentation()
-        {
-            numerators.Sort();
-            denominators.Sort();
-            if (IsDimensionless)
-                return "Dimensionless";
-            if (denominators.Count == 0)
-                return string.Join("*", numerators);
-            return string.Concat(string.Join("*", numerators), "/", string.Join("*", denominators));
+            return stringRepresentation;
         }
 
         public Unit Inverse()
@@ -83,33 +76,31 @@ namespace NMeasure
 
         public static Unit operator *(Unit unit1, Unit unit2)
         {
-            var newUnit = unit1.Clone();
+            var denominators = unit1.denominators.ToList();
+            var numerators = unit1.numerators.ToList();
 
             foreach (var u in unit2.numerators)
             {
-                if (newUnit.denominators.Contains(u))
-                    newUnit.denominators.Remove(u);
+                if (denominators.Contains(u))
+                    denominators.Remove(u);
                 else
-                    newUnit.numerators.Add(u);
+                    numerators.Add(u);
             }
 
             foreach (var u in unit2.denominators)
             {
-                if (newUnit.numerators.Contains(u))
-                    newUnit.numerators.Remove(u);
+                if (numerators.Contains(u))
+                    numerators.Remove(u);
                 else
-                    newUnit.denominators.Add(u);
+                    denominators.Add(u);
             }
 
-            return newUnit;
+            return new Unit(numerators, denominators);
         }
 
         public static Unit operator /(Unit unit1, Unit unit2)
         {
-            var newUnit = new Unit();
-            newUnit.numerators.AddRange(unit2.denominators);
-            newUnit.denominators.AddRange(unit2.numerators);
-
+            var newUnit = new Unit(unit2.denominators, unit2.numerators);
             return unit1*newUnit;
         }
 

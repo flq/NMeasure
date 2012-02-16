@@ -21,9 +21,10 @@ namespace NMeasure
         {
             private readonly string _id;
             public RootUnit(string id) { _id = id; }
-            public override bool Equals(Unit obj) { return ReferenceEquals(this, obj); }
+            public override bool Equals(Unit obj) { return obj.ToString().Equals(ToString()); }
             public override int GetHashCode() { return _id.GetHashCode(); }
             public override bool IsDimensionless { get { return false; } }
+            public override bool IsFundamental { get { return false; } }
             public override string ToString() { return _id; }
 
             int IComparable.CompareTo(object obj)
@@ -44,17 +45,18 @@ namespace NMeasure
         public static readonly Unit _LENGTH = new FundamentalUnit();
 
         public static readonly Unit Dimensionless = new AnyUnit();
-        public static readonly Unit Meter = FromRootUnit(new RootUnit("Meter"));
-        public static readonly Unit Milligram = FromRootUnit(new RootUnit("Milligram"));
-        public static readonly Unit Kilogram = FromRootUnit(new RootUnit("Kilogram"));
-        public static readonly Unit Gram = FromRootUnit(new RootUnit("Gram"));
-        public static readonly Unit Second = FromRootUnit(new RootUnit("Second"));
+        public static readonly Unit Meter = GetRootUnit("Meter");
+        public static readonly Unit Milligram = GetRootUnit("Milligram");
+        public static readonly Unit Kilogram = GetRootUnit("Kilogram");
+        public static readonly Unit Gram = GetRootUnit("Gram");
+        public static readonly Unit Second = GetRootUnit("Second");
+        public static readonly Unit Foot = GetRootUnit("Foot");
+        public static readonly Unit Joule = GetRootUnit("Joule");
+        public static readonly Unit Kelvin = GetRootUnit("Kelvin");
 
-        public static readonly Unit Foot = FromRootUnit(new RootUnit("Foot"));
-
-        private static AnyUnit FromRootUnit(RootUnit unit)
+        public static Unit GetRootUnit(string unit)
         {
-            return new AnyUnit(new [] { unit }, new Unit[0]);
+            return new AnyUnit(new [] { new RootUnit(unit) }, new Unit[0]);
         }
 
         //Dimensionless,

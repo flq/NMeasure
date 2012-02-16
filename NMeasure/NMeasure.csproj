@@ -39,10 +39,20 @@
     <Compile Include="IConversion.cs" />
     <Compile Include="InvariantConversion.cs" />
     <Compile Include="Measure.cs" />
+    <Compile Include="PhysicalConstants.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SingleUnit.cs" />
     <Compile Include="SingleUnitExtensions.cs" />
     <Compile Include="Unit.cs" />
+    <Compile Include="UnitConfiguration.cs" />
+    <Compile Include="UnitEqualityComparer.cs" />
+    <Compile Include="UnitGraph.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="UnitGraphEdge.cs" />
+    <Compile Include="UnitGraphEdgeSequence.cs" />
+    <Compile Include="UnitGraphNode.cs" />
+    <Compile Include="UnitInfo.cs" />
     <Compile Include="UnitSystem.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

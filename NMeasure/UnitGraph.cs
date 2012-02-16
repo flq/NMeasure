@@ -7,11 +7,6 @@ namespace NMeasure
     {
         private readonly Dictionary<Unit,UnitGraphNode> nodes = new Dictionary<Unit, UnitGraphNode>();
 
-        public UnitGraphNode this[U singleUnit]
-        {
-            get { return this[Unit.From(singleUnit)]; }
-        }
-
         public UnitGraphNode this[Unit unit]
         {
             get
@@ -43,20 +38,20 @@ namespace NMeasure
             to.AddConversion(from, toFrom);
         }
 
-        public Measure Convert(Measure measure, Unit target)
-        {
-            var conversionSequence = GetConverter(measure.Unit, target);
-            return conversionSequence.Convert(measure);
-        }
+        //public Measure Convert(Measure measure, Unit target)
+        //{
+        //    var conversionSequence = GetConverter(measure.Unit, target);
+        //    return conversionSequence.Convert(measure);
+        //}
 
-        public IConversion GetConverter(Unit from, Unit to)
-        {
-            var seq = new ConversionTracker(this);
-            var conversionSequence = seq.FindConversionSequence(from, to);
-            if (conversionSequence == null)
-                throw new InvalidOperationException("No conversion could be found between the provided units.");
-            return conversionSequence;
-        }
+        //public IConversion GetConverter(Unit from, Unit to)
+        //{
+        //    var seq = new ConversionTracker(this);
+        //    var conversionSequence = seq.FindConversionSequence(from, to);
+        //    if (conversionSequence == null)
+        //        throw new InvalidOperationException("No conversion could be found between the provided units.");
+        //    return conversionSequence;
+        //}
 
     }
 }

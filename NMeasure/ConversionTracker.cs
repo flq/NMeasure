@@ -42,7 +42,7 @@ namespace NMeasure
         private static MatchStructure matchViaPhysicalUnits(ExpandedUnit exStart, ExpandedUnit exEnd)
         {
             var ms = new MatchStructure();
-            var mutatingList = new List<U>(exEnd.Numerators);
+            var mutatingList = new List<Unit>(exEnd.Numerators);
             foreach (var u in exStart.Numerators)
             {
                 var u2 = mutatingList.First(unit => unit.ToPhysicalUnit() == u.ToPhysicalUnit());
@@ -50,7 +50,7 @@ namespace NMeasure
                 mutatingList.Remove(u2);
             }
 
-            mutatingList = new List<U>(exEnd.Denominators);
+            mutatingList = new List<Unit>(exEnd.Denominators);
 
             foreach (var u in exStart.Denominators)
             {

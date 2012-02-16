@@ -41,25 +41,35 @@ namespace NMeasure.Tests
         [Test]
         public void AUnitConstructedOfFundamentalsIsFundamentalUnit()
         {
-            var u = U._LENGTH.Per(U._TIME);
+            var u = U._LENGTH / U._TIME;
             u.IsFundamental.IsTrue();
         }
 
-        //[Test]
-        //public void PhysicalUnitsCanBeObtainedFromComplexUnit()
-        //{
-        //    AdHocConfig.Use(c =>
-        //                        {
-        //                            c.Unit(U.Joule).IsPhysicalUnit((U._MASS * U._LENGTH.Squared()) / U._TIME.Squared());
-        //                            c.Unit(U.Meter).IsPhysicalUnit(U._LENGTH);
-        //                            c.Unit(U.Second).IsPhysicalUnit(U._TIME);
-        //                        });
+        [Test]
+        public void AConcreteUnitIsNotFundamental()
+        {
+            var u = U.Meter;
+            u.IsFundamental.IsFalse();
+        }
 
-        //    U.Joule.Unit().ToPhysicalUnit().IsEqualTo((U._MASS * U._LENGTH.Squared()) / U._TIME.Squared());
+        [Test]
+        public void CorrectHandlingOfCalculatingWithCombinedUnits()
+        {
+            var u1 = U.Meter / U.Second;
+            var u2 = U.Kilogram.Squared();
+            var u3 = u1 * u2;
 
-        //    var u = U.Meter.Per(U.Second);
-        //    u.ToPhysicalUnit().IsEqualTo(U._LENGTH.Per(U._TIME));
+            u3.IsEqualTo(U.Meter * U.Kilogram.Squared() / U.Second);
+        }
 
-        //}
+        [Test]
+        public void CorrectShorteningOfUnits()
+        {
+            var u1 = U.Meter / U.Second;
+            var u2 = U.Kilogram / U.Second;
+
+            var u3 = u1 / u2;
+            u3.IsEqualTo(U.Meter / U.Kilogram);
+        }
     }
 }
