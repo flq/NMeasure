@@ -49,7 +49,7 @@ namespace NMeasure
             return stringRepresentation.GetHashCode();
         }
 
-        public ExpandedUnit Expand()
+        internal ExpandedUnit Expand()
         {
             return new ExpandedUnit(numerators, denominators);
         }

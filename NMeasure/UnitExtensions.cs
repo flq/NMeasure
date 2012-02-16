@@ -3,17 +3,21 @@ using System.Linq;
 
 namespace NMeasure
 {
-    public static class UnitInfo
+    public static class UnitExtensions
     {
-
-        private static UnitConfiguration getConfig()
+        public static Unit Squared(this Unit unit)
         {
-            return UnitConfiguration.UnitSystem;
+            return unit * unit;
+        }
+
+        public static Unit Cubed(this Unit unit)
+        {
+            return unit.Squared() * unit;
         }
 
         public static UnitMeta GetUnitData(this Unit unit)
         {
-            return getConfig()[unit];
+            return GetConfig()[unit];
         }
 
         public static Unit ToPhysicalUnit(this Unit unit)
@@ -23,6 +27,21 @@ namespace NMeasure
                 return unitMeta.PhysicalUnit;
 
             return DeriveFromConstituentParts(unit);
+        }
+
+        public static Measure ConvertTo(this Measure measure, Unit unit)
+        {
+            return UnitConfiguration.UnitSystem.UnitGraph.Convert(measure, unit);
+        }
+
+        public static Unit TryCompaction(this Unit unit)
+        {
+            return UnitConfiguration.UnitSystem.GetEquivalent(unit) ?? unit;
+        }
+
+        private static UnitConfiguration GetConfig()
+        {
+            return UnitConfiguration.UnitSystem;
         }
 
         private static Unit DeriveFromConstituentParts(Unit unit)
@@ -42,16 +61,6 @@ namespace NMeasure
             {
                 throw new InvalidOperationException("No metadata could be derived for unit " + unit + ". Have you forgotten to run a configuration?", x);
             }
-        }
-
-        public static Measure ConvertTo(this Measure measure, Unit unit)
-        {
-            return UnitConfiguration.UnitSystem.UnitGraph.Convert(measure, unit);
-        }
-
-        public static Unit TryCompaction(this Unit unit)
-        {
-            return UnitConfiguration.UnitSystem.GetEquivalent(unit) ?? unit;
         }
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 
 namespace NMeasure
 {
-    public class ExpandedUnit
+    internal class ExpandedUnit
     {
         public readonly ReadOnlyCollection<Unit> Numerators;
         public readonly ReadOnlyCollection<Unit> Denominators;
