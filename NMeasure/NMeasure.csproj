@@ -57,6 +57,7 @@
     <Compile Include="Converting\UnitGraphNode.cs" />
     <Compile Include="UnitExtensions.cs" />
     <Compile Include="Configuration\UnitSystem.cs" />
+    <Compile Include="UnitIndex.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

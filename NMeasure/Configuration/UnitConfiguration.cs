@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using NMeasure.Converting;
 
@@ -15,8 +14,8 @@ namespace NMeasure
             private set { unitSystem = value; }
         }
 
-        private readonly Dictionary<Unit,UnitMeta> metadata = new Dictionary<Unit, UnitMeta>(new UnitEqualityComparer());
-        private readonly Dictionary<Unit, Unit> compactions = new Dictionary<Unit, Unit>(new UnitEqualityComparer());
+        private readonly UnitIndex<UnitMeta> metadata = new UnitIndex<UnitMeta>();
+        private readonly UnitIndex<Unit> compactions = new UnitIndex<Unit>();
         private readonly UnitGraph unitGraph = new UnitGraph();
 
         public UnitConfiguration()

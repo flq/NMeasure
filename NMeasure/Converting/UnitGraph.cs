@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace NMeasure.Converting
 {
     internal class UnitGraph
     {
-        private readonly Dictionary<Unit,UnitGraphNode> nodes = new Dictionary<Unit, UnitGraphNode>(new UnitEqualityComparer());
+        private readonly UnitIndex<UnitGraphNode> nodes = new UnitIndex<UnitGraphNode>();
 
         public UnitGraphNode this[Unit unit]
         {
