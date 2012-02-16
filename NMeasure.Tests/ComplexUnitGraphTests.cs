@@ -27,7 +27,7 @@ namespace NMeasure.Tests
             ug = new UnitGraph();
             var n1 = ug.AddUnit(U.Kilogram);
             var n2 = ug.AddUnit(U.Joule);
-            ug.AddConversion(n1, n2, m => m * PhysicalConstants.EnergyMassFactor, m => m / PhysicalConstants.EnergyMassFactor);
+            ug.AddMeasurementConversion(n1, n2, m => m * PhysicalConstants.EnergyMassFactor, m => m / PhysicalConstants.EnergyMassFactor);
         }
 
         [Test]

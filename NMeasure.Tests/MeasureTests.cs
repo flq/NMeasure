@@ -47,6 +47,26 @@ namespace NMeasure.Tests
         }
 
         [Test]
+        public void MultiplicationWithNumber()
+        {
+            var m1 = new Measure(6.0, U.Meter);
+            var m2 = 3 * m1;
+            var m3 = m1 * 3;
+            m2.IsEqualTo(new Measure(18.0, U.Meter));
+            m3.IsEqualTo(new Measure(18.0, U.Meter));
+        }
+
+        [Test]
+        public void DivisionWithNumber()
+        {
+            var m1 = new Measure(12.0, U.Meter);
+            var m2 = m1 / 2;
+            m2.IsEqualTo(new Measure(6.0, U.Meter));
+        }
+
+
+
+        [Test]
         public void StringOutput1()
         {
             (U.Meter * U.Second).ToString().IsEqualTo("m*sec");

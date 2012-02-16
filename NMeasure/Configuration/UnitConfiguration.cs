@@ -76,7 +76,7 @@ namespace NMeasure
         IUnitMetaConfig BelongsToTypeSystem(params UnitSystem[] unitSystem);
         IUnitMetaConfig IsPhysicalUnit(Unit unit);
         IUnitMetaConfig EquivalentTo(Unit unit);
-        IUnitMetaConfig ConvertibleTo(Unit second, Func<double, double> firstToSecond, Func<double, double> secondToFirst);
+        IUnitMetaConfig ConvertValueBased(Unit second, Func<double, double> firstToSecond, Func<double, double> secondToFirst);
         IUnitMetaConfig ConvertibleTo(Unit second, Func<Measure, Measure> firstToSecond, Func<Measure, Measure> secondToFirst);
         IUnitScale StartScale();
     }
@@ -132,7 +132,7 @@ namespace NMeasure
             return this;
         }
 
-        public IUnitMetaConfig ConvertibleTo(Unit second, Func<double, double> firstToSecond, Func<double, double> secondToFirst)
+        public IUnitMetaConfig ConvertValueBased(Unit second, Func<double, double> firstToSecond, Func<double, double> secondToFirst)
         {
             if (PhysicalUnit == null || PhysicalUnit.IsDimensionless)
                 throw new InvalidOperationException("You must define physical unit of the left-hand side");
@@ -185,8 +185,8 @@ namespace NMeasure
         {
             var newUnit = config.Unit(singleUnit)
                 .IsPhysicalUnit(precedingUnit.PhysicalUnit)
-                .ConvertibleTo(precedingUnit.Unit, v => v*scale, v => v/scale);
-            ((IUnitMetaConfig)precedingUnit).ConvertibleTo(singleUnit, v => v / scale, v => v * scale);
+                .ConvertValueBased(precedingUnit.Unit, v => v*scale, v => v/scale);
+            ((IUnitMetaConfig)precedingUnit).ConvertValueBased(singleUnit, v => v / scale, v => v * scale);
             precedingUnit = (UnitMeta) newUnit;
             return this;
         }

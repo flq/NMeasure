@@ -31,7 +31,7 @@ namespace NMeasure.Converting
             to.AddConversion(from, toFrom);
         }
 
-        public void AddConversion(UnitGraphNode from, UnitGraphNode to, Func<Measure, Measure> toTo, Func<Measure, Measure> toFrom)
+        public void AddMeasurementConversion(UnitGraphNode from, UnitGraphNode to, Func<Measure, Measure> toTo, Func<Measure, Measure> toFrom)
         {
             from.AddConversion(to, toTo);
             to.AddConversion(from, toFrom);

@@ -20,25 +20,26 @@ namespace NMeasure
         }
 
 
-        public bool IsDimensionless
-        {
-            get { return Unit == null || Unit.IsDimensionless; }
-        }
-
         public static explicit operator Measure(double value)
         {
             return new Measure(value);
         }
 
-        public static Measure operator *(Measure x, Unit unit)
-        {
-            return new Measure(x.Value, (x.Unit * unit));
-        }
+        public static Measure operator *(Measure x, Unit unit) { return new Measure(x.Value, (x.Unit * unit)); }
 
-        public static Measure operator *(Measure x, Measure y)
-        {
-            return new Measure(x.Value * y.Value, (x.Unit * y.Unit));
-        }
+        public static Measure operator *(Measure x, Measure y) { return new Measure(x.Value * y.Value, (x.Unit * y.Unit)); }
+
+        public static Measure operator *(double x, Measure y) { return new Measure(x * y.Value, y.Unit); }
+
+        public static Measure operator *(int x, Measure y) { return new Measure(x * y.Value, y.Unit); }
+
+        public static Measure operator *(Measure y, double x) { return new Measure(x * y.Value, y.Unit); }
+
+        public static Measure operator *(Measure y, int x) { return new Measure(x * y.Value, y.Unit); }
+
+        public static Measure operator /(Measure y, double x) { return new Measure(y.Value / x, y.Unit); }
+
+        public static Measure operator /(Measure y, int x) { return new Measure(y.Value / x, y.Unit); }
 
         public static Measure operator +(Measure x, Measure y)
         {
