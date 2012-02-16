@@ -47,6 +47,13 @@ namespace NMeasure.Tests
         }
 
         [Test]
+        public void MeasureFromNumberAndUnit()
+        {
+            (3.2 * U.Minute).IsEqualTo(new Measure(3.2, U.Minute));
+            (5 * U.GetRootUnit("Palette")).IsEqualTo(new Measure(5, U.GetRootUnit("Palette")));
+        }
+
+        [Test]
         public void MultiplicationWithNumber()
         {
             var m1 = new Measure(6.0, U.Meter);

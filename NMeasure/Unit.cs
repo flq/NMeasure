@@ -71,7 +71,7 @@ namespace NMeasure
             var denominators = unit1.denominators.ToList();
             var numerators = unit1.numerators.ToList();
 
-            if (unit1.HasNoNumeratorsAndNoDenominators() && unit1.IsFundamental && !unit1.IsDimensionless)
+            if (IsRootFundamentalUnit(unit1))
                 numerators.Add(unit1);
             if (unit2.HasNoNumeratorsAndNoDenominators() && unit2.IsFundamental && !unit2.IsDimensionless)
                 numerators.Add(unit2);
@@ -101,6 +101,16 @@ namespace NMeasure
             return unit1*newUnit;
         }
 
+        public static Measure operator *(double value, Unit unit)
+        {
+            return new Measure(value, unit);
+        }
+
+        public static Measure operator *(int value, Unit unit)
+        {
+            return new Measure(value, unit);
+        }
+
         public static bool operator ==(Unit x, Unit y)
         {
             if (!ReferenceEquals(x, null))
@@ -115,11 +125,6 @@ namespace NMeasure
             return !(x == y);
         }
 
-        private bool HasNoNumeratorsAndNoDenominators()
-        {
-            return numerators.Count == 0 && denominators.Count == 0;
-        }
-
         private string CreateRepresentation()
         {
             if (IsDimensionless)
@@ -127,6 +132,16 @@ namespace NMeasure
             if (denominators.Count == 0)
                 return string.Join("*", numerators);
             return string.Concat(string.Join("*", numerators), "/", string.Join("*", denominators));
+        }
+
+        private bool HasNoNumeratorsAndNoDenominators()
+        {
+            return numerators.Count == 0 && denominators.Count == 0;
+        }
+
+        private static bool IsRootFundamentalUnit(Unit unit)
+        {
+            return unit.HasNoNumeratorsAndNoDenominators() && unit.IsFundamental && !unit.IsDimensionless;
         }
     }
 }
