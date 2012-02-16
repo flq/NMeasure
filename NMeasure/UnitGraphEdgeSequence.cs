@@ -55,7 +55,7 @@ namespace NMeasure
 
         public override string ToString()
         {
-            return string.Join(Environment.NewLine, this);
+            return string.Join(",", this);
         }
     }
 }

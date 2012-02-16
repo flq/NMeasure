@@ -76,7 +76,7 @@ namespace NMeasure
 
         public override string ToString()
         {
-            return string.Format("From {0} to {1}", from, to);
+            return string.Format("{0}->{1}", from, to);
         }
     }
 }

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using NUnit.Framework;
 
 namespace NMeasure.Tests
@@ -89,6 +90,19 @@ namespace NMeasure.Tests
 
             var u3 = u1 / u2;
             u3.IsEqualTo(U.Meter / U.Kilogram);
+        }
+
+
+        public IEnumerable<object[]> UnitEqualityTestsSource()
+        {
+            yield return new object[] { U.GetRootUnit("m"), U.Meter };
+            yield return new object[] { U.Meter * U.Dimensionless, U.Meter };
+        }
+
+        [Test, TestCaseSource("UnitEqualityTestsSource")]
+        public void UnitEqualityTests(Unit unit, Unit compareTo)
+        {
+            unit.IsEqualTo(compareTo);
         }
     }
 }

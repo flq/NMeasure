@@ -21,7 +21,7 @@ namespace NMeasure
             if (unitGraph[unit] == null)
                 return decomposeAndSearch(unit, target);
             // sequences are comparable by count of edges. The smallest count should lead to smaller calc errors.
-            return unitGraph[unit].Conversions.SelectMany(e=> findConversionSequence(new UnitGraphEdgeSequence { e }, target)).Min();
+            return unitGraph[unit].Conversions.SelectMany(edge=> findConversionSequence(new UnitGraphEdgeSequence { edge }, target)).Min();
         }
 
         private IConversion decomposeAndSearch(Unit unit, Unit target)
@@ -31,7 +31,7 @@ namespace NMeasure
 
             var matches = matchViaPhysicalUnits(exStart, exEnd);
 
-            var numeratorconverters = matches.NumeratorPairs.Select(pair => FindConversionSequence(pair.Item1, pair.Item2));
+            var numeratorconverters = matches.NumeratorPairs.Select(pair => FindConversionSequence(pair.Item1, pair.Item2)).ToList();
             // For denominators we search in the opposite way to give the inverse conversion, as they are divisors
             // This may lead to issues where a conversion doesn't run purely by multiplication (off hand I only remember conversion from celsius to fahrenheit)
             // But let's live with it for now.

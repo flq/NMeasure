@@ -33,7 +33,7 @@ namespace NMeasure
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != typeof (Unit)) return false;
+            if (!typeof(Unit).IsAssignableFrom(obj.GetType())) return false;
             return Equals((Unit) obj);
         }
 
@@ -41,7 +41,7 @@ namespace NMeasure
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
-            return other.numerators.Except(numerators).Count() == 0 && other.denominators.Except(denominators).Count() == 0;
+            return ToString().Equals(other.ToString());
         }
 
         public override int GetHashCode()
