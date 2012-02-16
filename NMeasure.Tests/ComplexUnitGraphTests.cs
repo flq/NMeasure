@@ -25,8 +25,8 @@ namespace NMeasure.Tests
             });
 
             ug = new UnitGraph();
-            var n1 = ug.AddUnit(Unit.From(U.Kilogram));
-            var n2 = ug.AddUnit(Unit.From(U.Joule));
+            var n1 = ug.AddUnit(U.Kilogram);
+            var n2 = ug.AddUnit(U.Joule);
             ug.AddConversion(n1, n2, m => m * PhysicalConstants.EnergyMassFactor, m => m / PhysicalConstants.EnergyMassFactor);
         }
 
@@ -34,17 +34,17 @@ namespace NMeasure.Tests
         public void AConversionFromEnergyToMass()
         {
             var m = new Measure(1, U.Kilogram);
-            var m2 = ug.Convert(m, U.Joule.Unit());
+            var m2 = ug.Convert(m, U.Joule);
             m2.Value.IsEqualTo(89875517873681764);
-            m2.Unit.IsEqualTo(U.Joule.Unit());
+            m2.Unit.IsEqualTo(U.Joule);
         }
 
         [Test]
         public void AConversionFromMassToEnergy()
         {
             var m = new Measure(89875517873681764, U.Joule);
-            var m2 = ug.Convert(m, U.Kilogram.Unit());
-            m2.Unit.IsEqualTo(U.Kilogram.Unit());
+            var m2 = ug.Convert(m, U.Kilogram);
+            m2.Unit.IsEqualTo(U.Kilogram);
             m2.Value.IsEqualTo(1);
         }
     }

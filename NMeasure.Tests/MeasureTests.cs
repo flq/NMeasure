@@ -49,13 +49,13 @@ namespace NMeasure.Tests
         [Test]
         public void StringOutput1()
         {
-            (U.Meter * U.Second).ToString().IsEqualTo("Meter*Second");
+            (U.Meter * U.Second).ToString().IsEqualTo("m*sec");
         }
 
         [Test]
         public void StringOutput2()
         {
-            (U.Meter.Squared() / U.Second).ToString().IsEqualTo("Meter*Meter/Second");
+            (U.Meter.Squared() / U.Second).ToString().IsEqualTo("m*m/sec");
         }
 
         [Test]

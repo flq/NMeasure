@@ -1,5 +1,3 @@
-using System;
-using System.Linq.Expressions;
 using NUnit.Framework;
 
 namespace NMeasure.Tests
@@ -22,8 +20,8 @@ namespace NMeasure.Tests
                                         .To(U.Hour, 3600);
                                 });
 
-            var kmPerH = U.Kilometer.Per(U.Hour);
-            var mPerSec = U.Meter.Per(U.Second);
+            var kmPerH = U.Kilometer / U.Hour;
+            var mPerSec = U.Meter / U.Second;
             
             var v1 = (Measure)100 * kmPerH;
             var v2 = v1.ConvertTo(mPerSec);

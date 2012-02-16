@@ -5,7 +5,7 @@ namespace NMeasure
 {
     internal class UnitGraph
     {
-        private readonly Dictionary<Unit,UnitGraphNode> nodes = new Dictionary<Unit, UnitGraphNode>();
+        private readonly Dictionary<Unit,UnitGraphNode> nodes = new Dictionary<Unit, UnitGraphNode>(new UnitEqualityComparer());
 
         public UnitGraphNode this[Unit unit]
         {

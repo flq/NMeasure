@@ -1,15 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
+using System.Linq;
 
 namespace NMeasure
 {
     // ReSharper disable InconsistentNaming
     /// <summary>
-    /// Markers for all units known to the system
+    /// All units known to the system and used by the <see cref="StandardUnitConfiguration"/>
     /// </summary>
     public static class U
     {
-        private class FundamentalUnit : Unit
+        #region Unit Implementations
+
+        private class FundamentalUnit : Unit, IComparable
         {
             private readonly string _id;
 
@@ -19,6 +23,12 @@ namespace NMeasure
             public override bool Equals(Unit other) { return ReferenceEquals(this, other); }
             public override int  GetHashCode() { return _id.GetHashCode(); }
             public override string ToString() { return _id; }
+
+            int IComparable.CompareTo(object obj)
+            {
+                if (!(obj is FundamentalUnit)) return 0;
+                return _id.CompareTo(((FundamentalUnit)obj)._id);
+            }
         }
 
         private class RootUnit : Unit, IComparable
@@ -44,84 +54,83 @@ namespace NMeasure
             public AnyUnit(IEnumerable<Unit> numerators, IEnumerable<Unit> denominators) : base(numerators, denominators) {}
         }
 
-        public static readonly Unit _MASS = new FundamentalUnit("[MASS]");
-        public static readonly Unit _TIME = new FundamentalUnit("[TIME]");
-        public static readonly Unit _LENGTH = new FundamentalUnit("[LENGTH]");
-
-        public static readonly Unit Dimensionless = new AnyUnit();
-        public static readonly Unit Kilometer = GetRootUnit("Kilometer");
-        public static readonly Unit Meter = GetRootUnit("Meter");
-        public static readonly Unit Centimeter = GetRootUnit("Centimeter");
-        public static readonly Unit Millimeter = GetRootUnit("Millimeter");
-        public static readonly Unit Milligram = GetRootUnit("Milligram");
-        public static readonly Unit Kilogram = GetRootUnit("Kilogram");
-        public static readonly Unit Gram = GetRootUnit("Gram");
-        public static readonly Unit Second = GetRootUnit("Second");
-        public static readonly Unit Foot = GetRootUnit("Foot");
-        public static readonly Unit Joule = GetRootUnit("Joule");
-        public static readonly Unit Kelvin = GetRootUnit("Kelvin");
-        public static Unit Inch = GetRootUnit("Inch");
+        #endregion
 
         public static Unit GetRootUnit(string unit)
         {
             return new AnyUnit(new [] { new RootUnit(unit) }, new Unit[0]);
         }
 
-        //Dimensionless,
-        ///// <summary>
-        ///// Physical Unit of Mass
-        ///// </summary>
-        //_MASS,
-        //Milligram,
-        //Carat,
-        //Gram,
-        //Kilogram,
-        //Ton,
-        //Ounce,
-        //Pound,
-        ///// <summary>
-        ///// Physical Unit of Space
-        ///// </summary>
-        //_LENGTH,
-        //Nanometer,
-        //Micrometer,
-        //Millimeter,
-        //Centimeter,
-        //Meter,
-        //Kilometer,
-        //Microinch,
-        //Inch,
-        //Foot,
-        //Yard,
-        //Mile,
-        ///// <summary>
-        ///// Physical Unit of Time
-        ///// </summary>
-        //_TIME,
-        //Nanosecond,
-        //Microsecond,
-        //Millisecond,
-        //Second,
-        //Minute,
-        //Hour,
-        //Day,
-        ///// <summary>
-        ///// Physical Unit of Temperature
-        ///// </summary>
-        //_TEMPERATURE,
-        //Kelvin,
-        //Celsius,
-        //Fahrenheit,
-        //// Others
-        //Joule,
-        //Newton,
-        //SquareMeter,
-        //Hectare,
-        //Pascal,
-        //Bar,
-        //Psi
+        public static readonly Unit Dimensionless = new AnyUnit();
+
+        // ------- LENGTH --------
+        public static readonly Unit _LENGTH = new FundamentalUnit("[LENGTH]");
+        public static readonly Unit Kilometer = GetRootUnit("km");
+        public static readonly Unit Meter = GetRootUnit("m");
+        public static readonly Unit Centimeter = GetRootUnit("cm");
+        public static readonly Unit Millimeter = GetRootUnit("mm");
+        public static readonly Unit Nanometer = GetRootUnit("nm");
+        public static readonly Unit Micrometer = GetRootUnit("µ");
+
+        public static readonly Unit Mile = GetRootUnit("mi");
+        public static readonly Unit Yard = GetRootUnit("yd");
+        public static readonly Unit Foot = GetRootUnit("ft");
+        public static readonly Unit Inch = GetRootUnit("in");
+        public static readonly Unit Microinch = GetRootUnit("µin");
+        
+        public static readonly Unit SquareMeter = GetRootUnit("m²");
+        public static readonly Unit Hectare = GetRootUnit("ha");
+        // ------- MASS --------
+        public static readonly Unit _MASS = new FundamentalUnit("[MASS]");
+        public static readonly Unit Ton = GetRootUnit("t");
+        public static readonly Unit Kilogram = GetRootUnit("kg");
+        public static readonly Unit Gram = GetRootUnit("g");
+        public static readonly Unit Milligram = GetRootUnit("mg");
+        public static readonly Unit Carat = GetRootUnit("kt");
+        public static readonly Unit Ounce = GetRootUnit("oz");
+        public static readonly Unit Pound = GetRootUnit("lb");
+        // ------- TIME --------
+        public static readonly Unit _TIME = new FundamentalUnit("[TIME]");
+        public static readonly Unit Day = GetRootUnit("d");
+        public static readonly Unit Hour = GetRootUnit("h");
+        public static readonly Unit Minute = GetRootUnit("min");
+        public static readonly Unit Second = GetRootUnit("sec");
+        public static readonly Unit Millisecond = GetRootUnit("ms");
+        public static readonly Unit Microsecond = GetRootUnit("µs");
+        public static readonly Unit Nanosecond = GetRootUnit("ns");
+        // ------- PRESSURE --------
+        public static readonly Unit Pascal = GetRootUnit("Pa");
+        public static readonly Unit Psi = GetRootUnit("psi");
+        public static readonly Unit Bar = GetRootUnit("Bar");
+
+        // ------- TEMPERATURE --------
+        public static readonly Unit _TEMPERATURE = new FundamentalUnit("[TEMPERATURE]");
+        public static readonly Unit Kelvin = GetRootUnit("K");
+        public static readonly Unit Celsius = GetRootUnit("°C");
+        public static readonly Unit Fahrenheit = GetRootUnit("°F");
+
+        public static readonly Unit Joule = GetRootUnit("J");
+        public static readonly Unit Newton = GetRootUnit("N");
+
+
+        static U()
+        {
+            // This runs a self-check, since the functionality heavily depends on all units being different and there is an off-chance that
+            // a Hashcode is not unique
+            var allUnits = typeof(U)
+                .GetFields(BindingFlags.Static | BindingFlags.Public)
+                .Where(fi => typeof(Unit).IsAssignableFrom(fi.FieldType))
+                .Select(fi => fi.GetValue(null))
+                .OfType<Unit>().ToList();
+
+            var distinctUnitsCount = allUnits.Distinct(new UnitEqualityComparer()).Count();
+
+            if (allUnits.Count != distinctUnitsCount)
+                throw new InvalidOperationException("The known units are not unique in themselves!");
+
+        }
     }
     // ReSharper restore InconsistentNaming
 
-
+    
 }

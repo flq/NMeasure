@@ -19,18 +19,9 @@ namespace NMeasure
             stringRepresentation = CreateRepresentation();
         }
 
-        private string CreateRepresentation()
-        {
-            if (IsDimensionless)
-                return "Dimensionless";
-            if (denominators.Count == 0)
-                return string.Join("*", numerators);
-            return string.Concat(string.Join("*", numerators), "/", string.Join("*", denominators));
-        }
-
         public virtual bool IsDimensionless
         {
-            get { return numerators.Count == 0 && denominators.Count == 0; }
+            get { return HasNoNumeratorsAndNoDenominators(); }
         }
 
         public virtual bool IsFundamental
@@ -76,8 +67,14 @@ namespace NMeasure
 
         public static Unit operator *(Unit unit1, Unit unit2)
         {
+
             var denominators = unit1.denominators.ToList();
             var numerators = unit1.numerators.ToList();
+
+            if (unit1.HasNoNumeratorsAndNoDenominators() && unit1.IsFundamental && !unit1.IsDimensionless)
+                numerators.Add(unit1);
+            if (unit2.HasNoNumeratorsAndNoDenominators() && unit2.IsFundamental && !unit2.IsDimensionless)
+                numerators.Add(unit2);
 
             foreach (var u in unit2.numerators)
             {
@@ -116,6 +113,20 @@ namespace NMeasure
         public static bool operator !=(Unit x, Unit y)
         {
             return !(x == y);
+        }
+
+        private bool HasNoNumeratorsAndNoDenominators()
+        {
+            return numerators.Count == 0 && denominators.Count == 0;
+        }
+
+        private string CreateRepresentation()
+        {
+            if (IsDimensionless)
+                return "Dimensionless";
+            if (denominators.Count == 0)
+                return string.Join("*", numerators);
+            return string.Concat(string.Join("*", numerators), "/", string.Join("*", denominators));
         }
     }
 }

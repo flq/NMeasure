@@ -21,9 +21,9 @@ namespace NMeasure.Tests
                                 });
 
             ug = new UnitGraph();
-            var n1 = ug.AddUnit(Unit.From(U.Inch));
-            var n2 = ug.AddUnit(Unit.From(U.Centimeter));
-            var n3 = ug.AddUnit(Unit.From(U.Meter));
+            var n1 = ug.AddUnit(U.Inch);
+            var n2 = ug.AddUnit(U.Centimeter);
+            var n3 = ug.AddUnit(U.Meter);
             ug.AddConversion(n1, n2, v => v * 2.54, v => v * 0.393700787);
             ug.AddConversion(n2, n3, v => v * 0.01, v => v * 100);
             
@@ -50,30 +50,30 @@ namespace NMeasure.Tests
             var m2 = ug[U.Inch].Conversions[0].ApplyConversion(m);
             
             m2.Value.IsEqualTo(2.54);
-            m2.Unit.Equals(Unit.From(U.Centimeter));
+            m2.Unit.Equals(U.Centimeter);
         }
 
         [Test]
         public void TheGraphSupportsConversionOverSeveralEdges()
         {
             var m = new Measure(1.0, U.Inch);
-            var m2 = ug.Convert(m, Unit.From(U.Meter));
+            var m2 = ug.Convert(m, U.Meter);
 
             m2.Value.IsEqualTo(0.0254);
-            m2.Unit.Equals(Unit.From(U.Meter));
+            m2.Unit.Equals(U.Meter);
         }
 
         [Test]
         public void IncompatibleConversionsWillBeRejected()
         {
             var m = (Measure) 1.0*U.Second;
-            Assert.Throws<InvalidOperationException>(() => { var m2 = ug.Convert(m, U.Inch.Unit()); });
+            Assert.Throws<InvalidOperationException>(() => { var m2 = ug.Convert(m, U.Inch); });
         }
 
         [Test]
         public void ConversionFromUnitToSameUnitGivesInvariantConversion()
         {
-            var c = ug.GetConverter(U.Meter.Unit(), U.Meter.Unit());
+            var c = ug.GetConverter(U.Meter, U.Meter);
             c.IsOfType<InvariantConversion>();
         }
     }

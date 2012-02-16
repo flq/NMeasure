@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace NMeasure
+﻿namespace NMeasure
 {
     public class StandardUnitConfiguration : UnitConfiguration
     {
@@ -23,20 +21,20 @@ namespace NMeasure
             Unit(U.Joule)
                 .IsPhysicalUnit((U._MASS*U._LENGTH.Squared())/U._TIME.Squared())
                 .EquivalentTo(U.Kilogram*U.Meter.Squared()/U.Second.Squared())
-                .ConvertibleTo(U.Kilogram.Unit(), 
+                .ConvertibleTo(U.Kilogram, 
                   m => m/PhysicalConstants.EnergyMassFactor,
                   m => m*PhysicalConstants.EnergyMassFactor);
 
             Unit(U.Newton)
-                .IsPhysicalUnit(U._MASS*U._LENGTH.Unit()/U._TIME.Squared())
-                .EquivalentTo(U.Kilogram*U.Meter.Unit()/U.Second.Squared());
+                .IsPhysicalUnit(U._MASS*U._LENGTH / U._TIME.Squared())
+                .EquivalentTo(U.Kilogram*U.Meter / U.Second.Squared());
         }
 
         private void pressures()
         {
             Unit(U.Pascal)
-                .IsPhysicalUnit(U._MASS.Unit()/(U._TIME.Squared()*U._LENGTH))
-                .EquivalentTo(U.Newton.Unit()/U.Meter.Squared())
+                .IsPhysicalUnit(U._MASS/(U._TIME.Squared()*U._LENGTH))
+                .EquivalentTo(U.Newton/U.Meter.Squared())
                 .ConvertibleTo(U.Bar, v => v*1E-5, v => v*100000)
                 .ConvertibleTo(U.Psi, v => 6.894E+3, v => v*145.04E-6);
         }

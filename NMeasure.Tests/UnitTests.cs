@@ -46,6 +46,25 @@ namespace NMeasure.Tests
         }
 
         [Test]
+        public void AUnitConstructedOfFundamentalsIsFundamentalUnit2()
+        {
+            var u = U._LENGTH.Squared();
+            u.IsFundamental.IsTrue();
+        }
+
+        [Test]
+        public void FundamentalUnitIsNotDimensionless()
+        {
+            U._LENGTH.IsDimensionless.IsFalse();
+        }
+
+        [Test]
+        public void FundamentalUnitCombinationIsNotDimensionless()
+        {
+            U._LENGTH.Squared().IsDimensionless.IsFalse();
+        }
+
+        [Test]
         public void AConcreteUnitIsNotFundamental()
         {
             var u = U.Meter;
