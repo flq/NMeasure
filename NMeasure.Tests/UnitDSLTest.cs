@@ -13,7 +13,7 @@ namespace NMeasure.Tests
             SmallConfig.Use();
             var unitMeta = U.Meter.GetUnitData();
             unitMeta.IsMemberOfUnitSystem(UnitSystem.SI).IsTrue();
-            unitMeta.PhysicalUnit.IsEqualTo(U._LENGTH.Unit());
+            unitMeta.PhysicalUnit.IsEqualTo(U._LENGTH);
         }
 
         [Test]
@@ -31,10 +31,10 @@ namespace NMeasure.Tests
                                     c.Unit(U.Second).IsPhysicalUnit(U._TIME);
                                 });
 
-            var velocity = Unit.From(U.Meter)/U.Second;
+            var velocity = U.Meter/U.Second;
             var physicalVelocity = velocity.ToPhysicalUnit();
 
-            physicalVelocity.IsEqualTo(Unit.From(U._LENGTH) / U._TIME);
+            physicalVelocity.IsEqualTo(U._LENGTH / U._TIME);
         }
 
         [Test]
@@ -52,7 +52,7 @@ namespace NMeasure.Tests
                                      .IsPhysicalUnit(U._LENGTH)
                                      .ConvertibleTo(U.Inch,v => v*0.393700787, v => v*2.54));
             var data = U.Inch.GetUnitData();
-            data.PhysicalUnit.IsEqualTo(U._LENGTH.Unit());
+            data.PhysicalUnit.IsEqualTo(U._LENGTH);
         }
 
         [Test]

@@ -35,6 +35,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ComplexConversion.cs" />
+    <Compile Include="ConversionTracker.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="ExpandedUnit.cs" />
     <Compile Include="IConversion.cs" />
     <Compile Include="InvariantConversion.cs" />

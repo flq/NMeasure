@@ -23,7 +23,7 @@ namespace NMeasure
         {
             if (IsDimensionless)
                 return "Dimensionless";
-            if (this.denominators.Count == 0)
+            if (denominators.Count == 0)
                 return string.Join("*", numerators);
             return string.Concat(string.Join("*", numerators), "/", string.Join("*", denominators));
         }
@@ -95,7 +95,7 @@ namespace NMeasure
                     denominators.Add(u);
             }
 
-            return new Unit(numerators, denominators);
+            return new Unit(numerators, denominators).TryCompaction();
         }
 
         public static Unit operator /(Unit unit1, Unit unit2)

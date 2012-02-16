@@ -31,11 +31,11 @@ namespace NMeasure
 
             var matches = matchViaPhysicalUnits(exStart, exEnd);
 
-            var numeratorconverters = matches.NumeratorPairs.Select(pair => FindConversionSequence(pair.Item1.Unit(), pair.Item2.Unit()));
+            var numeratorconverters = matches.NumeratorPairs.Select(pair => FindConversionSequence(pair.Item1, pair.Item2));
             // For denominators we search in the opposite way to give the inverse conversion, as they are divisors
             // This may lead to issues where a conversion doesn't run purely by multiplication (off hand I only remember conversion from celsius to fahrenheit)
             // But let's live with it for now.
-            var denominatorConverters = matches.DenominatorPairs.Select(pair => FindConversionSequence(pair.Item2.Unit(), pair.Item1.Unit()));
+            var denominatorConverters = matches.DenominatorPairs.Select(pair => FindConversionSequence(pair.Item2, pair.Item1));
             return new ComplexConversion(numeratorconverters, denominatorConverters);
         }
 
@@ -85,26 +85,26 @@ namespace NMeasure
 
         private class MatchStructure
         {
-            private readonly List<Tuple<U,U>> numerators = new List<Tuple<U, U>>();
-            private readonly List<Tuple<U, U>> denominators = new List<Tuple<U, U>>();
+            private readonly List<Tuple<Unit, Unit>> numerators = new List<Tuple<Unit, Unit>>();
+            private readonly List<Tuple<Unit, Unit>> denominators = new List<Tuple<Unit, Unit>>();
 
 
-            public void AddNumeratorPair(U startUnit, U endUnit)
+            public void AddNumeratorPair(Unit startUnit, Unit endUnit)
             {
                 numerators.Add(Tuple.Create(startUnit,endUnit));
             }
 
-            public void AddDenominatorPair(U startUnit, U endUnit)
+            public void AddDenominatorPair(Unit startUnit, Unit endUnit)
             {
                 denominators.Add(Tuple.Create(startUnit, endUnit));
             }
 
-            public IEnumerable<Tuple<U,U>> NumeratorPairs
+            public IEnumerable<Tuple<Unit, Unit>> NumeratorPairs
             {
                 get { return numerators; }
             }
 
-            public IEnumerable<Tuple<U, U>> DenominatorPairs
+            public IEnumerable<Tuple<Unit, Unit>> DenominatorPairs
             {
                 get { return denominators; }
             }

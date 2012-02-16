@@ -3,7 +3,7 @@ using System.Diagnostics;
 
 namespace NMeasure
 {
-    [DebuggerDisplay("{Value} {Unit.stringRepresentation()}")]
+    [DebuggerDisplay("{Value} {Unit}")]
     public struct Measure
     {
         public readonly double Value;
@@ -15,9 +15,7 @@ namespace NMeasure
 
         public Measure(double value, Unit unit)
         {
-            //TODO
-            //Value = Math.Round(value, UnitConfiguration.UnitSystem.Precision, MidpointRounding.AwayFromZero);
-            Value = value;
+            Value = Math.Round(value, UnitConfiguration.UnitSystem.Precision, MidpointRounding.AwayFromZero);
             Unit = unit;
         }
 
@@ -42,30 +40,30 @@ namespace NMeasure
             return new Measure(x.Value * y.Value, (x.Unit * y.Unit));
         }
 
-        //public static Measure operator +(Measure x, Measure y)
-        //{
-        //    if (x.Unit.Equals(y.Unit))
-        //        return new Measure(x.Value + y.Value, x.Unit);
+        public static Measure operator +(Measure x, Measure y)
+        {
+            if (x.Unit.Equals(y.Unit))
+                return new Measure(x.Value + y.Value, x.Unit);
 
-        //    if (x.Unit.ToPhysicalUnit().Equals(y.Unit.ToPhysicalUnit()))
-        //        return x + y.ConvertTo(x.Unit);
-        //    throw new InvalidOperationException("These measures cannot be sensibly added to a single new measure");
-        //}
+            if (x.Unit.ToPhysicalUnit().Equals(y.Unit.ToPhysicalUnit()))
+                return x + y.ConvertTo(x.Unit);
+            throw new InvalidOperationException("These measures cannot be sensibly added to a single new measure");
+        }
 
         public static Measure operator /(Measure x, Measure y)
         {
             return new Measure(x.Value / y.Value, (x.Unit / y.Unit));
         }
 
-        //public static Measure operator -(Measure x, Measure y)
-        //{
-        //    if (x.Unit.Equals(y.Unit))
-        //        return new Measure(x.Value + y.Value, x.Unit);
+        public static Measure operator -(Measure x, Measure y)
+        {
+            if (x.Unit.Equals(y.Unit))
+                return new Measure(x.Value + y.Value, x.Unit);
 
-        //    if (x.Unit.ToPhysicalUnit().Equals(y.Unit.ToPhysicalUnit()))
-        //        return x - y.ConvertTo(x.Unit);
-        //    throw new InvalidOperationException("These measures cannot be sensibly added to a single new measure");
-        //}
+            if (x.Unit.ToPhysicalUnit().Equals(y.Unit.ToPhysicalUnit()))
+                return x - y.ConvertTo(x.Unit);
+            throw new InvalidOperationException("These measures cannot be sensibly added to a single new measure");
+        }
 
         public override string ToString()
         {

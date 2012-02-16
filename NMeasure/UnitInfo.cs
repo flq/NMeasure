@@ -44,15 +44,10 @@ namespace NMeasure
             }
         }
 
-        //public static Measure ConvertTo(this Measure measure, Unit unit)
-        //{
-        //    return UnitConfiguration.UnitSystem.UnitGraph.Convert(measure, unit);
-        //}
-
-        //public static Measure ConvertTo(this Measure measure, U unit)
-        //{
-        //    return measure.ConvertTo(Unit.From(unit));
-        //}
+        public static Measure ConvertTo(this Measure measure, Unit unit)
+        {
+            return UnitConfiguration.UnitSystem.UnitGraph.Convert(measure, unit);
+        }
 
         public static Unit TryCompaction(this Unit unit)
         {
