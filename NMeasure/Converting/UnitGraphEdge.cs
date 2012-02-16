@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NMeasure
+namespace NMeasure.Converting
 {
     /// <summary>
     /// A unit graph edge links two units in terms of converting from one unit to another

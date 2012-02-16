@@ -1,4 +1,5 @@
 using System;
+using NMeasure.Converting;
 using NUnit.Framework;
 
 namespace NMeasure.Tests

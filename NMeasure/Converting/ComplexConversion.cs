@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace NMeasure
+namespace NMeasure.Converting
 {
     internal class ComplexConversion : IConversion
     {

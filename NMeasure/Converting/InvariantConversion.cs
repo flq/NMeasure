@@ -1,4 +1,4 @@
-﻿namespace NMeasure
+﻿namespace NMeasure.Converting
 {
     internal class InvariantConversion : IConversion
     {

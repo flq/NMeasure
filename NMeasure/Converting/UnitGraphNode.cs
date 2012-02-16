@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace NMeasure
+namespace NMeasure.Converting
 {
     internal class UnitGraphNode
     {

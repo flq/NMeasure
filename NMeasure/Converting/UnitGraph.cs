@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace NMeasure
+namespace NMeasure.Converting
 {
     internal class UnitGraph
     {

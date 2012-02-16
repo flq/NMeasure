@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace NMeasure
+namespace NMeasure.Converting
 {
     internal class UnitGraphEdgeSequence : IEnumerable<UnitGraphEdge>, IConversion, IComparable<UnitGraphEdgeSequence>
     {

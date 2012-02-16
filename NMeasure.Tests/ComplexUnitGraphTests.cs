@@ -1,3 +1,4 @@
+using NMeasure.Converting;
 using NUnit.Framework;
 
 namespace NMeasure.Tests
@@ -21,7 +22,6 @@ namespace NMeasure.Tests
                 uc.Unit(U.Joule)
                     .IsPhysicalUnit((U._MASS*U._LENGTH.Squared())/U._TIME.Squared())
                     .EquivalentTo(U.Kilogram*U.Meter.Squared()/U.Second.Squared());
-
             });
 
             ug = new UnitGraph();

@@ -1,4 +1,4 @@
-﻿namespace NMeasure
+﻿namespace NMeasure.Converting
 {
     public interface IConversion
     {
