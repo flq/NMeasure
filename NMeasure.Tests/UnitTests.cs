@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics;
 using NUnit.Framework;
 
 namespace NMeasure.Tests
@@ -90,6 +91,13 @@ namespace NMeasure.Tests
 
             var u3 = u1 / u2;
             u3.IsEqualTo(U.Meter / U.Kilogram);
+        }
+
+        [Test]
+        public void OutputOfUnits()
+        {
+            var u = U.Kilometer.Squared() / U.Second;
+            Debug.WriteLine(u.ToString());
         }
 
 

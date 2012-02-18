@@ -45,7 +45,6 @@
     </Compile>
     <Compile Include="ObtainingPhysicalUnits.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SmallConfig.cs" />
     <Compile Include="StandardConfigurationTests.cs">
       <SubType>Code</SubType>
     </Compile>

@@ -23,10 +23,17 @@ namespace NMeasure.Tests
         }
 
         [Test]
-        public void DerivationOfCombinedUnits()
+        public void DerivationOfCombinedUnitsDivision()
         {
             var u = U.Meter / U.Second;
             u.ToPhysicalUnit().IsEqualTo(U._LENGTH / U._TIME);
+        }
+
+        [Test]
+        public void DerivationOfCombinedUnitsMultiplication()
+        {
+            var u = U.Meter * U.Meter * U.Second;
+            u.ToPhysicalUnit().IsEqualTo(U._LENGTH * U._LENGTH * U._TIME);
         }
 
     }

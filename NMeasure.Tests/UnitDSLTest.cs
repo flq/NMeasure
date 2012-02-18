@@ -3,6 +3,21 @@ using NUnit.Framework;
 
 namespace NMeasure.Tests
 {
+    public class SmallConfig : UnitConfiguration
+    {
+        public static void Use()
+        {
+            new SmallConfig();
+        }
+
+        public SmallConfig()
+        {
+            Unit(U.Meter)
+                .BelongsToTypeSystem(NMeasure.UnitSystem.SI, NMeasure.UnitSystem.Metric)
+                .IsPhysicalUnit(U._LENGTH);
+        }
+    }
+
     [TestFixture]
     public class UnitDSLTest
     {
@@ -101,6 +116,20 @@ namespace NMeasure.Tests
             AdHocConfig.Use(c => c.SetMeasurePrecision(1));
             var m = new Measure(1.15, U.Inch);
             m.Value.IsEqualTo(1.2);
+        }
+
+        [Test]
+        public void DefaultConfigIsOverridablePerUnit()
+        {
+            AdHocConfig.Use(c =>
+                                {
+                                    c.SetMeasurePrecision(1);
+                                    c.Unit(U.Nanosecond).HasPrecision(0);
+                                });
+            var m = new Measure(1.15, U.Second);
+            m.Value.IsEqualTo(1.2);
+            var m2 = new Measure(1.15, U.Nanosecond);
+            m2.Value.IsEqualTo(1.0);
         }
         
     }

@@ -121,6 +121,18 @@ namespace NMeasure.Tests
         }
 
         [Test]
+        public void SubtractionOfMeasuresIsSupported()
+        {
+            var m1 = new Measure(1, U.Foot);
+            var m2 = new Measure(1, U.Foot);
+            var m3 = m1 - m2;
+            m3.Unit.IsEqualTo(U.Foot);
+            m3.Value.IsEqualTo(0);
+        }
+
+
+
+        [Test]
         public void AttemptToConvertWithoutinfoGivesInvalidOpException()
         {
             Assert.Throws<InvalidOperationException>(() => { var m1 = new Measure(1, U.Kilogram).ConvertTo(U.Gram); });
@@ -133,6 +145,5 @@ namespace NMeasure.Tests
             var m2 = new Measure(1, U.Milligram);
             m1.Equals(m2);
         }
-
     }
 }

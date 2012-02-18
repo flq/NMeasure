@@ -59,5 +59,17 @@ namespace NMeasure.Tests
             var result = m1*m2;
             result.IsEqualTo(expected);
         }
+
+        [Test]
+        public void Unit_of_measure_xxx()
+        {
+            var m = 3 * U.Meter;
+            var m2 = m - (10 * U.Inch);
+            m2.Unit.IsEqualTo(U.Meter);
+            m2.Value.IsEqualTo(2.746);
+
+            
+
+        }
     }
 }

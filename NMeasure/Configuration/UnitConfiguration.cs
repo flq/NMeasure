@@ -17,11 +17,12 @@ namespace NMeasure
         private readonly UnitIndex<UnitMeta> metadata = new UnitIndex<UnitMeta>();
         private readonly UnitIndex<Unit> compactions = new UnitIndex<Unit>();
         private readonly UnitGraph unitGraph = new UnitGraph();
+        private int _defaultPrecision;
 
         public UnitConfiguration()
         {
             UnitSystem = this;
-            Precision = 10;
+            _defaultPrecision = 10;
         }
 
         public UnitMeta this[Unit unit]
@@ -37,7 +38,11 @@ namespace NMeasure
         /// <summary>
         /// Default precision: 10
         /// </summary>
-        public int Precision { get; private set; }
+        public int Precision(Unit unit)
+        {
+            var unitMeta = this[unit];
+            return unitMeta != null && unitMeta.UnitPrecision.HasValue ? unitMeta.UnitPrecision.Value : _defaultPrecision;
+        }
 
         internal UnitGraph UnitGraph { get { return unitGraph; } }
 
@@ -55,7 +60,7 @@ namespace NMeasure
 
         public void SetMeasurePrecision(int precision)
         {
-            Precision = precision;
+            _defaultPrecision = precision;
         }
 
         public void AddCompaction(Unit unit, Unit compactionOfUnit)
@@ -79,6 +84,7 @@ namespace NMeasure
         IUnitMetaConfig ConvertValueBased(Unit second, Func<double, double> firstToSecond, Func<double, double> secondToFirst);
         IUnitMetaConfig ConvertibleTo(Unit second, Func<Measure, Measure> firstToSecond, Func<Measure, Measure> secondToFirst);
         IUnitScale StartScale();
+        IUnitMetaConfig HasPrecision(int precision);
     }
 
     public interface IUnitScale
@@ -159,6 +165,14 @@ namespace NMeasure
             node.AddConversion(ConversionInfo, secondToFirst);
             return this;
         }
+
+        IUnitMetaConfig IUnitMetaConfig.HasPrecision(int precision)
+        {
+            UnitPrecision = precision;
+            return this;
+        }
+
+        public int? UnitPrecision { get; private set; }
 
         IUnitScale IUnitMetaConfig.StartScale()
         {

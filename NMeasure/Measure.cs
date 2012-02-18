@@ -15,12 +15,12 @@ namespace NMeasure
 
         public Measure(double value, Unit unit)
         {
-            Value = Math.Round(value, UnitConfiguration.UnitSystem.Precision, MidpointRounding.AwayFromZero);
+            Value = Math.Round(value, UnitConfiguration.UnitSystem.Precision(unit), MidpointRounding.AwayFromZero);
             Unit = unit;
         }
 
 
-        public static explicit operator Measure(double value)
+        public static implicit operator Measure(double value)
         {
             return new Measure(value);
         }
@@ -59,7 +59,7 @@ namespace NMeasure
         public static Measure operator -(Measure x, Measure y)
         {
             if (x.Unit.Equals(y.Unit))
-                return new Measure(x.Value + y.Value, x.Unit);
+                return new Measure(x.Value - y.Value, x.Unit);
 
             if (x.Unit.ToPhysicalUnit().Equals(y.Unit.ToPhysicalUnit()))
                 return x - y.ConvertTo(x.Unit);

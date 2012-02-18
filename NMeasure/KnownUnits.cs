@@ -101,7 +101,7 @@ namespace NMeasure
         // ------- PRESSURE --------
         public static readonly Unit Pascal = GetRootUnit("Pa");
         public static readonly Unit Psi = GetRootUnit("psi");
-        public static readonly Unit Bar = GetRootUnit("Bar");
+        public static readonly Unit Bar = GetRootUnit("bar");
 
         // ------- TEMPERATURE --------
         public static readonly Unit _TEMPERATURE = new FundamentalUnit("[TEMPERATURE]");
@@ -115,8 +115,8 @@ namespace NMeasure
 
         static U()
         {
-            // This runs a self-check, since the functionality heavily depends on all units being different and there is an off-chance that
-            // a Hashcode is not unique
+            // This is a self-check, since the functionality heavily depends on all units being different and there is an off-chance that
+            // a Hashcode is not unique (especially when somebody copy-pastes a Unit)
             var allUnits = typeof(U)
                 .GetFields(BindingFlags.Static | BindingFlags.Public)
                 .Where(fi => typeof(Unit).IsAssignableFrom(fi.FieldType))

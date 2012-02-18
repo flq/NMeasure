@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace NMeasure
@@ -50,17 +51,24 @@ namespace NMeasure
 
             try
             {
-                var numerators = (from u in expandedUnit.Numerators
-                                  let physUnit = GetUnitData(u).PhysicalUnit
-                                  select physUnit);
-                var denominators = from u in expandedUnit.Denominators
-                                   select GetUnitData(u).PhysicalUnit;
-                return numerators.Aggregate((u1,u2) => u1 * u2) / denominators.Aggregate((u1,u2) => u1*u2);
+                var numerators = expandedUnit.Numerators.ToPhysicalUnit();
+
+                if (expandedUnit.Denominators.Count > 0)
+                {
+                    var denominators = expandedUnit.Denominators.ToPhysicalUnit();
+                    return numerators / denominators;
+                }
+                return numerators;
             }
             catch (NullReferenceException x)
             {
                 throw new InvalidOperationException("No metadata could be derived for unit " + unit + ". Have you forgotten to run a configuration?", x);
             }
+        }
+
+        private static Unit ToPhysicalUnit(this IEnumerable<Unit> units)
+        {
+            return units.Select(GetUnitData).Select(info => info.PhysicalUnit).Aggregate((u1, u2) => u1 * u2);
         }
     }
 }
