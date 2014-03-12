@@ -24,7 +24,7 @@ namespace NMeasure.Converting
             get { return targets.Values.ToList(); }
         }
 
-        public UnitGraphEdge AddConversion(UnitGraphNode to, Func<double,double> edgeToTarget)
+        public UnitGraphEdge AddConversion(UnitGraphNode to, Func<decimal,decimal> edgeToTarget)
         {
             UnitGraphEdge unitGraphEdge;
             var success = targets.TryGetValue(to, out unitGraphEdge);

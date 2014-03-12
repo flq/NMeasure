@@ -11,18 +11,18 @@ namespace NMeasure.Tests
         public void SingleUnitsCanBeMultiplied()
         {
             var u = U.Dimensionless;
-            u.IsDimensionless.IsTrue();
+            u.IsDimensionless().IsTrue();
             u = u*U.Meter;
-            u.IsDimensionless.IsFalse();
+            u.IsDimensionless().IsFalse();
         }
 
         [Test]
         public void MultiplicationAndDivisionCancelOut()
         {
             var u = U.Meter;
-            u.IsDimensionless.IsFalse();
+            u.IsDimensionless().IsFalse();
             u = u / U.Meter;
-            u.IsDimensionless.IsTrue();
+            u.IsDimensionless().IsTrue();
         }
 
         [Test]
@@ -30,14 +30,14 @@ namespace NMeasure.Tests
         {
             var u = U.Meter.Inverse();
             var u2 = u * U.Meter;
-            u2.IsDimensionless.IsTrue();
+            u2.IsDimensionless().IsTrue();
         }
 
         [Test]
         public void UnitscanBeDivided()
         {
             var u3 = U.Meter / U.Meter;
-            u3.IsDimensionless.IsTrue();
+            u3.IsDimensionless().IsTrue();
         }
 
         [Test]
@@ -57,13 +57,13 @@ namespace NMeasure.Tests
         [Test]
         public void FundamentalUnitIsNotDimensionless()
         {
-            U._LENGTH.IsDimensionless.IsFalse();
+            U._LENGTH.IsDimensionless().IsFalse();
         }
 
         [Test]
         public void FundamentalUnitCombinationIsNotDimensionless()
         {
-            U._LENGTH.Squared().IsDimensionless.IsFalse();
+            U._LENGTH.Squared().IsDimensionless().IsFalse();
         }
 
         [Test]

@@ -6,21 +6,21 @@ namespace NMeasure
     [DebuggerDisplay("{Value} {Unit}")]
     public struct Measure
     {
-        public readonly double Value;
+        public readonly decimal Value;
         public readonly Unit Unit;
 
-        public Measure(double value) : this(value, U.Dimensionless)
+        public Measure(decimal value) : this(value, U.Dimensionless)
         {
         }
 
-        public Measure(double value, Unit unit)
+        public Measure(decimal value, Unit unit)
         {
             Value = Math.Round(value, UnitConfiguration.UnitSystem.Precision(unit), MidpointRounding.AwayFromZero);
             Unit = unit;
         }
 
 
-        public static implicit operator Measure(double value)
+        public static implicit operator Measure(decimal value)
         {
             return new Measure(value);
         }
@@ -29,15 +29,15 @@ namespace NMeasure
 
         public static Measure operator *(Measure x, Measure y) { return new Measure(x.Value * y.Value, (x.Unit * y.Unit)); }
 
-        public static Measure operator *(double x, Measure y) { return new Measure(x * y.Value, y.Unit); }
+        public static Measure operator *(decimal x, Measure y) { return new Measure(x * y.Value, y.Unit); }
 
         public static Measure operator *(int x, Measure y) { return new Measure(x * y.Value, y.Unit); }
 
-        public static Measure operator *(Measure y, double x) { return new Measure(x * y.Value, y.Unit); }
+        public static Measure operator *(Measure y, decimal x) { return new Measure(x * y.Value, y.Unit); }
 
         public static Measure operator *(Measure y, int x) { return new Measure(x * y.Value, y.Unit); }
 
-        public static Measure operator /(Measure y, double x) { return new Measure(y.Value / x, y.Unit); }
+        public static Measure operator /(Measure y, decimal x) { return new Measure(y.Value / x, y.Unit); }
 
         public static Measure operator /(Measure y, int x) { return new Measure(y.Value / x, y.Unit); }
 

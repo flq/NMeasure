@@ -7,14 +7,14 @@ namespace NMeasure.Converting
     /// </summary>
     internal class UnitGraphEdge
     {
-        private readonly Func<double, double> fromToTo;
+        private readonly Func<decimal, decimal> fromToTo;
         private readonly Func<Measure, Measure> fromToToMeasures;
         private readonly Unit to;
         private readonly Unit from;
         private readonly Unit unitOperator;
         private readonly bool measureBasedConversion;
 
-        public UnitGraphEdge(Unit from, Func<double, double> fromToTo, Unit to)
+        public UnitGraphEdge(Unit from, Func<decimal, decimal> fromToTo, Unit to)
         {
             this.fromToTo = fromToTo;
             this.to = to;

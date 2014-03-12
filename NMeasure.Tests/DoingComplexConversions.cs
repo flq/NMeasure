@@ -27,7 +27,7 @@ namespace NMeasure.Tests
             var v2 = v1.ConvertTo(mPerSec);
 
             v2.Unit.IsEqualTo(mPerSec);
-            v2.Value.IsEqualTo(27.78);
+            v2.Value.IsEqualTo(27.78m);
         }
     }
 }

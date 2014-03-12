@@ -30,6 +30,26 @@ namespace NMeasure
             return DeriveFromConstituentParts(unit);
         }
 
+        public static bool IsDimensionless(this Unit unit)
+        {
+            return Unit.IsDimensionless(unit);
+        }
+
+        public static string CreateStringRepresentation(this Unit unit, string format = null)
+        {
+            Func<Unit, string> selector= u => u.ToString();
+
+            //TODO Check translation stuff
+
+            if (unit.IsDimensionless())
+                return string.Empty;
+            var exp = unit.Expand();
+            if (exp.Denominators.Count == 0)
+                return string.Join(UnitMeta.MultiplicationSign, exp.Numerators.Select(selector));
+            return string.Concat(string.Join(UnitMeta.MultiplicationSign, exp.Numerators.Select(selector)), UnitMeta.DivisionSign, string.Join(UnitMeta.MultiplicationSign, exp.Denominators.Select(selector)));
+
+        }
+
         public static Measure ConvertTo(this Measure measure, Unit unit)
         {
             return UnitConfiguration.UnitSystem.UnitGraph.Convert(measure, unit);

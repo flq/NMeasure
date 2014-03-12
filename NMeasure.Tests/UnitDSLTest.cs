@@ -56,7 +56,7 @@ namespace NMeasure.Tests
         public void PhysicalUnitMustBeAvailableToDefineConversion()
         {
             Assert.Throws<InvalidOperationException>(() =>
-              AdHocConfig.Use(c => c.Unit(U.Centimeter).ConvertValueBased(U.Inch, v => v*0.393700787, v => v*2.54))
+              AdHocConfig.Use(c => c.Unit(U.Centimeter).ConvertValueBased(U.Inch, v => v*0.393700787m, v => v*2.54m))
             );
         }
 
@@ -65,7 +65,7 @@ namespace NMeasure.Tests
         {
             AdHocConfig.Use(c => c.Unit(U.Centimeter)
                                      .IsPhysicalUnit(U._LENGTH)
-                                     .ConvertValueBased(U.Inch,v => v*0.393700787, v => v*2.54));
+                                     .ConvertValueBased(U.Inch,v => v*0.393700787m, v => v*2.54m));
             var data = U.Inch.GetUnitData();
             data.PhysicalUnit.IsEqualTo(U._LENGTH);
         }
@@ -78,7 +78,7 @@ namespace NMeasure.Tests
                                   {
                                       c.Unit(U.Inch).IsPhysicalUnit(U._TIME);
                                       c.Unit(U.Centimeter).IsPhysicalUnit(U._LENGTH)
-                                          .ConvertValueBased(U.Inch, v => v*0.393700787, v => v*2.54);
+                                          .ConvertValueBased(U.Inch, v => v*0.393700787m, v => v*2.54m);
                                   })
             );
         }
@@ -90,10 +90,10 @@ namespace NMeasure.Tests
                                 {
                                     c.Unit(U.Inch).IsPhysicalUnit(U._LENGTH);
                                     c.Unit(U.Centimeter).IsPhysicalUnit(U._LENGTH)
-                                        .ConvertValueBased(U.Inch, v => v*0.393700787, v => v*2.54);
+                                        .ConvertValueBased(U.Inch, v => v*0.393700787m, v => v*2.54m);
                                 });
-            var m = new Measure(1.0, U.Inch);
-            m.ConvertTo(U.Centimeter).Value.IsEqualTo(2.54);
+            var m = new Measure(1.0m, U.Inch);
+            m.ConvertTo(U.Centimeter).Value.IsEqualTo(2.54m);
         }
 
         [Test]
@@ -105,7 +105,7 @@ namespace NMeasure.Tests
                 .To(U.Centimeter, 10)
                 .To(U.Meter, 100)
                 .To(U.Kilometer, 1000));
-            var m = new Measure(1.0, U.Kilometer);
+            var m = new Measure(1.0m, U.Kilometer);
             var m2 = m.ConvertTo(U.Millimeter);
             m2.Value.IsEqualTo(1000000);
         }
@@ -114,8 +114,8 @@ namespace NMeasure.Tests
         public void DefaultRoundingIsApplied()
         {
             AdHocConfig.Use(c => c.SetMeasurePrecision(1));
-            var m = new Measure(1.15, U.Inch);
-            m.Value.IsEqualTo(1.2);
+            var m = new Measure(1.15m, U.Inch);
+            m.Value.IsEqualTo(1.2m);
         }
 
         [Test]
@@ -126,10 +126,10 @@ namespace NMeasure.Tests
                                     c.SetMeasurePrecision(1);
                                     c.Unit(U.Nanosecond).HasPrecision(0);
                                 });
-            var m = new Measure(1.15, U.Second);
-            m.Value.IsEqualTo(1.2);
-            var m2 = new Measure(1.15, U.Nanosecond);
-            m2.Value.IsEqualTo(1.0);
+            var m = new Measure(1.15m, U.Second);
+            m.Value.IsEqualTo(1.2m);
+            var m2 = new Measure(1.15m, U.Nanosecond);
+            m2.Value.IsEqualTo(1.0m);
         }
         
     }

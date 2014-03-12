@@ -9,14 +9,14 @@ namespace NMeasure.Tests
         [Test]
         public void AnyNumberIsDimensionlessMeasure()
         {
-            var measure = (Measure) 1.2;
-            measure.Value.IsEqualTo(1.2);
+            var measure = (Measure) 1.2m;
+            measure.Value.IsEqualTo(1.2m);
         }
 
         [Test]
         public void MultiplyWithUnitGivesUnitMeasure()
         {
-            var m = new Measure(1.2);
+            var m = new Measure(1.2m);
             var m2 = m * U.Meter;
             m2.Unit.IsEqualTo(U.Meter);
         }
@@ -24,12 +24,12 @@ namespace NMeasure.Tests
         [Test]
         public void MeasuresCanBeMultiplied()
         {
-            var m1 = new Measure(2.0, U.Meter);
-            var m2 = new Measure(6.0, U.Second);
+            var m1 = new Measure(2.0m, U.Meter);
+            var m2 = new Measure(6.0m, U.Second);
 
             var m3 = m1*m2;
 
-            m3.Value.IsEqualTo(12.0);
+            m3.Value.IsEqualTo(12.0m);
             m3.Unit.IsEqualTo(U.Meter * U.Second);
 
         }
@@ -37,38 +37,38 @@ namespace NMeasure.Tests
         [Test]
         public void MeasuresCanBeDivided()
         {
-            var m1 = new Measure(6.0, U.Meter);
-            var m2 = new Measure(2.0, U.Second);
+            var m1 = new Measure(6.0m, U.Meter);
+            var m2 = new Measure(2.0m, U.Second);
 
             var m3 = m1 / m2;
 
-            m3.Value.IsEqualTo(3.0);
+            m3.Value.IsEqualTo(3.0m);
             m3.Unit.IsEqualTo(U.Meter / U.Second);
         }
 
         [Test]
         public void MeasureFromNumberAndUnit()
         {
-            (3.2 * U.Minute).IsEqualTo(new Measure(3.2, U.Minute));
+            (3.2m * U.Minute).IsEqualTo(new Measure(3.2m, U.Minute));
             (5 * U.GetRootUnit("Palette")).IsEqualTo(new Measure(5, U.GetRootUnit("Palette")));
         }
 
         [Test]
         public void MultiplicationWithNumber()
         {
-            var m1 = new Measure(6.0, U.Meter);
+            var m1 = new Measure(6.0m, U.Meter);
             var m2 = 3 * m1;
             var m3 = m1 * 3;
-            m2.IsEqualTo(new Measure(18.0, U.Meter));
-            m3.IsEqualTo(new Measure(18.0, U.Meter));
+            m2.IsEqualTo(new Measure(18.0m, U.Meter));
+            m3.IsEqualTo(new Measure(18.0m, U.Meter));
         }
 
         [Test]
         public void DivisionWithNumber()
         {
-            var m1 = new Measure(12.0, U.Meter);
+            var m1 = new Measure(12.0m, U.Meter);
             var m2 = m1 / 2;
-            m2.IsEqualTo(new Measure(6.0, U.Meter));
+            m2.IsEqualTo(new Measure(6.0m, U.Meter));
         }
 
 
@@ -76,13 +76,13 @@ namespace NMeasure.Tests
         [Test]
         public void StringOutput1()
         {
-            (U.Meter * U.Second).ToString().IsEqualTo("m*sec");
+            (U.Meter * U.Second).ToString().IsEqualTo("m×sec");
         }
 
         [Test]
         public void StringOutput2()
         {
-            (U.Meter.Squared() / U.Second).ToString().IsEqualTo("m*m/sec");
+            (U.Meter.Squared() / U.Second).ToString().IsEqualTo("m×m/sec");
         }
 
         [Test]
@@ -107,7 +107,7 @@ namespace NMeasure.Tests
             var m2 = new Measure(1, U.Gram);
             var m3 = m1 + m2;
             m3.Unit.IsEqualTo(U.Kilogram);
-            m3.Value.IsEqualTo(1.001);
+            m3.Value.IsEqualTo(1.001m);
         }
 
         [Test]

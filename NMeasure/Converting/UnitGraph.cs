@@ -25,7 +25,7 @@ namespace NMeasure.Converting
             return unitGraphNode;
         }
 
-        public void AddConversion(UnitGraphNode from, UnitGraphNode to, Func<double, double> toTo, Func<double, double> toFrom)
+        public void AddConversion(UnitGraphNode from, UnitGraphNode to, Func<decimal, decimal> toTo, Func<decimal, decimal> toFrom)
         {
             from.AddConversion(to, toTo);
             to.AddConversion(from, toFrom);

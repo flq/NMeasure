@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 using NMeasure.Converting;
 
@@ -81,7 +82,7 @@ namespace NMeasure
         IUnitMetaConfig BelongsToTypeSystem(params UnitSystem[] unitSystem);
         IUnitMetaConfig IsPhysicalUnit(Unit unit);
         IUnitMetaConfig EquivalentTo(Unit unit);
-        IUnitMetaConfig ConvertValueBased(Unit second, Func<double, double> firstToSecond, Func<double, double> secondToFirst);
+        IUnitMetaConfig ConvertValueBased(Unit second, Func<decimal, decimal> firstToSecond, Func<decimal, decimal> secondToFirst);
         IUnitMetaConfig ConvertibleTo(Unit second, Func<Measure, Measure> firstToSecond, Func<Measure, Measure> secondToFirst);
         IUnitScale StartScale();
         IUnitMetaConfig HasPrecision(int precision);
@@ -96,6 +97,10 @@ namespace NMeasure
     {
         private readonly Unit unit;
         private readonly UnitConfiguration config;
+
+        public static readonly string MultiplicationSign = '\u00D7'.ToString(CultureInfo.InvariantCulture);
+        public static readonly string DivisionSign = '/'.ToString(CultureInfo.InvariantCulture);
+
 
         internal UnitMeta(Unit unit, UnitConfiguration config)
         {
@@ -138,14 +143,14 @@ namespace NMeasure
             return this;
         }
 
-        public IUnitMetaConfig ConvertValueBased(Unit second, Func<double, double> firstToSecond, Func<double, double> secondToFirst)
+        public IUnitMetaConfig ConvertValueBased(Unit second, Func<decimal, decimal> firstToSecond, Func<decimal, decimal> secondToFirst)
         {
-            if (PhysicalUnit == null || PhysicalUnit.IsDimensionless)
+            if (PhysicalUnit == null || PhysicalUnit.IsDimensionless())
                 throw new InvalidOperationException("You must define physical unit of the left-hand side");
             
             var unitMeta = second.GetUnitData();
             
-            if (unitMeta == null || unitMeta.PhysicalUnit.IsDimensionless)
+            if (unitMeta == null || unitMeta.PhysicalUnit.IsDimensionless())
                 // If right-hand side of conversion has no physical unit, we'll assume that it has the same physical unit as left-hand.
                 unitMeta = (UnitMeta) config.Unit(second).IsPhysicalUnit(PhysicalUnit);
 
@@ -190,7 +195,7 @@ namespace NMeasure
         {
             this.config = config;
             precedingUnit = rootUnit;
-            if (rootUnit.PhysicalUnit.IsDimensionless)
+            if (rootUnit.PhysicalUnit.IsDimensionless())
                 throw new InvalidOperationException("The unit you start with should be associated with a physical unit to start a scale.");
             
         }

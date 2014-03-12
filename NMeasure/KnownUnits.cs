@@ -9,25 +9,32 @@ namespace NMeasure
     /// <summary>
     /// All units known to the system and used by the <see cref="StandardUnitConfiguration"/>
     /// </summary>
-    public static class U
+    public class U
     {
-        #region Unit Implementations
-
-        private class FundamentalUnit : Unit, IComparable
+        protected class FundamentalUnit : Unit, IComparable
         {
             private readonly string _id;
+            private readonly bool _isDimensionless;
 
-            public FundamentalUnit(string id) { _id = id; }
+            public FundamentalUnit(string id, bool isDimensionless = false)
+            {
+                _id = id;
+                _isDimensionless = isDimensionless;
+
+            }
             public override bool IsFundamental { get { return true; } }
-            public override bool IsDimensionless { get { return false; } }
-            public override bool Equals(Unit other) { return ReferenceEquals(this, other); }
-            public override int  GetHashCode() { return _id.GetHashCode(); }
+
             public override string ToString() { return _id; }
 
             int IComparable.CompareTo(object obj)
             {
                 if (!(obj is FundamentalUnit)) return 0;
-                return _id.CompareTo(((FundamentalUnit)obj)._id);
+                return String.CompareOrdinal(_id, ((FundamentalUnit)obj)._id);
+            }
+
+            protected override bool DetermineIsDimensionless()
+            {
+                return _isDimensionless;
             }
         }
 
@@ -35,16 +42,18 @@ namespace NMeasure
         {
             private readonly string _id;
             public RootUnit(string id) { _id = id; }
-            public override bool Equals(Unit obj) { return obj.ToString().Equals(ToString()); }
-            public override int GetHashCode() { return _id.GetHashCode(); }
-            public override bool IsDimensionless { get { return false; } }
             public override bool IsFundamental { get { return false; } }
             public override string ToString() { return _id; }
 
             int IComparable.CompareTo(object obj)
             {
                 if (!(obj is RootUnit)) return 0;
-                return _id.CompareTo(((RootUnit)obj)._id);
+                return String.CompareOrdinal(_id, ((RootUnit)obj)._id);
+            }
+
+            protected override bool DetermineIsDimensionless()
+            {
+                return false;
             }
         }
 
@@ -53,8 +62,6 @@ namespace NMeasure
             public AnyUnit() { }
             public AnyUnit(IEnumerable<Unit> numerators, IEnumerable<Unit> denominators) : base(numerators, denominators) {}
         }
-
-        #endregion
 
         public static Unit GetRootUnit(string unit)
         {
