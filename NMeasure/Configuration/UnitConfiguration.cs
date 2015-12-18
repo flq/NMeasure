@@ -98,8 +98,8 @@ namespace NMeasure
         private readonly Unit unit;
         private readonly UnitConfiguration config;
 
-        public static readonly string MultiplicationSign = '\u00D7'.ToString(CultureInfo.InvariantCulture);
-        public static readonly string DivisionSign = '/'.ToString(CultureInfo.InvariantCulture);
+        public static readonly string MultiplicationSign = "*"; //'\u00D7'.ToString();
+        public static readonly string DivisionSign = '/'.ToString();
 
 
         internal UnitMeta(Unit unit, UnitConfiguration config)

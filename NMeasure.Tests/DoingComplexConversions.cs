@@ -1,12 +1,11 @@
-using NUnit.Framework;
+using Xunit;
 
 namespace NMeasure.Tests
 {
-    [TestFixture]
     public class DoingComplexConversions
     {
 
-        [Test]
+        [Fact]
         public void ConversionOfComplexUnits()
         {
             AdHocConfig.Use(c=>

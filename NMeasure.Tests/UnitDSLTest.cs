@@ -1,5 +1,5 @@
 ﻿using System;
-using NUnit.Framework;
+using Xunit;
 
 namespace NMeasure.Tests
 {
@@ -18,11 +18,10 @@ namespace NMeasure.Tests
         }
     }
 
-    [TestFixture]
     public class UnitDSLTest
     {
 
-        [Test]
+        [Fact]
         public void MetadataToUnitIsSpecifiableAndRetrievable()
         {
             SmallConfig.Use();
@@ -31,13 +30,13 @@ namespace NMeasure.Tests
             unitMeta.PhysicalUnit.IsEqualTo(U._LENGTH);
         }
 
-        [Test]
+        [Fact]
         public void OnlyUnderscoreUnitsArePhysicalUnits()
         {
             Assert.Throws<InvalidOperationException>(() =>AdHocConfig.Use(c => c.Unit(U.Second).IsPhysicalUnit(U.Meter)));
         }
 
-        [Test]
+        [Fact]
         public void UnitsAreReducibleToTheirPhysicalUnits()
         {
             AdHocConfig.Use(c =>
@@ -52,7 +51,7 @@ namespace NMeasure.Tests
             physicalVelocity.IsEqualTo(U._LENGTH / U._TIME);
         }
 
-        [Test]
+        [Fact]
         public void PhysicalUnitMustBeAvailableToDefineConversion()
         {
             Assert.Throws<InvalidOperationException>(() =>
@@ -60,7 +59,7 @@ namespace NMeasure.Tests
             );
         }
 
-        [Test]
+        [Fact]
         public void YetUnknownUnitUsedInConversionAssumesPhysicalUnit()
         {
             AdHocConfig.Use(c => c.Unit(U.Centimeter)
@@ -70,7 +69,7 @@ namespace NMeasure.Tests
             data.PhysicalUnit.IsEqualTo(U._LENGTH);
         }
 
-        [Test]
+        [Fact]
         public void ConversionDefinitionMustMatchWithPhysicalUnit3()
         {
             Assert.Throws<InvalidOperationException>(() =>
@@ -83,7 +82,7 @@ namespace NMeasure.Tests
             );
         }
 
-        [Test]
+        [Fact]
         public void AConversionCanBeSet()
         {
             AdHocConfig.Use(c =>
@@ -96,7 +95,7 @@ namespace NMeasure.Tests
             m.ConvertTo(U.Centimeter).Value.IsEqualTo(2.54m);
         }
 
-        [Test]
+        [Fact]
         public void UseOfScaleSystemCreatesConversions()
         {
             AdHocConfig.Use(c => c.Unit(U.Millimeter)
@@ -110,7 +109,7 @@ namespace NMeasure.Tests
             m2.Value.IsEqualTo(1000000);
         }
 
-        [Test]
+        [Fact]
         public void DefaultRoundingIsApplied()
         {
             AdHocConfig.Use(c => c.SetMeasurePrecision(1));
@@ -118,7 +117,7 @@ namespace NMeasure.Tests
             m.Value.IsEqualTo(1.2m);
         }
 
-        [Test]
+        [Fact]
         public void DefaultConfigIsOverridablePerUnit()
         {
             AdHocConfig.Use(c =>

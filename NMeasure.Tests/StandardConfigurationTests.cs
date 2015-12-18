@@ -1,18 +1,17 @@
 using System.Collections.Generic;
-using NUnit.Framework;
+using Xunit;
 
 namespace NMeasure.Tests
 {
-    [TestFixture]
+    
     public class StandardConfigurationTests
     {
-        [TestFixtureSetUp]
-        public void Given()
+        public StandardConfigurationTests()
         {
             StandardUnitConfiguration.Use();
         }
 
-        public IEnumerable<object[]> BasicConversionChecksSource()
+        public static IEnumerable<object[]> BasicConversionChecksSource()
         {
             yield return new object[] { U.Centimeter, U.Meter, 1m, 0.01m };
             yield return new object[] { U.Mile, U.Inch, 1m, 63360m };
@@ -24,7 +23,7 @@ namespace NMeasure.Tests
             yield return new object[] { U.Kilometer, U.Mile, 100m, 62.1371m };
         }
 
-        public IEnumerable<object[]> ComplexConversionChecksSource()
+        public static IEnumerable<object[]> ComplexConversionChecksSource()
         {
             yield return new object[] { U.Kilometer / U.Hour, U.Mile / U.Hour, 100m, 62.1371m };
             yield return new object[] {U.Joule, U.Kilogram, 89875517873681764m, 1m};
@@ -32,12 +31,12 @@ namespace NMeasure.Tests
             yield return new object[] { U.Kilometer / U.Hour, U.Meter / U.Second, 100m, 27.7778m };
         }
 
-        public IEnumerable<object[]> MeasureMultiplicationTestsSource()
+        public static IEnumerable<object[]> MeasureMultiplicationTestsSource()
         {
             yield return new object[] { new Measure(1, U.Meter / U.Second.Squared()), new Measure(1, U.Kilogram), new Measure(1, U.Newton) };
         }
 
-        [Test, TestCaseSource("BasicConversionChecksSource")]
+        [Theory, MemberData("BasicConversionChecksSource")]
         public void BasicConversionChecks(Unit from, Unit to, decimal input, decimal expectedOutput)
         {
             var m = (Measure) input*from;
@@ -45,7 +44,7 @@ namespace NMeasure.Tests
             m2.Value.IsEqualTo(expectedOutput);
         }
 
-        [Test, TestCaseSource("ComplexConversionChecksSource")]
+        [Theory, MemberData("ComplexConversionChecksSource")]
         public void ComplexConversionChecks(Unit from, Unit to, decimal input, decimal expectedOutput)
         {
             var m = (Measure)input * from;
@@ -53,23 +52,20 @@ namespace NMeasure.Tests
             m2.Value.IsEqualTo(expectedOutput);
         }
 
-        [Test, TestCaseSource("MeasureMultiplicationTestsSource")]
+        [Theory, MemberData("MeasureMultiplicationTestsSource")]
         public void MeasureMultiplicationTests(Measure m1, Measure m2, Measure expected)
         {
             var result = m1*m2;
             result.IsEqualTo(expected);
         }
 
-        [Test]
+        [Fact]
         public void Unit_of_measure_xxx()
         {
             var m = 3 * U.Meter;
             var m2 = m - (10 * U.Inch);
             m2.Unit.IsEqualTo(U.Meter);
             m2.Value.IsEqualTo(2.746m);
-
-            
-
         }
     }
 }

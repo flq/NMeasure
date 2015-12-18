@@ -1,7 +1,9 @@
 obj
 bin
 out
+packages
 NDependOut
+*.lock.json
 
 db data
 _ReSharper.*
@@ -12,9 +14,3 @@ _ReSharper.*
 *.cache
 *.~
 *.swp
-test.htm
-test2.htm
-test2_files
-WebRelease.config
-rf.ico
-Rf.Sites/files/images/*.*

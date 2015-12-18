@@ -1,6 +1,6 @@
 using System.Collections;
-using NUnit.Framework;
 using System.Linq;
+using Xunit;
 
 namespace NMeasure.Tests
 {
@@ -8,7 +8,7 @@ namespace NMeasure.Tests
     {
         public static void IsEqualTo<T>(this T value, T expected)
         {
-            Assert.AreEqual(expected, value);
+            Assert.Equal(expected, value);
         }
 
         public static void IsNotNull<T>(this T value) where T : class
@@ -23,12 +23,12 @@ namespace NMeasure.Tests
 
         public static void IsFalse(this bool value)
         {
-            Assert.IsFalse(value);
+            Assert.False(value);
         }
 
         public static void IsTrue(this bool value)
         {
-            Assert.IsTrue(value);
+            Assert.True(value);
         }
 
         public static void IsOfType<T>(this object o)

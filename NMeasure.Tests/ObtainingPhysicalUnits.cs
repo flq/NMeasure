@@ -1,12 +1,12 @@
-using NUnit.Framework;
+using Xunit;
 
 namespace NMeasure.Tests
 {
-    [TestFixture]
+
     public class ObtainingPhysicalUnits
     {
-        [TestFixtureSetUp]
-        public void Given()
+
+        public ObtainingPhysicalUnits()
         {
             AdHocConfig.Use(c =>
             {
@@ -16,20 +16,20 @@ namespace NMeasure.Tests
             });
         }
 
-        [Test]
+        [Fact]
         public void DirectDerivation()
         {
             U.Joule.ToPhysicalUnit().IsEqualTo((U._MASS * U._LENGTH.Squared()) / U._TIME.Squared());
         }
 
-        [Test]
+        [Fact]
         public void DerivationOfCombinedUnitsDivision()
         {
             var u = U.Meter / U.Second;
             u.ToPhysicalUnit().IsEqualTo(U._LENGTH / U._TIME);
         }
 
-        [Test]
+        [Fact]
         public void DerivationOfCombinedUnitsMultiplication()
         {
             var u = U.Meter * U.Meter * U.Second;

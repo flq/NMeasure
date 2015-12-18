@@ -1,19 +1,19 @@
 ﻿using System;
-using NUnit.Framework;
+using Xunit;
 
 namespace NMeasure.Tests
 {
-    [TestFixture]
+    
     public class MeasureTests
     {
-        [Test]
+        [Fact]
         public void AnyNumberIsDimensionlessMeasure()
         {
             var measure = (Measure) 1.2m;
             measure.Value.IsEqualTo(1.2m);
         }
 
-        [Test]
+        [Fact]
         public void MultiplyWithUnitGivesUnitMeasure()
         {
             var m = new Measure(1.2m);
@@ -21,7 +21,7 @@ namespace NMeasure.Tests
             m2.Unit.IsEqualTo(U.Meter);
         }
 
-        [Test]
+        [Fact]
         public void MeasuresCanBeMultiplied()
         {
             var m1 = new Measure(2.0m, U.Meter);
@@ -34,7 +34,7 @@ namespace NMeasure.Tests
 
         }
 
-        [Test]
+        [Fact]
         public void MeasuresCanBeDivided()
         {
             var m1 = new Measure(6.0m, U.Meter);
@@ -46,14 +46,14 @@ namespace NMeasure.Tests
             m3.Unit.IsEqualTo(U.Meter / U.Second);
         }
 
-        [Test]
+        [Fact]
         public void MeasureFromNumberAndUnit()
         {
             (3.2m * U.Minute).IsEqualTo(new Measure(3.2m, U.Minute));
             (5 * U.GetRootUnit("Palette")).IsEqualTo(new Measure(5, U.GetRootUnit("Palette")));
         }
 
-        [Test]
+        [Fact]
         public void MultiplicationWithNumber()
         {
             var m1 = new Measure(6.0m, U.Meter);
@@ -63,7 +63,7 @@ namespace NMeasure.Tests
             m3.IsEqualTo(new Measure(18.0m, U.Meter));
         }
 
-        [Test]
+        [Fact]
         public void DivisionWithNumber()
         {
             var m1 = new Measure(12.0m, U.Meter);
@@ -73,19 +73,19 @@ namespace NMeasure.Tests
 
 
 
-        [Test]
+        [Fact]
         public void StringOutput1()
         {
-            (U.Meter * U.Second).ToString().IsEqualTo("m×sec");
+            (U.Meter * U.Second).ToString().IsEqualTo("m*sec");
         }
 
-        [Test]
+        [Fact]
         public void StringOutput2()
         {
-            (U.Meter.Squared() / U.Second).ToString().IsEqualTo("m×m/sec");
+            (U.Meter.Squared() / U.Second).ToString().IsEqualTo("m*m/sec");
         }
 
-        [Test]
+        [Fact]
         public void CannotAddApplesToOranges()
         {
             AdHocConfig.Use(c =>
@@ -98,7 +98,7 @@ namespace NMeasure.Tests
             Assert.Throws<InvalidOperationException>(() => { var m3 = m1 + m2; });
         }
 
-        [Test]
+        [Fact]
         public void CanAddGrannySmithToGoldenDelicious()
         {
             AdHocConfig.Use(c => c.Unit(U.Gram).IsPhysicalUnit(U._MASS).StartScale().To(U.Kilogram, 1000));
@@ -110,7 +110,7 @@ namespace NMeasure.Tests
             m3.Value.IsEqualTo(1.001m);
         }
 
-        [Test]
+        [Fact]
         public void AdditionOfMeasuresIsSupported()
         {
             var m1 = new Measure(1, U.Foot);
@@ -120,7 +120,7 @@ namespace NMeasure.Tests
             m3.Value.IsEqualTo(2);
         }
 
-        [Test]
+        [Fact]
         public void SubtractionOfMeasuresIsSupported()
         {
             var m1 = new Measure(1, U.Foot);
@@ -132,13 +132,13 @@ namespace NMeasure.Tests
 
 
 
-        [Test]
+        [Fact]
         public void AttemptToConvertWithoutinfoGivesInvalidOpException()
         {
             Assert.Throws<InvalidOperationException>(() => { var m1 = new Measure(1, U.Kilogram).ConvertTo(U.Gram); });
         }
 
-        [Test]
+        [Fact]
         public void MeasuresSupportEquality()
         {
             var m1 = new Measure(1, U.Milligram);
