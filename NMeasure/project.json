@@ -1,14 +1,6 @@
 {
   "frameworks": {
-    "net46": {
-      "System": "4.0.0.0",
-      "System.Core": "4.0.0.0",
-      "mscorlib": "4.0.0.0"
-    },
-    "dotnet5.3": {
-      "compilationOptions": {
-        "define": [ "FXCORE" ]
-      },
+    "dnxcore50": {
       "dependencies": {
         "System.Runtime": "4.0.21-beta-23516",
         "System.Runtime.Extensions": "4.0.11-beta-23516",
@@ -17,6 +9,7 @@
         "System.Globalization": "4.0.11-beta-23516",
         "System.Diagnostics.Debug": "4.0.11-beta-23516"
       }
-    }
+    },
+    "dnx451": { }
   }
 }

@@ -8,7 +8,7 @@ namespace NMeasure.Tests
     {
         public static void IsEqualTo<T>(this T value, T expected)
         {
-            Assert.Equal(expected, value);
+            Assert.True(value.Equals(expected), $"{value} is not equal to {expected}");
         }
 
         public static void IsNotNull<T>(this T value) where T : class

@@ -9,6 +9,11 @@ namespace NMeasure.Tests
             new AdHocConfig(action);
         }
 
+        public static void UseEmpty()
+        {
+            new AdHocConfig(uc => { });
+        }
+
         public AdHocConfig(Action<UnitConfiguration> action)
         {
             action(this);

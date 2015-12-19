@@ -6,6 +6,11 @@ namespace NMeasure.Tests
     
     public class MeasureTests
     {
+        public MeasureTests()
+        {
+            AdHocConfig.UseEmpty();
+        }
+
         [Fact]
         public void AnyNumberIsDimensionlessMeasure()
         {
@@ -135,6 +140,7 @@ namespace NMeasure.Tests
         [Fact]
         public void AttemptToConvertWithoutinfoGivesInvalidOpException()
         {
+            AdHocConfig.UseEmpty();
             Assert.Throws<InvalidOperationException>(() => { var m1 = new Measure(1, U.Kilogram).ConvertTo(U.Gram); });
         }
 
