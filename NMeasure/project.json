@@ -1,4 +1,10 @@
 {
+  "authors": [ "Frank Quednau" ],
+  "description": "Library that provides a unit system and allows to represent measurements and convert between different measures.",
+  "tags": [ "measurement", "unit", "conversion" ],
+  "licenseUrl": "http://www.opensource.org/licenses/apache2.0",
+  "projectUrl": "http://github.com/flq/NMeasure",
+  "version": "1.0.0",
   "frameworks": {
     "dnxcore50": {
       "dependencies": {

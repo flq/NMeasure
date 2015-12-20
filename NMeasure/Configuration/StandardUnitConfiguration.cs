@@ -1,4 +1,6 @@
-﻿namespace NMeasure
+﻿using static NMeasure.U;
+
+namespace NMeasure
 {
     public class StandardUnitConfiguration : UnitConfiguration
     {
@@ -18,102 +20,102 @@
             areas();
             pressures();
 
-            Unit(U.Joule)
-                .IsPhysicalUnit((U._MASS*U._LENGTH.Squared())/U._TIME.Squared())
-                .EquivalentTo(U.Kilogram*U.Meter.Squared()/U.Second.Squared())
-                .ConvertibleTo(U.Kilogram, 
+            Unit(Joule)
+                .IsPhysicalUnit((_MASS*_LENGTH.Squared())/_TIME.Squared())
+                .EquivalentTo(Kilogram*Meter.Squared()/Second.Squared())
+                .ConvertibleTo(Kilogram, 
                   m => m/PhysicalConstants.EnergyMassFactor,
                   m => m*PhysicalConstants.EnergyMassFactor);
 
-            Unit(U.Newton)
-                .IsPhysicalUnit(U._MASS*U._LENGTH / U._TIME.Squared())
-                .EquivalentTo(U.Kilogram*U.Meter / U.Second.Squared());
+            Unit(Newton)
+                .IsPhysicalUnit(_MASS*_LENGTH / _TIME.Squared())
+                .EquivalentTo(Kilogram*Meter / Second.Squared());
         }
 
         private void pressures()
         {
-            Unit(U.Pascal)
-                .IsPhysicalUnit(U._MASS/(U._TIME.Squared()*U._LENGTH))
-                .EquivalentTo(U.Newton/U.Meter.Squared())
-                .ConvertValueBased(U.Bar, v => v*1E-5m, v => v*100000)
-                .ConvertValueBased(U.Psi, v => 6.894E+3m, v => v*145.04E-6m);
+            Unit(Pascal)
+                .IsPhysicalUnit(_MASS/(_TIME.Squared()*_LENGTH))
+                .EquivalentTo(Newton/Meter.Squared())
+                .ConvertValueBased(Bar, v => v*1E-5m, v => v*100000)
+                .ConvertValueBased(Psi, v => 6.894E+3m, v => v*145.04E-6m);
         }
 
         private void areas()
         {
-            Unit(U.SquareMeter)
-                .IsPhysicalUnit(U._LENGTH.Squared())
-                .EquivalentTo(U.Meter.Squared())
-                .ConvertValueBased(U.Hectare, v => v*0.0001m, v => v*10000);
+            Unit(SquareMeter)
+                .IsPhysicalUnit(_LENGTH.Squared())
+                .EquivalentTo(Meter.Squared())
+                .ConvertValueBased(Hectare, v => v*0.0001m, v => v*10000);
         }
 
         private void temperatures()
         {
-            Unit(U.Celsius)
-                .IsPhysicalUnit(U._TEMPERATURE)
-                .ConvertValueBased(U.Kelvin, v => v + 273.15m, v => v - 273.15m);
+            Unit(Celsius)
+                .IsPhysicalUnit(_TEMPERATURE)
+                .ConvertValueBased(Kelvin, v => v + 273.15m, v => v - 273.15m);
 
-            Unit(U.Fahrenheit)
-                .IsPhysicalUnit(U._TEMPERATURE)
-                .ConvertValueBased(U.Celsius, v => (v - 32)*(5m/9m), v => v*(9m/5m) + 32);
+            Unit(Fahrenheit)
+                .IsPhysicalUnit(_TEMPERATURE)
+                .ConvertValueBased(Celsius, v => (v - 32)*(5m/9m), v => v*(9m/5m) + 32);
         }
 
         private void masses()
         {
-            Unit(U.Milligram)
-                .IsPhysicalUnit(U._MASS)
+            Unit(Milligram)
+                .IsPhysicalUnit(_MASS)
                 .StartScale()
-                .To(U.Carat,200)
-                .To(U.Gram, 5)
-                .To(U.Kilogram, 1000)
-                .To(U.Ton, 1000);
+                .To(Carat,200)
+                .To(Gram, 5)
+                .To(Kilogram, 1000)
+                .To(Ton, 1000);
 
-            Unit(U.Ounce)
-                .IsPhysicalUnit((U._MASS))
+            Unit(Ounce)
+                .IsPhysicalUnit((_MASS))
                 .StartScale()
-                .To(U.Pound, 16);
+                .To(Pound, 16);
 
-            Unit(U.Gram).ConvertValueBased(U.Ounce, v => v*0.0352739619m, v => v*28.3495231m);
-            Unit(U.Pound).ConvertValueBased(U.Kilogram, v => v * 0.45359237m, v => v * 2.20462262m);
+            Unit(Gram).ConvertValueBased(Ounce, v => v*0.0352739619m, v => v*28.3495231m);
+            Unit(Pound).ConvertValueBased(Kilogram, v => v * 0.45359237m, v => v * 2.20462262m);
 
-            Unit(U.Kilogram).EquivalentTo(U.Joule*U.Second.Squared()/U.Meter.Squared());
+            Unit(Kilogram).EquivalentTo(Joule*Second.Squared()/Meter.Squared());
         }
 
         private void times()
         {
-            Unit(U.Nanosecond)
-                .IsPhysicalUnit(U._TIME)
+            Unit(Nanosecond)
+                .IsPhysicalUnit(_TIME)
                 .StartScale()
-                .To(U.Microsecond, 1000)
-                .To(U.Millisecond, 1000)
-                .To(U.Second, 1000)
-                .To(U.Minute, 60)
-                .To(U.Hour, 60)
-                .To(U.Day, 24);
+                .To(Microsecond, 1000)
+                .To(Millisecond, 1000)
+                .To(Second, 1000)
+                .To(Minute, 60)
+                .To(Hour, 60)
+                .To(Day, 24);
 
         }
 
         private void lengths()
         {
-            Unit(U.Nanometer)
-                .IsPhysicalUnit(U._LENGTH)
+            Unit(Nanometer)
+                .IsPhysicalUnit(_LENGTH)
                 .StartScale()
-                .To(U.Micrometer, 1000)
-                .To(U.Millimeter, 1000)
-                .To(U.Centimeter, 10)
-                .To(U.Meter, 100)
-                .To(U.Kilometer, 1000);
+                .To(Micrometer, 1000)
+                .To(Millimeter, 1000)
+                .To(Centimeter, 10)
+                .To(Meter, 100)
+                .To(Kilometer, 1000);
 
-            Unit(U.Microinch)
-                .IsPhysicalUnit(U._LENGTH)
+            Unit(Microinch)
+                .IsPhysicalUnit(_LENGTH)
                 .StartScale()
-                .To(U.Inch, 1000000)
-                .To(U.Foot, 12)
-                .To(U.Yard, 3)
-                .To(U.Mile,1760);
+                .To(Inch, 1000000)
+                .To(Foot, 12)
+                .To(Yard, 3)
+                .To(Mile,1760);
 
-            Unit(U.Inch).ConvertValueBased(U.Centimeter, v => v*2.54m, v => 0.393700787m*v);
-            Unit(U.Mile).ConvertValueBased(U.Kilometer, v => v * 1.609344m, v => 0.621371192m * v);
+            Unit(Inch).ConvertValueBased(Centimeter, v => v*2.54m, v => 0.393700787m*v);
+            Unit(Mile).ConvertValueBased(Kilometer, v => v * 1.609344m, v => 0.621371192m * v);
         }
     }
 }
