@@ -9,9 +9,9 @@ namespace NMeasure
     /// <summary>
     /// All units known to the system and used by the <see cref="StandardUnitConfiguration"/>
     /// </summary>
-    public class U
+    public static class U
     {
-        protected class FundamentalUnit : Unit, IComparable
+        private class FundamentalUnit : Unit, IComparable
         {
             private readonly string _id;
             private readonly bool _isDimensionless;

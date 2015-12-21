@@ -18,7 +18,7 @@ namespace NMeasure
 
         public static UnitMeta GetUnitData(this Unit unit)
         {
-            return GetConfig()[unit];
+            return UnitConfiguration.UnitSystem[unit];
         }
 
         public static Unit ToPhysicalUnit(this Unit unit)
@@ -35,34 +35,33 @@ namespace NMeasure
             return Unit.IsDimensionless(unit);
         }
 
-        public static string CreateStringRepresentation(this Unit unit, string format = null)
+        public static Measure ConvertTo(this Measure measure, Unit unit)
         {
-            Func<Unit, string> selector= u => u.ToString();
+            return UnitConfiguration.UnitSystem.UnitGraph.Convert(measure, unit);
+        }
 
-            //TODO Check translation stuff
+        internal static string CreateStringRepresentation(this Unit unit, string format = null)
+        {
+            Func<Unit, string> selector = u => u.ToString();
 
             if (unit.IsDimensionless())
                 return string.Empty;
             var exp = unit.Expand();
             if (exp.Denominators.Count == 0)
                 return string.Join(UnitMeta.MultiplicationSign, exp.Numerators.Select(selector));
-            return string.Concat(string.Join(UnitMeta.MultiplicationSign, exp.Numerators.Select(selector)), UnitMeta.DivisionSign, string.Join(UnitMeta.MultiplicationSign, exp.Denominators.Select(selector)));
-
+            return string.Concat(
+                string.Join(
+                    UnitMeta.MultiplicationSign,
+                    exp.Numerators.Select(selector)),
+                UnitMeta.DivisionSign,
+                string.Join(
+                    UnitMeta.MultiplicationSign,
+                    exp.Denominators.Select(selector)));
         }
 
-        public static Measure ConvertTo(this Measure measure, Unit unit)
-        {
-            return UnitConfiguration.UnitSystem.UnitGraph.Convert(measure, unit);
-        }
-
-        public static Unit TryCompaction(this Unit unit)
+        internal static Unit TryCompaction(this Unit unit)
         {
             return UnitConfiguration.UnitSystem.GetEquivalent(unit) ?? unit;
-        }
-
-        private static UnitConfiguration GetConfig()
-        {
-            return UnitConfiguration.UnitSystem;
         }
 
         private static Unit DeriveFromConstituentParts(Unit unit)

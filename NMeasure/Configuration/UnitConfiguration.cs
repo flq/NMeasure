@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Globalization;
 using System.Linq;
 using NMeasure.Converting;
 
@@ -20,7 +19,7 @@ namespace NMeasure
         private readonly UnitGraph unitGraph = new UnitGraph();
         private int _defaultPrecision;
 
-        public UnitConfiguration()
+        internal UnitConfiguration()
         {
             UnitSystem = this;
             _defaultPrecision = 10;
@@ -49,14 +48,7 @@ namespace NMeasure
 
         public IUnitMetaConfig Unit(Unit unit)
         {
-            return getOrAdd(unit);
-        }
-
-        private UnitMeta getOrAdd(Unit unit)
-        {
-            if (!metadata.ContainsKey(unit))
-                metadata.Add(unit, new UnitMeta(unit, this));
-            return metadata[unit];
+            return GetOrAdd(unit);
         }
 
         public void SetMeasurePrecision(int precision)
@@ -69,11 +61,18 @@ namespace NMeasure
             compactions[unit] = compactionOfUnit;
         }
 
-        public Unit GetEquivalent(Unit unit)
+        internal Unit GetEquivalent(Unit unit)
         {
             Unit compaction;
             compactions.TryGetValue(unit, out compaction);
             return compaction;
+        }
+
+        private UnitMeta GetOrAdd(Unit unit)
+        {
+            if (!metadata.ContainsKey(unit))
+                metadata.Add(unit, new UnitMeta(unit, this));
+            return metadata[unit];
         }
     }
 
