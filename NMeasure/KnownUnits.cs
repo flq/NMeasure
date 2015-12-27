@@ -57,7 +57,7 @@ namespace NMeasure
             }
         }
 
-        private class AnyUnit : Unit
+        internal class AnyUnit : Unit
         {
             public AnyUnit() { }
             public AnyUnit(IEnumerable<Unit> numerators, IEnumerable<Unit> denominators) : base(numerators, denominators) {}

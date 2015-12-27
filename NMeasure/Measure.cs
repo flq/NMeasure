@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
 
 namespace NMeasure
 {
@@ -37,6 +38,8 @@ namespace NMeasure
 
         public static Measure operator /(Measure y, decimal x) => new Measure(y.Value / x, y.Unit);
 
+        public static Measure operator /(Measure y, Unit x) => y / (1 * x);
+
         public static Measure operator /(Measure y, int x) => new Measure(y.Value / x, y.Unit);
 
         public static Measure operator /(Measure x, Measure y) => new Measure(x.Value / y.Value, (x.Unit / y.Unit));
@@ -59,6 +62,14 @@ namespace NMeasure
             if (x.Unit.ToPhysicalUnit().Equals(y.Unit.ToPhysicalUnit()))
                 return x - y.ConvertTo(x.Unit);
             throw new InvalidOperationException("These measures cannot be sensibly added to a single new measure");
+        }
+
+        public static Measure operator ^(Measure x, int exponent)
+        {
+            var valueAsDouble = Convert.ToDouble(x.Value);
+            var value = Math.Pow(valueAsDouble, exponent);
+            var unit = new U.AnyUnit(Enumerable.Repeat(x.Unit, exponent), Enumerable.Empty<Unit>());
+            return new Measure(Convert.ToDecimal(value), unit);
         }
     }
 }

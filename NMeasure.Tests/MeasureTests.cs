@@ -77,7 +77,20 @@ namespace NMeasure.Tests
             m2.IsEqualTo(new Measure(6.0m, Meter));
         }
 
+        [Fact]
+        public void UsingExponent()
+        {
+            var m1 = 3 * Meter;
+            var m2 = m1 ^ 3;
+            m2.IsEqualTo(new Measure(27m, Meter.Cubed()));
+        }
 
+        [Fact]
+        public void SimplifyWritingMeasurePerUnit()
+        {
+            var m1 = 3 * Meter / Second;
+            m1.IsEqualTo(new Measure(3m, Meter / Second));
+        }
 
         [Fact]
         public void StringOutput1()
