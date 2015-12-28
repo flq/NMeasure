@@ -144,7 +144,9 @@ namespace NMeasure
 
         public IUnitMetaConfig ConvertValueBased(Unit second, Func<decimal, decimal> firstToSecond, Func<decimal, decimal> secondToFirst)
         {
-            if (PhysicalUnit == null || PhysicalUnit.IsDimensionless())
+            if (PhysicalUnit == null)
+                PhysicalUnit = unit.DerivePhysicalUnitsFromConstituentParts();
+            if (PhysicalUnit.IsDimensionless())
                 throw new InvalidOperationException("You must define physical unit of the left-hand side");
             
             var unitMeta = second.GetUnitData();

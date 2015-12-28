@@ -1,14 +1,18 @@
 ﻿using System;
 using Xunit;
+using Xunit.Abstractions;
 using static NMeasure.U;
 
 namespace NMeasure.Tests
 {
-    
+
     public class MeasureTests
     {
-        public MeasureTests()
+        private ITestOutputHelper _output;
+
+        public MeasureTests(ITestOutputHelper output)
         {
+            _output = output;
             AdHocConfig.UseEmpty();
         }
 
@@ -101,7 +105,7 @@ namespace NMeasure.Tests
         [Fact]
         public void StringOutput2()
         {
-            (U.Meter.Squared() / Second).ToString().IsEqualTo("m*m/sec");
+            (Meter.Squared() / Second).ToString().IsEqualTo("m*m/sec");
         }
 
         [Fact]
@@ -165,5 +169,24 @@ namespace NMeasure.Tests
             var m2 = new Measure(1, Milligram);
             m1.Equals(m2);
         }
+
+        [Fact]
+        public void CheckWhereCancelingOutDidntWork()
+        {
+            StandardUnitConfiguration.Use();
+            var dAir = 1.225m * Kilogram / Meter.Cubed();
+            var someVolume = (1 * Meter) ^ 3;
+
+            _output.WriteLine(dAir.ToString());
+            _output.WriteLine(someVolume.ToString());
+
+            var measure = (dAir * someVolume);
+            measure.Unit.IsEqualTo(Kilogram);
+
+            measure.ToString().IsEqualTo("1,225kg");
+
+        }
+
+
     }
 }

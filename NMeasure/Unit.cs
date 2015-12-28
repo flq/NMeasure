@@ -135,6 +135,12 @@ namespace NMeasure
             return unit1 * newUnit;
         }
 
+        public static Unit operator ^(Unit unit, int exponent)
+        {
+            return new U.AnyUnit(Enumerable.Repeat(unit, exponent), Enumerable.Empty<Unit>());
+        }
+
+
         public static Measure operator *(decimal value, Unit unit)
         {
             return new Measure(value, unit);

@@ -43,9 +43,7 @@ namespace NMeasure
 
         private void areas()
         {
-            Unit(SquareMeter)
-                .IsPhysicalUnit(_LENGTH.Squared())
-                .EquivalentTo(Meter.Squared())
+            Unit(Meter ^ 2)
                 .ConvertValueBased(Hectare, v => v*0.0001m, v => v*10000);
         }
 
@@ -78,7 +76,6 @@ namespace NMeasure
             Unit(Gram).ConvertValueBased(Ounce, v => v*0.0352739619m, v => v*28.3495231m);
             Unit(Pound).ConvertValueBased(Kilogram, v => v * 0.45359237m, v => v * 2.20462262m);
 
-            Unit(Kilogram).EquivalentTo(Joule*Second.Squared()/Meter.Squared());
         }
 
         private void times()

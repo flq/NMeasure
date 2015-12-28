@@ -27,7 +27,7 @@ namespace NMeasure
             if (unitMeta != null)
                 return unitMeta.PhysicalUnit;
 
-            return DeriveFromConstituentParts(unit);
+            return DerivePhysicalUnitsFromConstituentParts(unit);
         }
 
         public static bool IsDimensionless(this Unit unit)
@@ -64,7 +64,7 @@ namespace NMeasure
             return UnitConfiguration.UnitSystem.GetEquivalent(unit) ?? unit;
         }
 
-        private static Unit DeriveFromConstituentParts(Unit unit)
+        internal static Unit DerivePhysicalUnitsFromConstituentParts(this Unit unit)
         {
             var expandedUnit = unit.Expand();
 

@@ -30,6 +30,8 @@ namespace NMeasure
 
         public static Measure operator *(decimal x, Measure y) => new Measure(x * y.Value, y.Unit);
 
+        public static Measure operator *(double x, Measure y) => new Measure(Convert.ToDecimal(x) * y.Value, y.Unit);
+
         public static Measure operator *(int x, Measure y) => new Measure(x * y.Value, y.Unit);
 
         public static Measure operator *(Measure y, decimal x) => new Measure(x * y.Value, y.Unit);
