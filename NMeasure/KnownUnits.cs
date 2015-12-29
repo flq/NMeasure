@@ -116,7 +116,13 @@ namespace NMeasure
         public static readonly Unit Celsius = GetRootUnit("°C");
         public static readonly Unit Fahrenheit = GetRootUnit("°F");
 
+        public static readonly Unit ElectronVolt = GetRootUnit("eV");
         public static readonly Unit Joule = GetRootUnit("J");
+        public static readonly Unit KiloJoule = GetRootUnit("kJ");
+        public static readonly Unit MegaJoule = GetRootUnit("MJ");
+        public static readonly Unit GigaJoule = GetRootUnit("GJ");
+        public static readonly Unit TeraJoule = GetRootUnit("TJ");
+
         public static readonly Unit Newton = GetRootUnit("N");
 
 

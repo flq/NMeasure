@@ -130,6 +130,21 @@ namespace NMeasure.Tests
             var m2 = new Measure(1.15m, U.Nanosecond);
             m2.Value.IsEqualTo(1.0m);
         }
-        
+
+        [Fact]
+        public void ConfigIsExtensible()
+        {
+            var u = new UnitConfiguration();
+            u.Extend<SomeDefinitions>();
+            u[Unit.Parse("Foo")].PhysicalUnit.IsEqualTo(U._TIME);
+        }
+
+        private class SomeDefinitions : IUnitConfigurationExtension
+        {
+            public void Extend(UnitConfiguration c)
+            {
+                c.Unit(Unit.Parse("Foo")).IsPhysicalUnit(U._TIME);
+            }
+        }
     }
 }

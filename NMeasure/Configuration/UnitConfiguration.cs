@@ -61,6 +61,17 @@ namespace NMeasure
             compactions[unit] = compactionOfUnit;
         }
 
+        public void Extend<T>() where T : IUnitConfigurationExtension, new()
+        {
+            Extend(new T());
+        }
+
+        public void Extend(params IUnitConfigurationExtension[] extension)
+        {
+            foreach (var x in extension)
+              x.Extend(this);
+        }
+
         internal Unit GetEquivalent(Unit unit)
         {
             Unit compaction;
@@ -74,6 +85,11 @@ namespace NMeasure
                 metadata.Add(unit, new UnitMeta(unit, this));
             return metadata[unit];
         }
+    }
+
+    public interface IUnitConfigurationExtension
+    {
+        void Extend(UnitConfiguration c);
     }
 
     public interface IUnitMetaConfig
