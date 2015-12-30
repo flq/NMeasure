@@ -8,9 +8,9 @@ namespace NMeasure
     /// </summary>
     public class StandardUnitConfiguration : UnitConfiguration
     {
-        public static void Use()
+        public static UnitConfiguration Use()
         {
-            new StandardUnitConfiguration();
+            return new StandardUnitConfiguration();
         }
 
         public StandardUnitConfiguration()

@@ -5,6 +5,27 @@ using System.Linq;
 
 namespace NMeasure
 {
+    /// <summary>
+    /// A factory to create your own units for starting a unit system.
+    /// Note that during the lifetime and within the scope of the factory, 
+    /// strings will be validated for uniqueness, as this is necessary for proper
+    /// unit equality to work. This string will also be used for basic string output of units.
+    /// </summary>
+    public interface IUnitFactory
+    {
+        /// <summary>
+        /// A fundamental unit relates a multitude of units to the fundamental thing that they
+        /// are actually measuring (e.g. length or time)
+        /// NMeasure has taken the convention to write it as [UNIT] (e.g. [LENGTH]).
+        /// </summary>
+        Unit CreateFundamentalUnit(string unit);
+
+        /// <summary>
+        /// Create a basic unit which you can use in calculations
+        /// </summary>
+        Unit CreateRootUnit(string unit);
+    }
+
     // ReSharper disable InconsistentNaming
     /// <summary>
     /// All units known to the system and used by the <see cref="StandardUnitConfiguration"/>
@@ -61,6 +82,14 @@ namespace NMeasure
         {
             public AnyUnit() { }
             public AnyUnit(IEnumerable<Unit> numerators, IEnumerable<Unit> denominators) : base(numerators, denominators) {}
+        }
+
+        /// <summary>
+        /// Provides a unit factory as a basis for your own unit system
+        /// </summary>
+        public static IUnitFactory GetUnitFactory()
+        {
+            return new UnitFactory();
         }
 
         public static Unit GetRootUnit(string unit)
@@ -141,6 +170,30 @@ namespace NMeasure
             if (allUnits.Count != distinctUnitsCount)
                 throw new InvalidOperationException("The known units are not unique in themselves!");
 
+        }
+
+        private class UnitFactory : IUnitFactory
+        {
+            private readonly HashSet<string> _validation = new HashSet<string>();
+
+            public Unit CreateFundamentalUnit(string unit)
+            {
+                Validate(unit);
+                return new FundamentalUnit(unit);
+            }
+
+            public Unit CreateRootUnit(string unit)
+            {
+                Validate(unit);
+                return GetRootUnit(unit);
+            }
+
+            private void Validate(string unit)
+            {
+                if (_validation.Contains(unit))
+                    throw new InvalidOperationException($"Unit {unit} has already been created by this factory.");
+                _validation.Add(unit);
+            }
         }
     }
     // ReSharper restore InconsistentNaming
