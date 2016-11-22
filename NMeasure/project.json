@@ -1,22 +1,23 @@
 {
+  "name": "NMeasure",
+  "version": "1.5.0",
   "authors": [ "Frank Quednau" ],
   "description": "Library that provides a unit system and allows to represent measurements and convert between different measures.",
-  "releaseNotes": "Removed stumbling block of creating your own unit systems by letting you obtain a UnitFactory from U",
-  "tags": [ "measurement", "unit", "conversion" ],
-  "licenseUrl": "http://www.opensource.org/licenses/apache2.0",
-  "projectUrl": "http://github.com/flq/NMeasure",
-  "version": "1.4.0",
+  "packOptions": {
+    "owners": [
+      "Frank Quednau"
+    ],
+    "summary": "Library that provides a unit system and allows to represent measurements and convert between different measures.",
+    "releaseNotes": "Updated to support netstandard1.6",
+    "projectUrl": "http://github.com/flq/NMeasure",
+    "licenseUrl": "http://www.opensource.org/licenses/apache2.0",
+    "tags": [ "measurement", "unit", "conversion" ]
+  },
   "frameworks": {
-    "dnxcore50": {
+    "netstandard1.6": {
       "dependencies": {
-        "System.Runtime": "4.0.21-beta-23516",
-        "System.Runtime.Extensions": "4.0.11-beta-23516",
-        "System.Reflection.TypeExtensions": "4.1.0-beta-23516",
-        "System.Linq": "4.0.1-beta-23516",
-        "System.Globalization": "4.0.11-beta-23516",
-        "System.Diagnostics.Debug": "4.0.11-beta-23516"
+        "NETStandard.Library": "1.6.1"
       }
-    },
-    "dnx451": { }
+    }
   }
 }

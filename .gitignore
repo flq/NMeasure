@@ -4,7 +4,8 @@ out
 packages
 NDependOut
 *.lock.json
-
+.idea
+.vscode
 db data
 _ReSharper.*
 *.user

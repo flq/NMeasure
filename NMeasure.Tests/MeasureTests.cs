@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Xunit;
 using Xunit.Abstractions;
 using static NMeasure.U;
@@ -183,7 +184,7 @@ namespace NMeasure.Tests
             var measure = (dAir * someVolume);
             measure.Unit.IsEqualTo(Kilogram);
 
-            measure.ToString().IsEqualTo("1,225kg");
+            measure.ToString(CultureInfo.InvariantCulture).IsEqualTo("1.225kg");
 
         }
 

@@ -1,0 +1,6 @@
+{
+    "projects": [
+        "NMeasure",
+        "NMeasure.Tests"
+    ]
+}

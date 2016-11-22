@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 
 namespace NMeasure
@@ -21,6 +22,8 @@ namespace NMeasure
         }
 
         public override string ToString() => Value.ToString() + Unit;
+
+        public string ToString(CultureInfo info) => Value.ToString(info) + Unit;
 
         public static implicit operator Measure(decimal value) => new Measure(value);
 
