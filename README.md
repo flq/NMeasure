@@ -7,7 +7,7 @@ It will help you to
 * The unit system is not hard-coded. There is a good set of commonly used physical units by instantiating the _StandardUnitConfiguration_
 * NMeasure knows the concept of Fundamental units (e.g. Length and Time). While it will let you add 1 gram to 1 ton (if it knows the conversion), it won't let you add a second to a Joule.
 * You can define your own Units and your own conversions, the configuration has its own
-  Fluent API for you to just that.
+  Fluent API for you to just do that.
 
 ## Calculation ##
 
@@ -52,7 +52,7 @@ An example from the tests...
 
 ## Licensing ##
 
-Copyright 2010 Frank-Leonardo Quednau ([realfiction.net](http://realfiction.net)) 
+Copyright 2017 Frank-Leonardo Quednau ([realfiction.net](http://realfiction.net)) 
 Licensed under the Apache License, Version 2.0 (the "License"); 
 you may not use this solution except in compliance with the License. 
 You may obtain a copy of the License at 
