@@ -19,17 +19,17 @@ namespace NMeasure.Converting
             if (unit == target)
                 return new InvariantConversion();
             if (unitGraph[unit] == null)
-                return decomposeAndSearch(unit, target);
+                return DecomposeAndSearch(unit, target);
             // sequences are comparable by count of edges. The smallest count should lead to smaller calc errors.
-            return unitGraph[unit].Conversions.SelectMany(edge=> findConversionSequence(new UnitGraphEdgeSequence { edge }, target)).Min();
+            return unitGraph[unit].Conversions.SelectMany(edge=> FindConversionSequence(new UnitGraphEdgeSequence { edge }, target)).Min();
         }
 
-        private IConversion decomposeAndSearch(Unit unit, Unit target)
+        private IConversion DecomposeAndSearch(Unit unit, Unit target)
         {
             var exStart = unit.Expand();
             var exEnd = target.Expand();
 
-            var matches = matchViaPhysicalUnits(exStart, exEnd);
+            var matches = MatchViaPhysicalUnits(exStart, exEnd);
 
             var numeratorconverters = matches.NumeratorPairs.Select(pair => FindConversionSequence(pair.Item1, pair.Item2)).ToList();
             // For denominators we search in the opposite way to give the inverse conversion, as they are divisors
@@ -39,7 +39,7 @@ namespace NMeasure.Converting
             return new ComplexConversion(numeratorconverters, denominatorConverters);
         }
 
-        private static MatchStructure matchViaPhysicalUnits(ExpandedUnit exStart, ExpandedUnit exEnd)
+        private static MatchStructure MatchViaPhysicalUnits(ExpandedUnit exStart, ExpandedUnit exEnd)
         {
             var ms = new MatchStructure();
             var mutatingList = new List<Unit>(exEnd.Numerators);
@@ -61,7 +61,7 @@ namespace NMeasure.Converting
             return ms;
         }
 
-        private IEnumerable<UnitGraphEdgeSequence> findConversionSequence(UnitGraphEdgeSequence currentRoute, Unit target)
+        private IEnumerable<UnitGraphEdgeSequence> FindConversionSequence(UnitGraphEdgeSequence currentRoute, Unit target)
         {
             var sequences = new List<UnitGraphEdgeSequence>();
             var to = currentRoute.Last.To;
@@ -77,7 +77,7 @@ namespace NMeasure.Converting
                     continue;
                 var newRoute = currentRoute.Clone();
                 newRoute.Add(c);
-                var innerSequences = findConversionSequence(newRoute, target);
+                var innerSequences = FindConversionSequence(newRoute, target);
                 sequences.AddRange(innerSequences.Where(seq=>seq.Last.To.Equals(target)));
             }
             return sequences;

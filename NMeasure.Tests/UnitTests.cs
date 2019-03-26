@@ -1,12 +1,13 @@
 using System.Collections.Generic;
 using System.Diagnostics;
-using Xunit;
+using NUnit.Framework;
 
 namespace NMeasure.Tests
 {
+    [TestFixture]
     public class UnitTests
     {
-        [Fact]
+        [Test]
         public void SingleUnitsCanBeMultiplied()
         {
             var u = U.Dimensionless;
@@ -15,7 +16,7 @@ namespace NMeasure.Tests
             u.IsDimensionless().IsFalse();
         }
 
-        [Fact]
+        [Test]
         public void MultiplicationAndDivisionCancelOut()
         {
             var u = U.Meter;
@@ -24,7 +25,7 @@ namespace NMeasure.Tests
             u.IsDimensionless().IsTrue();
         }
 
-        [Fact]
+        [Test]
         public void UnitSupportsGettingTheInverse()
         {
             var u = U.Meter.Inverse();
@@ -32,47 +33,47 @@ namespace NMeasure.Tests
             u2.IsDimensionless().IsTrue();
         }
 
-        [Fact]
-        public void UnitscanBeDivided()
+        [Test]
+        public void UnitsCanBeDivided()
         {
             var u3 = U.Meter / U.Meter;
             u3.IsDimensionless().IsTrue();
         }
 
-        [Fact]
+        [Test]
         public void AUnitConstructedOfFundamentalsIsFundamentalUnit()
         {
             var u = U._LENGTH / U._TIME;
             u.IsFundamental.IsTrue();
         }
 
-        [Fact]
+        [Test]
         public void AUnitConstructedOfFundamentalsIsFundamentalUnit2()
         {
             var u = U._LENGTH.Squared();
             u.IsFundamental.IsTrue();
         }
 
-        [Fact]
+        [Test]
         public void FundamentalUnitIsNotDimensionless()
         {
             U._LENGTH.IsDimensionless().IsFalse();
         }
 
-        [Fact]
+        [Test]
         public void FundamentalUnitCombinationIsNotDimensionless()
         {
             U._LENGTH.Squared().IsDimensionless().IsFalse();
         }
 
-        [Fact]
+        [Test]
         public void AConcreteUnitIsNotFundamental()
         {
             var u = U.Meter;
             u.IsFundamental.IsFalse();
         }
 
-        [Fact]
+        [Test]
         public void CorrectHandlingOfCalculatingWithCombinedUnits()
         {
             var u1 = U.Meter / U.Second;
@@ -82,7 +83,7 @@ namespace NMeasure.Tests
             u3.IsEqualTo(U.Meter * U.Kilogram.Squared() / U.Second);
         }
 
-        [Fact]
+        [Test]
         public void CorrectShorteningOfUnits()
         {
             var u1 = U.Meter / U.Second;
@@ -92,7 +93,7 @@ namespace NMeasure.Tests
             u3.IsEqualTo(U.Meter / U.Kilogram);
         }
 
-        [Fact]
+        [Test]
         public void OutputOfUnits()
         {
             var u = U.Kilometer.Squared() / U.Second;
@@ -100,13 +101,13 @@ namespace NMeasure.Tests
         }
 
 
-        public static IEnumerable<object[]> UnitEqualityTestsSource()
+        public static IEnumerable<TestCaseData> UnitEqualityTestsSource()
         {
-            yield return new object[] { U.GetRootUnit("m"), U.Meter };
-            yield return new object[] { U.Meter * U.Dimensionless, U.Meter };
+            yield return new TestCaseData(U.GetRootUnit("m"), U.Meter);
+            yield return new TestCaseData(U.Meter * U.Dimensionless, U.Meter);
         }
 
-        [Theory, MemberData("UnitEqualityTestsSource")]
+        [TestCaseSource(typeof(UnitTests), nameof(UnitEqualityTestsSource))]
         public void UnitEqualityTests(Unit unit, Unit compareTo)
         {
             unit.IsEqualTo(compareTo);

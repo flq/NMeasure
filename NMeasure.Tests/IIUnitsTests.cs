@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
-using Xunit;
+using NUnit.Framework;
 using static NMeasure.U;
 using static NMeasure.Tests.IiUnits;
 
 namespace NMeasure.Tests
 {
+    [TestFixture]
     public class IIUnitsTests
     {
         public IIUnitsTests()
@@ -12,24 +13,24 @@ namespace NMeasure.Tests
             StandardUnitConfiguration.Use().Extend<IiUnitsDefinition>();           
         }
 
-        [Theory, MemberData("TestSource")]
-        public void SomeConversions(Unit first, Unit second, decimal input, decimal expected)
+        [TestCaseSource(typeof(IIUnitsTests), nameof(TestSource))]
+        public decimal SomeConversions(Unit first, Unit second, decimal input)
         {
             var m1 = input * first;
-            m1.ConvertTo(second).Value.IsEqualTo(expected);
+            return m1.ConvertTo(second).Value;
         }
 
-        [Fact]
+        [Test]
         public void SoWhatAboutTheSpeedOfLight()
         {
             var speedOfLight = PhysicalConstants.SpeedOfLight.ConvertTo(ShipLength / Heartbeat);
             speedOfLight.Value.IsEqualTo(100000m);
         }
 
-        public static IEnumerable<object[]> TestSource()
+        public static IEnumerable<TestCaseData> TestSource()
         {
-            yield return new object[] { ShipLength, Kilometer, 1m, 2.4640m };
-            yield return new object[] { QMichron, Hour, 50m, 28.5388m }; 
+            yield return new TestCaseData(ShipLength, Kilometer, 1m).Returns(2.4640m);
+            yield return new TestCaseData(QMichron, Hour, 50m).Returns(28.5388m); 
         }
     }
 

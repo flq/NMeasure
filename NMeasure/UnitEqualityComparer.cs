@@ -11,6 +11,7 @@ namespace NMeasure
     {
         public bool Equals(Unit x, Unit y)
         {
+            
             return x.GetHashCode() == y.GetHashCode();
         }
 

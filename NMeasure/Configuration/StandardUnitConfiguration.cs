@@ -1,5 +1,4 @@
 ﻿using NMeasure.Configuration;
-using static NMeasure.U;
 
 namespace NMeasure
 {

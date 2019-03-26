@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <Title>NMeasure</Title>
+        <PackageId>NMeasure</PackageId>
+        <Description>Measurement and Unit system for .NET</Description>
+        <Authors>Frank Quednau</Authors>
+        <Copyright>Copyright © realfiction 2019</Copyright>
+        <Version>3.0.0</Version>
+        <PackageVersion>3.0.0</PackageVersion>
+    </PropertyGroup>
+</Project>

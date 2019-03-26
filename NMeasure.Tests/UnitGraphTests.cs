@@ -1,9 +1,10 @@
 using System;
 using NMeasure.Converting;
-using Xunit;
+using NUnit.Framework;
 
 namespace NMeasure.Tests
 {
+    [TestFixture]
     public class UnitGraphTests
     {
         private UnitGraph ug;
@@ -28,21 +29,21 @@ namespace NMeasure.Tests
             
         }
 
-        [Fact]
+        [Test]
         public void TheUnitGraphNodesAreAccessibleByIndexer()
         {
             ug[U.Inch].IsNotNull();
             ug[U.Centimeter].IsNotNull();
         }
 
-        [Fact]
+        [Test]
         public void TwoUnitsAreLinkedByConversion()
         {
             ug[U.Inch].Conversions.HasCount(1);
             ug[U.Centimeter].Conversions.HasCount(2);
         }
 
-        [Fact]
+        [Test]
         public void TheConversionProvidesWorkingMeasure()
         {
             var m = new Measure(1.0m, U.Inch);
@@ -52,7 +53,7 @@ namespace NMeasure.Tests
             m2.Unit.Equals(U.Centimeter);
         }
 
-        [Fact]
+        [Test]
         public void TheGraphSupportsConversionOverSeveralEdges()
         {
             var m = new Measure(1.0m, U.Inch);
@@ -62,14 +63,14 @@ namespace NMeasure.Tests
             m2.Unit.Equals(U.Meter);
         }
 
-        [Fact]
+        [Test]
         public void IncompatibleConversionsWillBeRejected()
         {
             var m = (Measure) 1.0m*U.Second;
-            Assert.Throws<InvalidOperationException>(() => { var m2 = ug.Convert(m, U.Inch); });
+            Assert.Throws<InvalidOperationException>(() => { var unused = ug.Convert(m, U.Inch); });
         }
 
-        [Fact]
+        [Test]
         public void ConversionFromUnitToSameUnitGivesInvariantConversion()
         {
             var c = ug.GetConverter(U.Meter, U.Meter);

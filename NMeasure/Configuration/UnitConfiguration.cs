@@ -10,8 +10,8 @@ namespace NMeasure
         
         public static UnitConfiguration UnitSystem
         {
-            get { return unitSystem ?? (unitSystem = new UnitConfiguration()); }
-            private set { unitSystem = value; }
+            get => unitSystem ?? (unitSystem = new UnitConfiguration());
+            private set => unitSystem = value;
         }
 
         private readonly UnitIndex<UnitMeta> metadata = new UnitIndex<UnitMeta>();
@@ -19,7 +19,7 @@ namespace NMeasure
         private readonly UnitGraph unitGraph = new UnitGraph();
         private int _defaultPrecision;
 
-        internal UnitConfiguration()
+        public UnitConfiguration()
         {
             UnitSystem = this;
             _defaultPrecision = 10;
@@ -29,8 +29,7 @@ namespace NMeasure
         {
             get
             {
-                UnitMeta meta;
-                metadata.TryGetValue(unit, out meta);
+                metadata.TryGetValue(unit, out var meta);
                 return meta;
             }
         }
@@ -110,7 +109,6 @@ namespace NMeasure
 
     public class UnitMeta : IUnitMetaConfig
     {
-        private readonly Unit unit;
         private readonly UnitConfiguration config;
 
         public static readonly string MultiplicationSign = "*"; //'\u00D7'.ToString();
@@ -119,19 +117,16 @@ namespace NMeasure
 
         internal UnitMeta(Unit unit, UnitConfiguration config)
         {
-            this.unit = unit;
+            this.Unit = unit;
             this.config = config;
             config.UnitGraph.AddUnit(unit);
         }
 
-        public Unit Unit
-        {
-            get { return unit; }
-        }
+        public Unit Unit { get; }
 
         public Unit PhysicalUnit { get; private set; }
         public UnitSystem[] AssociatedUnitSystems { get; private set; }
-        internal UnitGraphNode ConversionInfo { get { return config.UnitGraph[unit]; } }
+        internal UnitGraphNode ConversionInfo => config.UnitGraph[Unit];
 
         public bool IsMemberOfUnitSystem(UnitSystem unitSystem)
         {
@@ -154,14 +149,14 @@ namespace NMeasure
 
         IUnitMetaConfig IUnitMetaConfig.EquivalentTo(Unit unit)
         {
-            config.AddCompaction(unit, this.unit);
+            config.AddCompaction(unit, this.Unit);
             return this;
         }
 
         public IUnitMetaConfig ConvertValueBased(Unit second, Func<decimal, decimal> firstToSecond, Func<decimal, decimal> secondToFirst)
         {
             if (PhysicalUnit == null)
-                PhysicalUnit = unit.DerivePhysicalUnitsFromConstituentParts();
+                PhysicalUnit = Unit.DerivePhysicalUnitsFromConstituentParts();
             if (PhysicalUnit.IsDimensionless())
                 throw new InvalidOperationException("You must define physical unit of the left-hand side");
             

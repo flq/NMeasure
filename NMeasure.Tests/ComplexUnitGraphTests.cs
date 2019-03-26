@@ -1,12 +1,13 @@
 using NMeasure.Converting;
-using Xunit;
+using NUnit.Framework;
 
 namespace NMeasure.Tests
 {
     
+    [TestFixture]
     public class ComplexUnitGraphTests
     {
-        private UnitGraph ug;
+        private readonly UnitGraph ug;
 
         public ComplexUnitGraphTests()
         {
@@ -29,7 +30,7 @@ namespace NMeasure.Tests
             ug.AddMeasurementConversion(n1, n2, m => m * PhysicalConstants.EnergyMassFactor, m => m / PhysicalConstants.EnergyMassFactor);
         }
 
-        [Fact]
+        [Test]
         public void AConversionFromEnergyToMass()
         {
             var m = new Measure(1, U.Kilogram);
@@ -38,7 +39,7 @@ namespace NMeasure.Tests
             m2.Unit.IsEqualTo(U.Joule);
         }
 
-        [Fact]
+        [Test]
         public void AConversionFromMassToEnergy()
         {
             var m = new Measure(89875517873681764, U.Joule);

@@ -1,11 +1,11 @@
 using System.Collections.Generic;
-using Xunit;
-
+using NUnit.Framework;
 using static NMeasure.U;
 
 namespace NMeasure.Tests
 {
     
+    [TestFixture]
     public class StandardConfigurationTests
     {
         public StandardConfigurationTests()
@@ -39,7 +39,7 @@ namespace NMeasure.Tests
             yield return new object[] { new Measure(1, Meter / Second.Squared()), new Measure(1, Kilogram), new Measure(1, Newton) };
         }
 
-        [Theory, MemberData("BasicConversionChecksSource")]
+        [TestCaseSource(typeof(StandardConfigurationTests), nameof(BasicConversionChecksSource))]
         public void BasicConversionChecks(Unit from, Unit to, decimal input, decimal expectedOutput)
         {
             var m = (Measure) input*from;
@@ -47,7 +47,7 @@ namespace NMeasure.Tests
             m2.Value.IsEqualTo(expectedOutput);
         }
 
-        [Theory, MemberData("ComplexConversionChecksSource")]
+        [TestCaseSource(typeof(StandardConfigurationTests), nameof(ComplexConversionChecksSource))]
         public void ComplexConversionChecks(Unit from, Unit to, decimal input, decimal expectedOutput)
         {
             var m = (Measure)input * from;
@@ -55,14 +55,14 @@ namespace NMeasure.Tests
             m2.Value.IsEqualTo(expectedOutput);
         }
 
-        [Theory, MemberData("MeasureMultiplicationTestsSource")]
+        [TestCaseSource(typeof(StandardConfigurationTests), nameof(MeasureMultiplicationTestsSource))]
         public void MeasureMultiplicationTests(Measure m1, Measure m2, Measure expected)
         {
             var result = m1*m2;
             result.IsEqualTo(expected);
         }
 
-        [Fact]
+        [Test]
         public void Unit_of_measure_xxx()
         {
             var m = 3 * Meter;

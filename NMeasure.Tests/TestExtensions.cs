@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Linq;
-using Xunit;
+using NUnit.Framework;
 
 namespace NMeasure.Tests
 {
     public static class TestExtensions
     {
+        // ReSharper disable ParameterOnlyUsedForPreconditionCheck.Global
         public static void IsEqualTo<T>(this T value, T expected)
         {
             Assert.True(value.Equals(expected), $"{value} is not equal to {expected}");
@@ -35,5 +36,6 @@ namespace NMeasure.Tests
         {
             Assert.IsAssignableFrom<T>(o);
         }
+        // ReSharper restore ParameterOnlyUsedForPreconditionCheck.Global
     }
 }

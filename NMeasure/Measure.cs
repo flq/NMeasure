@@ -21,7 +21,7 @@ namespace NMeasure
             Unit = unit;
         }
 
-        public override string ToString() => Value.ToString() + Unit;
+        public override string ToString() => Value.ToString(CultureInfo.InvariantCulture) + Unit;
 
         public string ToString(CultureInfo info) => Value.ToString(info) + Unit;
 
